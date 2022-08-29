@@ -6,6 +6,8 @@ const Usuario = require('../models/usuarios.model');
 const Grupo = require('../models/grupos.model');
 const { infoToken } = require('../helpers/infotoken');
 
+const userCtrl = {};
+
 /*
 get / 
 <-- desde? el salto para buscar en la lista de usuarios
@@ -88,7 +90,7 @@ const listaUsuariosRol = async(req, res) => {
 
 }
 
-const obtenerUsuarios = async(req, res) => {
+userCtrl.getUsers = async(req, res) => {
 
     // Para paginación
     // Recibimos el desde si existe y establecemos el número de registros a devolver por pa´gina
@@ -160,7 +162,7 @@ const obtenerUsuarios = async(req, res) => {
 }
 
 
-const crearUsuario = async(req, res = response) => {
+userCtrl.createUser = async(req, res = response) => {
 
     const { email, password } = req.body;
 
@@ -214,7 +216,7 @@ const crearUsuario = async(req, res = response) => {
 }
 
 
-const actualizarPassword = async(req, res = response) => {
+userCtrl.updatePassword = async(req, res = response) => {
 
     const uid = req.params.id;
     const { password, nuevopassword, nuevopassword2 } = req.body;
@@ -281,7 +283,7 @@ const actualizarPassword = async(req, res = response) => {
 
 }
 
-const actualizarUsuario = async(req, res = response) => {
+userCtrl.updateUser = async(req, res = response) => {
 
     // Asegurarnos de que aunque venga el password no se va a actualizar, la modificaciñon del password es otra llamada
     // Comprobar que si cambia el email no existe ya en BD, si no existe puede cambiarlo
@@ -353,7 +355,7 @@ const actualizarUsuario = async(req, res = response) => {
 delete /:id
 --> OK si ha podido borrar
 */
-const borrarUsuario = async(req, res = response) => {
+userCtrl.deleteUser = async(req, res = response) => {
 
     const uid = req.params.id;
 
@@ -402,4 +404,7 @@ const borrarUsuario = async(req, res = response) => {
 }
 
 
-module.exports = { obtenerUsuarios, crearUsuario, actualizarUsuario, borrarUsuario, actualizarPassword, listaUsuarios, listaUsuariosRol }
+module.exports = { userCtrl,
+                   listaUsuarios, 
+                   listaUsuariosRol 
+                }
