@@ -21,17 +21,17 @@ app.use(fileUpload({
     createParentPath: true,
 }));
 
-app.use('/api/login', require('./routes/auth'));
-app.use('/api/asignaturas', require('./routes/asignaturas'));
-app.use('/api/criterios', require('./routes/criterios'));
-app.use('/api/cursos', require('./routes/cursos'));
-app.use('/api/escalas', require('./routes/escalas'));
-app.use('/api/grupos', require('./routes/grupos'));
-app.use('/api/items', require('./routes/items'));
+app.use('/api/login', require('./routes/auth.route'));
+app.use('/api/asignaturas', require('./routes/asignaturas.route'));
+app.use('/api/criterios', require('./routes/criterios.route'));
+app.use('/api/cursos', require('./routes/cursos.route'));
+app.use('/api/escalas', require('./routes/escalas.route'));
+app.use('/api/grupos', require('./routes/grupos.route'));
+app.use('/api/items', require('./routes/items.route'));
 app.use('/api/iteraciones', require('./routes/iteracion.route'));
-app.use('/api/rubricas', require('./routes/rubricas'));
-app.use('/api/usuarios', require('./routes/usuarios'));
-app.use('/api/upload', require('./routes/uploads'));
+app.use('/api/rubricas', require('./routes/rubricas.route'));
+app.use('/api/usuarios', require('./routes/usuarios.route'));
+app.use('/api/upload', require('./routes/uploads.route'));
 
 // Abrir la aplicacíon en el puerto 3000
 app.listen(process.env.PORT, () => {

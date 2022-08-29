@@ -10,6 +10,19 @@ const { validarJWT } = require('../middleware/validar-jwt');
 
 const router = Router();
 
+// Generic error handler used by all endpoints.
+function handleError(res, reason, message, code) {
+    console.log("ERROR: " + reason);
+    res.status(code || 500).json({"error": message});
+  }
+  
+  /*  "/api/asignaturas"
+   *    GET: finds all asignaturas
+   *    POST: creates a new asignatura
+   *    PUT: 
+   *    DELETE:
+   */
+
 router.get('/', [
     validarJWT,
     // Campos opcionales que si vienen los validamos desde e id
