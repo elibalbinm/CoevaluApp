@@ -28,7 +28,7 @@ app.use('/api/cursos', require('./routes/cursos'));
 app.use('/api/escalas', require('./routes/escalas'));
 app.use('/api/grupos', require('./routes/grupos'));
 app.use('/api/items', require('./routes/items'));
-app.use('/api/iteraciones', require('./routes/iteraciones'));
+app.use('/api/iteraciones', require('./routes/iteracion.route'));
 app.use('/api/rubricas', require('./routes/rubricas'));
 app.use('/api/usuarios', require('./routes/usuarios'));
 app.use('/api/upload', require('./routes/uploads'));

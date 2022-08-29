@@ -5,7 +5,7 @@ Ruta base: /api/upload
 const { Router } = require('express');
 const { check } = require('express-validator');
 
-const { subirArchivo, enviarArchivo } = require('../controllers/uploads');
+const { subirArchivo, enviarArchivo } = require('../controllers/uploads.controller');
 const { validarJWT } = require('../middleware/validar-jwt');
 const { validarCampos } = require('../middleware/validar-campos');
 

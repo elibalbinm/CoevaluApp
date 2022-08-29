@@ -3,7 +3,7 @@ Ruta base: /api/asignaturas
 */
 
 const { Router } = require('express');
-const { obtenerAsignaturas, crearAsignatura, actualizarAsignatura, borrarAsignatura, actualizarLista } = require('../controllers/asignaturas');
+const { obtenerAsignaturas, crearAsignatura, actualizarAsignatura, borrarAsignatura, actualizarLista } = require('../controllers/asignaturas.controller');
 const { check } = require('express-validator');
 const { validarCampos } = require('../middleware/validar-campos');
 const { validarJWT } = require('../middleware/validar-jwt');

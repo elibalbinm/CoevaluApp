@@ -3,7 +3,7 @@ Ruta base: /api/grupos
 */
 
 const { Router } = require('express');
-const { obtenerGrupos, crearGrupo, actualizarGrupo, borrarGrupo, actualizarLista } = require('../controllers/grupos');
+const { obtenerGrupos, crearGrupo, actualizarGrupo, borrarGrupo, actualizarLista } = require('../controllers/grupos.controller');
 const { check } = require('express-validator');
 const { validarCampos } = require('../middleware/validar-campos');
 const { validarJWT } = require('../middleware/validar-jwt');

@@ -3,7 +3,7 @@ Ruta base: /api/login
 */
 
 const { Router } = require('express');
-const { login, token } = require('../controllers/auth');
+const { login, token } = require('../controllers/auth.controller');
 const { check } = require('express-validator');
 const { validarCampos } = require('../middleware/validar-campos');
 

@@ -3,7 +3,7 @@ Ruta base: /api/items
 */
 
 const { Router } = require('express');
-const { obtenerItems, crearItem, actualizarItem, borrarItem, actualizarOrden } = require('../controllers/items');
+const { obtenerItems, crearItem, actualizarItem, borrarItem, actualizarOrden } = require('../controllers/items.controller');
 const { check } = require('express-validator');
 const { validarCampos } = require('../middleware/validar-campos');
 const { validarTipoItem } = require('../middleware/validar-tipo-item');

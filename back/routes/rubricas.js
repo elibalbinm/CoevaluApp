@@ -3,7 +3,7 @@ Ruta base: /api/rubricas
 */
 
 const { Router } = require('express');
-const { obtenerRubricas, crearRubrica, actualizarRubrica, borrarRubrica } = require('../controllers/rubricas');
+const { obtenerRubricas, crearRubrica, actualizarRubrica, borrarRubrica } = require('../controllers/rubricas.controller');
 const { check } = require('express-validator');
 const { validarCampos } = require('../middleware/validar-campos');
 const { validarJWT } = require('../middleware/validar-jwt');

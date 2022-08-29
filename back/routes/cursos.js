@@ -3,7 +3,7 @@ Ruta base: /api/cursos
 */
 
 const { Router } = require('express');
-const { obtenerCursos, crearCurso, actualizarCurso, borrarCurso } = require('../controllers/cursos');
+const { obtenerCursos, crearCurso, actualizarCurso, borrarCurso } = require('../controllers/cursos.controller');
 const { check } = require('express-validator');
 const { validarCampos } = require('../middleware/validar-campos');
 const { validarJWT } = require('../middleware/validar-jwt');

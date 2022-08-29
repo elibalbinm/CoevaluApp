@@ -3,7 +3,7 @@ Ruta base: /api/iteraciones
 */
 
 const { Router } = require('express');
-const { obtenerIteraciones, crearIteracion, actualizarIteracion, borrarIteracion } = require('../controllers/iteraciones');
+const { obtenerIteraciones, crearIteracion, actualizarIteracion, borrarIteracion } = require('../controllers/iteracion.controller');
 const { check } = require('express-validator');
 const { validarCampos } = require('../middleware/validar-campos');
 const { validarJWT } = require('../middleware/validar-jwt');

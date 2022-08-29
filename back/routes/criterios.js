@@ -3,7 +3,7 @@ Ruta base: /api/criterios
 */
 
 const { Router } = require('express');
-const { obtenerCriterios, crearCriterio, actualizarCriterio, borrarCriterio, actualizarLista } = require('../controllers/criterios');
+const { obtenerCriterios, crearCriterio, actualizarCriterio, borrarCriterio, actualizarLista } = require('../controllers/criterios.controller');
 const { check } = require('express-validator');
 const { validarCampos } = require('../middleware/validar-campos');
 const { validarJWT } = require('../middleware/validar-jwt');
