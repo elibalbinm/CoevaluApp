@@ -28,10 +28,10 @@ router.post('/', [
 ], courseCtrl.createCourse);
 router.put('/:id', [
     validarJWT,
-    check('nombre', 'El argumento nombre es obligatorio').not().isEmpty().trim(),
-    check('nombrecorto', 'El argumento nombrecorto es obligatorio').not().isEmpty().trim(),
-    check('porcentaje', 'El porcentaje debe ser un número').not().isEmpty().isNumeric(),
-    check('activo', 'El argumento activo es obligatorio y debe ser true/false').isBoolean(),
+    check('nombre', 'El argumento nombre es obligatorio').optional().trim(),
+    check('nombrecorto', 'El argumento nombrecorto es obligatorio').optional().trim(),
+    check('porcentaje', 'El porcentaje debe ser un número').optional().isNumeric(),
+    check('activo', 'El argumento activo es obligatorio y debe ser true/false').optional().isBoolean(),
     check('id', 'El identificador no es válido').isMongoId(),
     validarCampos,
 ], courseCtrl.updateCourse);

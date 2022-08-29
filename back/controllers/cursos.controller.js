@@ -49,7 +49,7 @@ courseCtrl.getCourse = async(req, res = repsonse) => {
         }
         res.json({
             ok: true,
-            msg: 'obtenerCurso',
+            msg: 'Request getCourse successful',
             cursos,
             page: {
                 desde,
@@ -76,7 +76,6 @@ courseCtrl.createCourse = async(req, res = response) => {
 
     const { nombre, nombrecorto } = req.body;
 
-
     try {
         // Solo el administrador puede hacer esta acción
         const token = req.header('x-token');
@@ -97,7 +96,7 @@ courseCtrl.createCourse = async(req, res = response) => {
             });
         }
 
-        // Comrprobar que no existe un usuario con ese email registrado
+        // Comprobar que no existe un usuario con ese email registrado
         const existeCursonc = await Curso.findOne({ nombrecorto });
 
         if (existeCursonc) {
@@ -114,7 +113,7 @@ courseCtrl.createCourse = async(req, res = response) => {
 
         res.json({
             ok: true,
-            msg: 'Curso creado',
+            msg: 'Request createCourse successful',
             curso,
         });
 

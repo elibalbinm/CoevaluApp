@@ -156,7 +156,7 @@ userCtrl.getUsers = async(req, res) => {
         console.log(error);
         res.json({
             ok: false,
-            msg: 'Error obteniedo usuarios'
+            msg: 'Error obteniendo usuarios'
         });
     }
 }
@@ -202,7 +202,7 @@ userCtrl.createUser = async(req, res = response) => {
 
         res.json({
             ok: true,
-            msg: 'crearUsuarios',
+            msg: 'Request createUser successful',
             usuario: usuario,
         });
 

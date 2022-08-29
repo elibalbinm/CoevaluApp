@@ -12,8 +12,9 @@ const CursoSchema = Schema({
         unique: true
     },
     fecha: {
-        type: Date,
-        default: Date.now
+        type: Array,
+        require: true
+        // default: Date.now
     },
     porcentaje: {
         type: Number,
