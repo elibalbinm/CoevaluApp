@@ -1,8 +1,8 @@
 const { response, query } = require('express');
 
-const Criterio = require('../models/criterios');
-const Curso = require('../models/cursos');
-const Usuario = require('../models/usuarios');
+const Criterio = require('../models/criterios.model');
+const Curso = require('../models/cursos.model');
+const Usuario = require('../models/usuarios.model');
 
 const { infoToken } = require('../helpers/infotoken');
 

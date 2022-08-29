@@ -2,8 +2,8 @@ const { response } = require('express');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
 
-const Usuario = require('../models/usuarios');
-const Grupo = require('../models/grupos');
+const Usuario = require('../models/usuarios.model');
+const Grupo = require('../models/grupos.model');
 const { infoToken } = require('../helpers/infotoken');
 
 /*

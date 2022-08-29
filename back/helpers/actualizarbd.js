@@ -1,4 +1,4 @@
-const Usuario = require('../models/usuarios');
+const Usuario = require('../models/usuarios.model');
 const fs = require('fs');
 const { infoToken } = require('../helpers/infotoken');
 

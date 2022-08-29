@@ -1,8 +1,8 @@
 const { response } = require('express');
 
-const Grupo = require('../models/grupos');
-const Curso = require('../models/cursos');
-const Usuario = require('../models/usuarios');
+const Grupo = require('../models/grupos.model');
+const Curso = require('../models/cursos.model');
+const Usuario = require('../models/usuarios.model');
 
 const { infoToken } = require('../helpers/infotoken');
 

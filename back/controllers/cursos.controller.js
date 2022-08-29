@@ -1,7 +1,7 @@
 const { response } = require('express');
 const { infoToken } = require('../helpers/infotoken');
 
-const Curso = require('../models/cursos');
+const Curso = require('../models/cursos.model');
 
 const sleep = (ms) => {
     return new Promise((resolve) => {

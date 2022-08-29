@@ -1,10 +1,10 @@
 const { response } = require('express');
 const validator = require('validator');
 
-const Item = require('../models/items');
-const Asignatura = require('../models/asignaturas');
-const Usuario = require('../models/usuarios');
-const Curso = require('../models/cursos');
+const Item = require('../models/items.model');
+const Asignatura = require('../models/asignaturas.model');
+const Usuario = require('../models/usuarios.model');
+const Curso = require('../models/cursos.model');
 
 const sleep = (ms) => {
     return new Promise((resolve) => {

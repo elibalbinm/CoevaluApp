@@ -1,8 +1,8 @@
 const { response } = require('express');
 
-const Escala = require('../models/escalas');
-const Curso = require('../models/cursos');
-const Usuario = require('../models/usuarios');
+const Escala = require('../models/escalas.model');
+const Curso = require('../models/cursos.model');
+const Usuario = require('../models/usuarios.model');
 
 const { infoToken } = require('../helpers/infotoken');
 

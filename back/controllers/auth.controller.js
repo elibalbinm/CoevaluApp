@@ -1,7 +1,7 @@
 const { response } = require('express');
 const bcrypt = require('bcryptjs');
 
-const Usuario = require('../models/usuarios');
+const Usuario = require('../models/usuarios.model');
 const { generarJWT } = require('../helpers/jwt');
 const jwt = require('jsonwebtoken');
 
