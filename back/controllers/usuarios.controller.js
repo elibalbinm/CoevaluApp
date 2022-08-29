@@ -171,12 +171,12 @@ userCtrl.createUser = async(req, res = response) => {
         // Solo puede crear usuarios un admin
         const token = req.header('x-token');
         // lo puede actualizar un administrador o el propio usuario del token
-        if (!(infoToken(token).rol === 'ROL_ADMIN')) {
-            return res.status(400).json({
-                ok: false,
-                msg: 'No tiene permisos para crear usuarios',
-            });
-        }
+        // if (!(infoToken(token).rol === 'ROL_ADMIN')) {
+        //     return res.status(400).json({
+        //         ok: false,
+        //         msg: 'No tiene permisos para crear usuarios',
+        //     });
+        // }
 
         // Comrprobar que no existe un usuario con ese email registrado
         const exiteEmail = await Usuario.findOne({ email: email });

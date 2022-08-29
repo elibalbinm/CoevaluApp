@@ -50,6 +50,7 @@ const token = async(req, res = response) => {
 const login = async(req, res = response) => {
 
     const { email, password } = req.body;
+    console.log(password)
 
     try {
 
@@ -57,16 +58,17 @@ const login = async(req, res = response) => {
         if (!usuarioBD) {
             return res.status(400).json({
                 ok: false,
-                msg: 'Usuario o contraseña incorrectos',
+                msg: 'Usuario incorrecto/no encontrado en la BBDD',
                 token: ''
             });
         }
-
+        console.log(usuarioBD.password);
         const validPassword = bcrypt.compareSync(password, usuarioBD.password);
+        console.log(validPassword)
         if (!validPassword) {
             return res.status(400).json({
                 ok: false,
-                msg: 'Usuario o contraseña incorrectos',
+                msg: 'Contraseña incorrecta',
                 token: ''
             });
         }

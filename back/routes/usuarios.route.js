@@ -26,7 +26,7 @@ router.get('/', [
 ], userCtrl.getUsers);
 
 router.post('/', [
-    validarJWT,
+    // validarJWT,
     check('nombre', 'El argumento nombre es obligatorio').not().isEmpty().trim(),
     check('apellidos', 'El argumento apellidos es obligatorio').not().isEmpty().trim(),
     check('email', 'El argumento email debe ser un email').isEmail(),
