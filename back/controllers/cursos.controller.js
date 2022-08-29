@@ -2,6 +2,7 @@ const { response } = require('express');
 const { infoToken } = require('../helpers/infotoken');
 
 const Curso = require('../models/cursos.model');
+const courseCtrl = {};
 
 const sleep = (ms) => {
     return new Promise((resolve) => {
@@ -9,7 +10,7 @@ const sleep = (ms) => {
     });
 }
 
-const obtenerCursos = async(req, res = repsonse) => {
+courseCtrl.getCourse = async(req, res = repsonse) => {
 
     // Paginación
     const desde = Number(req.query.desde) || 0;
@@ -71,7 +72,7 @@ post /
 <-- nombre (unico), proyecto?, descripcion?
 --> curso registrado
 */
-const crearCurso = async(req, res = response) => {
+courseCtrl.createCourse = async(req, res = response) => {
 
     const { nombre, nombrecorto } = req.body;
 
@@ -126,7 +127,7 @@ const crearCurso = async(req, res = response) => {
     }
 }
 
-const actualizarCurso = async(req, res = response) => {
+courseCtrl.updateCourse = async(req, res = response) => {
 
     const { nombre, nombrecorto } = req.body;
     const uid = req.params.id;
@@ -186,7 +187,7 @@ const actualizarCurso = async(req, res = response) => {
     }
 }
 
-const borrarCurso = async(req, res = response) => {
+courseCtrl.deleteCourse = async(req, res = response) => {
 
     const uid = req.params.id;
 
@@ -228,4 +229,4 @@ const borrarCurso = async(req, res = response) => {
 
 
 
-module.exports = { obtenerCursos, crearCurso, actualizarCurso, borrarCurso }
+module.exports = { courseCtrl }
