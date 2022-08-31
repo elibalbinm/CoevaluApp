@@ -96,7 +96,7 @@ const crearIteracion = async(req, res = response) => {
         if (existeIteracion) {
             return res.status(400).json({
                 ok: false,
-                msg: 'El iteracion ya existe en le mismo curso'
+                msg: 'El iteracion ya existe en el mismo curso'
             });
         }
 

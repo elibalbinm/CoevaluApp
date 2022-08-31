@@ -97,7 +97,7 @@ const crearEscala = async(req, res = response) => {
         if (existeEscala) {
             return res.status(400).json({
                 ok: false,
-                msg: 'El escala ya existe en le mismo curso'
+                msg: 'El escala ya existe en el mismo curso'
             });
         }
 

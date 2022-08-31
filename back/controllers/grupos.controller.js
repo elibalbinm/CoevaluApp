@@ -6,7 +6,9 @@ const Usuario = require('../models/usuarios.model');
 
 const { infoToken } = require('../helpers/infotoken');
 
-const obtenerGrupos = async(req, res = repsonse) => {
+const groupCtrl = {};
+
+groupCtrl.getGroup = async(req, res = repsonse) => {
 
     // Paginación
     const desde = Number(req.query.desde) || 0;
@@ -68,7 +70,7 @@ const obtenerGrupos = async(req, res = repsonse) => {
 }
 
 
-const crearGrupo = async(req, res = response) => {
+groupCtrl.createGroup = async(req, res = response) => {
 
     const { nombre, alumnos, curso } = req.body;
 
@@ -97,7 +99,7 @@ const crearGrupo = async(req, res = response) => {
         if (existeGrupo) {
             return res.status(400).json({
                 ok: false,
-                msg: 'El grupo ya existe en le mismo curso'
+                msg: 'El grupo ya existe en el mismo curso'
             });
         }
 
@@ -105,10 +107,12 @@ const crearGrupo = async(req, res = response) => {
         let listaalumnosinsertar = [];
         // Si nos ha llegado lista de alumnos comprobar que existen y limpiar campos raros
         if (alumnos) {
+            console.log(alumnos);
             let listaalumnosbusqueda = [];
             // Convertimos el array de objetos en un array con los strings de id de usuario
             // Creamos un array de objetos pero solo con aquellos que tienen el campo usuario correcto
             const listaalu = alumnos.map(registro => {
+                console.log(registro);
                 if (registro.usuario) {
                     listaalumnosbusqueda.push(registro.usuario);
                     listaalumnosinsertar.push(registro);
@@ -145,8 +149,9 @@ const crearGrupo = async(req, res = response) => {
     }
 }
 
-const actualizarGrupo = async(req, res) => {
-
+//PUT
+groupCtrl.updateGroup = async(req, res) => {
+    console.log(req.body);
     const { nombre, alumnos, curso } = req.body;
     const uid = req.params.id;
 
@@ -163,6 +168,7 @@ const actualizarGrupo = async(req, res) => {
     try {
         // Comprobar que el curso que se va a asignar al grupo existe
         const existeCurso = await Curso.findById(curso);
+        console.log(curso);
         if (!existeCurso) {
             return res.status(400).json({
                 ok: false,
@@ -183,7 +189,7 @@ const actualizarGrupo = async(req, res) => {
         if (existeGrupon && (existeGrupo._id != uid)) {
             return res.status(400).json({
                 ok: false,
-                msg: 'El grupo ya existe en le mismo curso'
+                msg: 'El grupo ya existe en el mismo curso'
             });
         }
 
@@ -230,7 +236,7 @@ const actualizarGrupo = async(req, res) => {
     }
 }
 
-const borrarGrupo = async(req, res = response) => {
+groupCtrl.deleteGroup = async(req, res = response) => {
 
     const uid = req.params.id;
 
@@ -271,7 +277,7 @@ const borrarGrupo = async(req, res = response) => {
     }
 }
 
-const actualizarLista = async(req, res) => {
+groupCtrl.updateList = async(req, res) => {
 
     const id = req.params.id;
     const lista = req.body.lista;
@@ -305,4 +311,4 @@ const actualizarLista = async(req, res) => {
     }
 }
 
-module.exports = { obtenerGrupos, crearGrupo, actualizarGrupo, borrarGrupo, actualizarLista }
+module.exports = { groupCtrl }

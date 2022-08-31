@@ -3,7 +3,7 @@ Ruta base: /api/grupos
 */
 
 const { Router } = require('express');
-const { obtenerGrupos, crearGrupo, actualizarGrupo, borrarGrupo, actualizarLista } = require('../controllers/grupos.controller');
+const { groupCtrl } = require('../controllers/grupos.controller');
 const { check } = require('express-validator');
 const { validarCampos } = require('../middleware/validar-campos');
 const { validarJWT } = require('../middleware/validar-jwt');
@@ -18,37 +18,37 @@ router.get('/', [
     check('texto', 'El texto de búsqueda debe ser un texto').optional().trim(),
     check('curso', 'El curso debe ser un identificador de curso válido').optional().isMongoId(),
     validarCampos,
-], obtenerGrupos);
+], groupCtrl.getGroup);
 router.post('/', [
     validarJWT,
     check('nombre', 'El argumento nombre es obligatorio').not().isEmpty().trim(),
-    check('curso', 'El argumento curso no es válido').isMongoId(),
+    check('curso', 'El argumento curso no es válido').not().isEmpty().isMongoId(),
     // Campos opciones, si vienen comprobamos el formato
     check('alumnos.*.usuario', 'El identificador de alumno no es válido').optional().isMongoId(),
     check('proyecto').optional().trim(),
-    check('proyectodes').optional().trim(),
+    // check('proyectodes').optional().trim(),
     validarCampos,
-], crearGrupo);
+], groupCtrl.createGroup);
 router.put('/lista/:id', [
     validarJWT,
     check('id', 'El identificador no es válido').isMongoId(),
     validarCampos,
-], actualizarLista);
+], groupCtrl.updateList);
 router.put('/:id', [
     validarJWT,
-    check('nombre', 'El argumento nombre es obligatorio').not().isEmpty().trim(),
-    check('curso', 'El argumento curso no es válido').isMongoId(),
+    check('nombre', 'El argumento nombre es obligatorio').optional().trim(),
+    check('curso', 'El argumento curso no es válido').optional().isMongoId(),
     check('id', 'El identificador no es válido').isMongoId(),
     // Campos opciones, si vienen comprobamos el formato
     check('alumnos.*.alumno', 'El identificador de alumno no es válido').optional().isMongoId(),
     check('proyecto').optional().trim(),
-    check('proyectodes').optional().trim(),
+    // check('proyectodes').optional().trim(),
     validarCampos,
-], actualizarGrupo);
+], groupCtrl.updateGroup);
 router.delete('/:id', [
     validarJWT,
     check('id', 'El identificador no es válido').isMongoId(),
     validarCampos,
-], borrarGrupo);
+], groupCtrl.deleteGroup);
 
 module.exports = router;
