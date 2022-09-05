@@ -10,14 +10,6 @@ const CriterioSchema = Schema({
         type: String,
         require: true
     },
-    fecha: {
-        type: Date,
-        default: Date.now
-    },
-    porcentaje: {
-        type: Number,
-        require: true
-    },
     activo: {
         type: Boolean,
         require: true,

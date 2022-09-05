@@ -86,7 +86,6 @@ courseCtrl.createCourse = async(req, res = response) => {
             });
         }
 
-        // Comrprobar que no existe un usuario con ese email registrado
         const existeCurso = await Curso.findOne({ nombre });
 
         if (existeCurso) {

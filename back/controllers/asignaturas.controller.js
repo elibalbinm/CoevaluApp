@@ -6,8 +6,9 @@ const Usuario = require('../models/usuarios.model');
 
 const { infoToken } = require('../helpers/infotoken');
 
+const courseCtrl = {};
 
-const obtenerAsignaturas = async(req, res = repsonse) => {
+courseCtrl.obtenerAsignaturas = async(req, res = repsonse) => {
 
     // Paginación
     const desde = Number(req.query.desde) || 0;
@@ -97,7 +98,7 @@ const obtenerAsignaturas = async(req, res = repsonse) => {
 }
 
 
-const crearAsignatura = async(req, res = response) => {
+courseCtrl.crearAsignatura = async(req, res = response) => {
 
     // De lo que nos manden extraemos curso, profesores y alumnos
     // profesores y alumnos no se van a insertar al crear
@@ -124,7 +125,38 @@ const crearAsignatura = async(req, res = response) => {
             });
         }
 
-        /*let listaprofesoresinsertar = [];
+        const asignatura = new Asignatura(object);
+        // Insertamos el curso que ya está comprobado en el body
+        asignatura.curso = curso;
+
+        let listaalumnosinsertar = [];
+
+        if (alumnos) {
+            console.log(alumnos);
+            let listaalumnosbusqueda = [];
+            // Convertimos el array de objetos en un array con los strings de id de usuario
+            // Creamos un array de objetos pero solo con aquellos que tienen el campo usuario correcto
+            const listaalu = alumnos.map(registro => {
+                console.log(registro);
+                if (registro.usuario) {
+                    listaalumnosbusqueda.push(registro.usuario);
+                    console.log(listaalumnosinsertar);
+                    listaalumnosinsertar.push(registro);
+                }
+            });
+            // Comprobamos que los alumnos que nos pasan existen, buscamos todos los alumnos de la lista
+            const existenAlumnos = await Usuario.find().where('_id').in(listaalumnosbusqueda);
+            if (existenAlumnos.length != listaalumnosbusqueda.length) {
+                return res.status(400).json({
+                    ok: false,
+                    msg: 'Alguno de los alumnos indicados en el grupo no existe o están repetidos'
+                });
+            }
+        }
+
+        asignatura.alumnos = listaalumnosinsertar;
+
+        let listaprofesoresinsertar = [];
         // Si nos ha llegado lista de profesores comprobar que existen y que no hay limpiar campos raros
         if (profesores) {
             let listaprofesoresbusqueda = [];
@@ -149,11 +181,6 @@ const crearAsignatura = async(req, res = response) => {
         }
         // Sustituir el campo profesores por la lista de profesores preparada
         asignatura.profesores = listaprofesoresinsertar;
-        */
-
-        const asignatura = new Asignatura(object);
-        // Insertamos el curso que ya está comprobado en el body
-        asignatura.curso = curso;
         // Almacenar en BD
         await asignatura.save();
 
@@ -172,7 +199,7 @@ const crearAsignatura = async(req, res = response) => {
     }
 }
 
-const actualizarAsignatura = async(req, res) => {
+courseCtrl.actualizarAsignatura = async(req, res) => {
 
     const { profesores, alumnos, curso, ...object } = req.body;
     const uid = req.params.id;
@@ -247,7 +274,7 @@ const actualizarAsignatura = async(req, res) => {
     }
 }
 
-const borrarAsignatura = async(req, res = response) => {
+courseCtrl.borrarAsignatura = async(req, res = response) => {
 
     const uid = req.params.id;
 
@@ -288,7 +315,7 @@ const borrarAsignatura = async(req, res = response) => {
     }
 }
 
-const actualizarLista = async(req, res) => {
+courseCtrl.actualizarLista = async(req, res) => {
 
     const id = req.params.id;
     const tipo = req.body.tipo;
@@ -335,4 +362,4 @@ const actualizarLista = async(req, res) => {
 }
 
 
-module.exports = { obtenerAsignaturas, crearAsignatura, actualizarAsignatura, borrarAsignatura, actualizarLista }
+module.exports = { courseCtrl }
