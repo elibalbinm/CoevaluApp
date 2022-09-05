@@ -37,8 +37,8 @@ criterioCtrl.getCriterio = async(req, res = repsonse) => {
         } else {
             if (texto) {
                 [criterios, total] = await Promise.all([
-                    Criterio.find({ $or: [{ nombre: textoBusqueda }, { nombrecorto: textoBusqueda }] }).skip(desde).limit(registropp),
-                    Criterio.countDocuments({ $or: [{ nombre: textoBusqueda }, { nombrecorto: textoBusqueda }] })
+                    Criterio.find({ $or: [{ nombre: textoBusqueda }, { descripcion: textoBusqueda }] }).skip(desde).limit(registropp),
+                    Criterio.countDocuments({ $or: [{ nombre: textoBusqueda }, { descripcion: textoBusqueda }] })
                 ]);
             } else {
                 [criterios, total] = await Promise.all([
@@ -49,7 +49,7 @@ criterioCtrl.getCriterio = async(req, res = repsonse) => {
         }
         res.json({
             ok: true,
-            msg: 'Request getCourse successful',
+            msg: 'Request getCriterio successful',
             criterios,
             page: {
                 desde,

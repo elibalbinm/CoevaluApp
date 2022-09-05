@@ -3,7 +3,7 @@ Ruta base: /api/escalas
 */
 
 const { Router } = require('express');
-const { obtenerEscalas, crearEscala, actualizarEscala, borrarEscala } = require('../controllers/escalas.controller');
+const { scaleCtrl } = require('../controllers/escalas.controller');
 const { check } = require('express-validator');
 const { validarCampos } = require('../middleware/validar-campos');
 const { validarJWT } = require('../middleware/validar-jwt');
@@ -17,26 +17,27 @@ router.get('/', [
     check('desde', 'El desde debe ser un número').optional().isNumeric(),
     check('texto', 'El texto debe ser válido').optional().trim(),
     validarCampos
-], obtenerEscalas);
+], scaleCtrl.getScales);
 router.post('/', [
     validarJWT,
-    check('nombre', 'El argumento nombre es obligatorio').not().isEmpty().trim(),
-    check('nombrecorto', 'El argumento nombrecorto es obligatorio').not().isEmpty().trim(),
-    check('activo', 'El argumento activo es obligatorio y debe ser true/false').isBoolean(),
+    check('nivel', 'El argumento nivel es obligatorio').not().isEmpty().trim(),
+    check('descripcion', 'El argumento descripción es obligatorio').not().isEmpty(),
+    check('criterio', 'El argumento criterio no es válido').isMongoId(),
+    check('valor', 'El argumento valor debe ser un número').isNumeric(),
     validarCampos,
-], crearEscala);
+], scaleCtrl.createScale);
 router.put('/:id', [
     validarJWT,
-    check('nombre', 'El argumento nombre es obligatorio').not().isEmpty().trim(),
-    check('nombrecorto', 'El argumento nombrecorto es obligatorio').not().isEmpty().trim(),
-    check('activo', 'El argumento activo es obligatorio y debe ser true/false').isBoolean(),
     check('id', 'El identificador no es válido').isMongoId(),
+    check('nivel', 'El argumento nivel es obligatorio').optional().trim(),
+    check('descripcion', 'El argumento descripción es obligatorio').optional().trim(),
+    check('valor', 'El argumento valor debe ser un número').optional().isNumeric(),
     validarCampos,
-], actualizarEscala);
+], scaleCtrl.updateScale);
 router.delete('/:id', [
     validarJWT,
     check('id', 'El identificador no es válido').isMongoId(),
     validarCampos,
-], borrarEscala);
+], scaleCtrl.deleteScale);
 
 module.exports = router;

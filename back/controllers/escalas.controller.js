@@ -2,54 +2,58 @@ const { response } = require('express');
 
 const Escala = require('../models/escalas.model');
 const Curso = require('../models/cursos.model');
-const Usuario = require('../models/usuarios.model');
+const Criterio = require('../models/criterios.model');
+const scaleCtrl = {};
 
 const { infoToken } = require('../helpers/infotoken');
 
-const obtenerEscalas = async(req, res = repsonse) => {
+const sleep = (ms) => {
+    return new Promise((resolve) => {
+        setTimeout(resolve, ms);
+    });
+}
+
+scaleCtrl.getScales = async(req, res = repsonse) => {
 
     // Paginación
     const desde = Number(req.query.desde) || 0;
-    const registropp = Number(process.env.DOCSPERPAGE);
+    const hasta = req.query.hasta || '';
+    let registropp = Number(process.env.DOCSPERPAGE);
     const id = req.query.id;
-    const textos = req.query.texto || '';
-    const curso = req.query.curso || '';
-
+    const texto = req.query.texto;
+    let textoBusqueda = '';
+    if (texto) {
+        textoBusqueda = new RegExp(texto, 'i');
+        //console.log('texto', texto, ' textoBusqueda', textoBusqueda);
+    }
+    if (hasta === 'todos') {
+        registropp = 1000;
+    }
+    //await sleep(2000);
     try {
         let escalas, total;
         if (id) {
             [escalas, total] = await Promise.all([
-                Escala.findById(id).populate('curso', '-__v'),
+                // Escala.findById(id),
+                Escala.findById(id).populate({ path: 'criterio', populate: { path: 'criterio.nombre'} }),
                 Escala.countDocuments()
             ]);
         } else {
-            // {curso:'', {$or: {nombre : '', nombrecorto:''}}
-            let query = {};
-            if (textos !== '') {
-                texto = new RegExp(textos, 'i');
-                if (curso !== '') {
-                    query = { curso: curso, $or: [{ nombre: texto }, { proyecto: texto }] };
-                } else {
-                    query = { $or: [{ nombre: texto }, { proyecto: texto }] };
-                }
+            if (texto) {
+                [escalas, total] = await Promise.all([
+                    Escala.find({ $or: [{ nombre: textoBusqueda }, { descripcion: textoBusqueda }] }).skip(desde).limit(registropp),
+                    Escala.countDocuments({ $or: [{ nombre: textoBusqueda }, { descripcion: textoBusqueda }] })
+                ]);
             } else {
-                if (curso !== '') {
-                    query = { curso: curso };
-                } else {
-                    query = {};
-                }
-            };
-
-
-            [escalas, total] = await Promise.all([
-                Escala.find(query).skip(desde).limit(registropp).populate('curso', '-__v'),
-                Escala.countDocuments(query)
-            ]);
+                [escalas, total] = await Promise.all([
+                    Escala.find({}).skip(desde).limit(registropp),
+                    Escala.countDocuments()
+                ]);
+            }
         }
-
         res.json({
             ok: true,
-            msg: 'obtenerEscalas',
+            msg: 'Request getScales successful',
             escalas,
             page: {
                 desde,
@@ -67,11 +71,9 @@ const obtenerEscalas = async(req, res = repsonse) => {
     }
 }
 
+scaleCtrl.createScale = async(req, res = response) => {
 
-const crearEscala = async(req, res = response) => {
-
-    const { nombre, alumnos, curso } = req.body;
-
+    const { criterio, ...object } = req.body;
     // Solo puede crear usuarios un admin
     const token = req.header('x-token');
     // lo puede actualizar un administrador o el propio usuario del token
@@ -83,56 +85,25 @@ const crearEscala = async(req, res = response) => {
     }
 
     try {
-        // Comprobar que el curso que se va a asignar al escala existe
-        const existeCurso = await Curso.findById(curso);
-        if (!existeCurso) {
+        // Comrprobar que existe el criterio que queremos asociar a la escala
+        const existeCriterio = await Criterio.findById(criterio);
+        if (!existeCriterio) {
             return res.status(400).json({
                 ok: false,
-                msg: 'El curso asignado en el escala no existe'
+                msg: 'El criterio asignado en la escala no existe'
             });
         }
 
-        // Comrprobar que no existe un gurpo en ese mismo curso con ese nombre
-        const existeEscala = await Escala.findOne({ nombre, curso });
-        if (existeEscala) {
-            return res.status(400).json({
-                ok: false,
-                msg: 'El escala ya existe en el mismo curso'
-            });
-        }
+        object.criterio = criterio;
 
-        // Comprobamos la lista de alumnos que nos envían que existan
-        let listaalumnosinsertar = [];
-        // Si nos ha llegado lista de alumnos comprobar que existen y limpiar campos raros
-        if (alumnos) {
-            let listaalumnosbusqueda = [];
-            // Convertimos el array de objetos en un array con los strings de id de usuario
-            // Creamos un array de objetos pero solo con aquellos que tienen el campo usuario correcto
-            const listaalu = alumnos.map(registro => {
-                if (registro.usuario) {
-                    listaalumnosbusqueda.push(registro.usuario);
-                    listaalumnosinsertar.push(registro);
-                }
-            });
-            // Comprobamos que los alumnos que nos pasan existen, buscamos todos los alumnos de la lista
-            const existenAlumnos = await Usuario.find().where('_id').in(listaalumnosbusqueda);
-            if (existenAlumnos.length != listaalumnosbusqueda.length) {
-                return res.status(400).json({
-                    ok: false,
-                    msg: 'Alguno de los alumnos indicados en el escala no existe o están repetidos'
-                });
-            }
-        }
-
-        const escala = new Escala(req.body);
-        escala.alumnos = listaalumnosinsertar;
+        const escala = new Escala(object);
 
         // Almacenar en BD
         await escala.save();
 
         res.json({
             ok: true,
-            msg: 'Escala creado',
+            msg: 'Escala creada correctamente',
             escala,
         });
 
@@ -145,28 +116,19 @@ const crearEscala = async(req, res = response) => {
     }
 }
 
-const actualizarEscala = async(req, res) => {
+scaleCtrl.updateScale = async(req, res) => {
 
-    const { nombre, alumnos, curso } = req.body;
+    const object = req.body;
     const uid = req.params.id;
-
-    // Solo puede crear usuarios un admin
-    const token = req.header('x-token');
-    // lo puede actualizar un administrador o el propio usuario del token
-    if (!(infoToken(token).rol === 'ROL_ADMIN')) {
-        return res.status(400).json({
-            ok: false,
-            msg: 'No tiene permisos para actualizar escalas',
-        });
-    }
+    const criterio = req.body.criterio;
 
     try {
-        // Comprobar que el curso que se va a asignar al escala existe
-        const existeCurso = await Curso.findById(curso);
-        if (!existeCurso) {
+        // Comprobar que el criterio que se va a asignar a la escala existe
+        const existeCriterio = await Criterio.findById(criterio);
+        if (!existeCriterio) {
             return res.status(400).json({
                 ok: false,
-                msg: 'El curso asignado en la asignatura no existe'
+                msg: 'El criterio asignado a la escala no existe'
             });
         }
 
@@ -174,63 +136,27 @@ const actualizarEscala = async(req, res) => {
         if (!existeEscala) {
             return res.status(400).json({
                 ok: false,
-                msg: 'El escala no existe'
+                msg: 'La escala no existe en la BD'
             });
         }
 
-        // Comprobar que no existe un gurpo en ese mismo curso con ese nombre
-        const existeEscalan = await Escala.findOne({ nombre, curso });
-        if (existeEscalan && (existeEscala._id != uid)) {
-            return res.status(400).json({
-                ok: false,
-                msg: 'El escala ya existe en le mismo curso'
-            });
-        }
-
-        // Comprobamos la lista de alumnos que nos envían que existan
-        let listaalumnosinsertar = [];
-        // Si nos ha llegado lista de alumnos comprobar que existen y hay limpiar campos raros
-        if (alumnos) {
-            let listaalumnosbusqueda = [];
-            // Convertimos el array de objetos en un array con los strings de id de usuario
-            // Creamos un array de objetos pero solo con aquellos que tienen el campo usuario correcto
-            const listaalu = alumnos.map(registro => {
-                if (registro.usuario) {
-                    listaalumnosbusqueda.push(registro.usuario);
-                    listaalumnosinsertar.push(registro);
-                }
-            });
-            // Comprobamos que los alumnos que nos pasan existen, buscamos todos los alumnos de la lista
-            const existenAlumnos = await Usuario.find().where('_id').in(listaalumnosbusqueda);
-            if (existenAlumnos.length != listaalumnosbusqueda.length) {
-                return res.status(400).json({
-                    ok: false,
-                    msg: 'Alguno de los alumnos indicados en el escala no existe o están repetidos'
-                });
-            }
-        }
-
-        // Creamos el registro para insertar pero con la lista de alumnos comprobados
-        let object = req.body;
-        object.alumnos = listaalumnosinsertar;
-
-        const escala = await Escala.findByIdAndUpdate(uid, object, { new: true });
+        const item = await Escala.findByIdAndUpdate(uid, object, { new: true });
         res.json({
             ok: true,
-            msg: 'Escala actualizado',
-            escala
+            msg: 'Escala actualizada',
+            item
         });
 
     } catch (error) {
         console.log(error);
         return res.status(400).json({
             ok: false,
-            msg: 'Error creando escala'
+            msg: 'Error actualizando la escala'
         });
     }
 }
 
-const borrarEscala = async(req, res = response) => {
+scaleCtrl.deleteScale = async(req, res = response) => {
 
     const uid = req.params.id;
 
@@ -250,7 +176,7 @@ const borrarEscala = async(req, res = response) => {
         if (!existeEscala) {
             return res.status(400).json({
                 ok: true,
-                msg: 'El escala no existe'
+                msg: 'La escala no existe'
             });
         }
         // Lo eliminamos y devolvemos el usuaurio recien eliminado
@@ -258,7 +184,7 @@ const borrarEscala = async(req, res = response) => {
 
         res.json({
             ok: true,
-            msg: 'Escala eliminado',
+            msg: 'Escala eliminada',
             resultado: resultado
         });
     } catch (error) {
@@ -271,4 +197,4 @@ const borrarEscala = async(req, res = response) => {
     }
 }
 
-module.exports = { obtenerEscalas, crearEscala, actualizarEscala, borrarEscala }
+module.exports = { scaleCtrl }

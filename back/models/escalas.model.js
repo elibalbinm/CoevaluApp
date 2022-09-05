@@ -16,8 +16,10 @@ const EscalaSchema = Schema({
         ref: 'Criterio',
         require: true
     },
-    valoracion: {
-        type: Number
+    valor: {
+        type: Number,
+        default: 0,
+        require: true
     }
 }, { collection: 'escalas' });
 
