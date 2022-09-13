@@ -3,10 +3,10 @@ Ruta base: /api/iteraciones
 */
 
 const { Router } = require('express');
-const { obtenerIteraciones, crearIteracion, actualizarIteracion, borrarIteracion } = require('../controllers/iteracion.controller');
-const { check } = require('express-validator');
+const { check }  = require('express-validator');
 const { validarCampos } = require('../middleware/validar-campos');
-const { validarJWT } = require('../middleware/validar-jwt');
+const { iterationCtrl } = require('../controllers/iteracion.controller');
+const { validarJWT }    = require('../middleware/validar-jwt');
 
 const router = Router();
 
@@ -17,26 +17,35 @@ router.get('/', [
     check('desde', 'El desde debe ser un número').optional().isNumeric(),
     check('texto', 'El texto debe ser válido').optional().trim(),
     validarCampos
-], obtenerIteraciones);
+], iterationCtrl.getIterations);
 router.post('/', [
     validarJWT,
-    check('nombre', 'El argumento nombre es obligatorio').not().isEmpty().trim(),
-    check('nombrecorto', 'El argumento nombrecorto es obligatorio').not().isEmpty().trim(),
-    check('activo', 'El argumento activo es obligatorio y debe ser true/false').isBoolean(),
+    check('curso', 'El id del curso debe ser válido').isMongoId(),
+    check('rubrica', 'El id del curso debe ser válido').isMongoId(),
+    check('iteracion', 'El argumento iteracion es obligatorio y deber ser un número').isNumeric(),
+    check('hito', 'El argumento hito es obligatorio y deber ser un número').isNumeric(),
+    check('fecha_ini', 'El formato de fecha_ini no es correcto').isDate(),
+    check('fecha_fin', 'El formato de fecha_fin no es correcto').isDate(),
+    check('fecha_ini_coe', 'El formato de fecha_ini_coe no es correcto').isDate(),
+    check('fecha_fin_coe', 'El formato de fecha_fin_coe no es correcto').isDate(),
     validarCampos,
-], crearIteracion);
+], iterationCtrl.createIteration);
 router.put('/:id', [
     validarJWT,
-    check('nombre', 'El argumento nombre es obligatorio').not().isEmpty().trim(),
-    check('nombrecorto', 'El argumento nombrecorto es obligatorio').not().isEmpty().trim(),
-    check('activo', 'El argumento activo es obligatorio y debe ser true/false').isBoolean(),
-    check('id', 'El identificador no es válido').isMongoId(),
+    check('curso', 'El id del curso debe ser válido').optional().isMongoId(),
+    check('rubrica', 'El id del curso debe ser válido').optional().isMongoId(),
+    check('iteracion', 'El argumento iteracion es obligatorio y deber ser un número').optional().isNumeric(),
+    check('hito', 'El argumento hito es obligatorio y deber ser un número').optional().isNumeric(),
+    check('fecha_ini', 'El formato de fecha_ini no es correcto').optional().isDate(),
+    check('fecha_fin', 'El formato de fecha_fin no es correcto').optional().isDate(),
+    check('fecha_ini_coe', 'El formato de fecha_ini_coe no es correcto').optional().isDate(),
+    check('fecha_fin_coe', 'El formato de fecha_fin_coe no es correcto').optional().isDate(),
     validarCampos,
-], actualizarIteracion);
+], iterationCtrl.updateIteration);
 router.delete('/:id', [
     validarJWT,
     check('id', 'El identificador no es válido').isMongoId(),
     validarCampos,
-], borrarIteracion);
+], iterationCtrl.deleteIteration);
 
 module.exports = router;

@@ -1,55 +1,51 @@
-const { response } = require('express');
+const { response }  =   require('express');
+const { infoToken } =   require('../helpers/infotoken');
+const Rubrica       =   require('../models/rubricas.model');
+const Curso         =   require('../models/cursos.model');
+const Criterio      =   require('../models/criterios.model');
 
-const Rubrica = require('../models/rubricas.model');
-const Curso = require('../models/cursos.model');
-const Usuario = require('../models/usuarios.model');
+const rubricCtrl = {};
 
-const { infoToken } = require('../helpers/infotoken');
-
-const obtenerRubricas = async(req, res = repsonse) => {
+rubricCtrl.getRubrics = async(req, res = repsonse) => {
 
     // Paginación
     const desde = Number(req.query.desde) || 0;
-    const registropp = Number(process.env.DOCSPERPAGE);
+    const hasta = req.query.hasta || '';
+    let registropp = Number(process.env.DOCSPERPAGE);
     const id = req.query.id;
-    const textos = req.query.texto || '';
-    const curso = req.query.curso || '';
-
+    const texto = req.query.texto;
+    let textoBusqueda = '';
+    if (texto) {
+        textoBusqueda = new RegExp(texto, 'i');
+        //console.log('texto', texto, ' textoBusqueda', textoBusqueda);
+    }
+    if (hasta === 'todos') {
+        registropp = 1000;
+    }
+    //await sleep(2000);
     try {
         let rubricas, total;
         if (id) {
             [rubricas, total] = await Promise.all([
-                Rubrica.findById(id).populate('curso', '-__v'),
+                Rubrica.findById(id),
                 Rubrica.countDocuments()
             ]);
         } else {
-            // {curso:'', {$or: {nombre : '', nombrecorto:''}}
-            let query = {};
-            if (textos !== '') {
-                texto = new RegExp(textos, 'i');
-                if (curso !== '') {
-                    query = { curso: curso, $or: [{ nombre: texto }, { proyecto: texto }] };
-                } else {
-                    query = { $or: [{ nombre: texto }, { proyecto: texto }] };
-                }
+            if (texto) {
+                [rubricas, total] = await Promise.all([
+                    Rubrica.find({ $or: [{ nombre: textoBusqueda }, { descripcion: textoBusqueda }] }).skip(desde).limit(registropp),
+                    Rubrica.countDocuments({ $or: [{ nombre: textoBusqueda }, { descripcion: textoBusqueda }] })
+                ]);
             } else {
-                if (curso !== '') {
-                    query = { curso: curso };
-                } else {
-                    query = {};
-                }
-            };
-
-
-            [rubricas, total] = await Promise.all([
-                Rubrica.find(query).skip(desde).limit(registropp).populate('curso', '-__v'),
-                Rubrica.countDocuments(query)
-            ]);
+                [rubricas, total] = await Promise.all([
+                    Rubrica.find({}).skip(desde).limit(registropp),
+                    Rubrica.countDocuments()
+                ]);
+            }
         }
-
         res.json({
             ok: true,
-            msg: 'obtenerRubricas',
+            msg: 'Request getRubrics successful',
             rubricas,
             page: {
                 desde,
@@ -62,77 +58,74 @@ const obtenerRubricas = async(req, res = repsonse) => {
         console.log(error);
         return res.status(400).json({
             ok: false,
-            msg: 'Error al obtener rubricas'
+            msg: 'Error getting rubrics'
         });
     }
 }
 
 
-const crearRubrica = async(req, res = response) => {
+rubricCtrl.createRubric = async(req, res = response) => {
 
-    const { nombre, alumnos, curso } = req.body;
-
-    // Solo puede crear usuarios un admin
-    const token = req.header('x-token');
-    // lo puede actualizar un administrador o el propio usuario del token
-    if (!(infoToken(token).rol === 'ROL_ADMIN')) {
-        return res.status(400).json({
-            ok: false,
-            msg: 'No tiene permisos para crear rubricas',
-        });
-    }
+    const { curso, criterios } = req.body;
+    console.log(curso);
+    console.log(criterios);
 
     try {
-        // Comprobar que el curso que se va a asignar al rubrica existe
+        // Solo el administrador puede hacer esta acción
+        const token = req.header('x-token');
+        if (!(infoToken(token).rol === 'ROL_ADMIN')) {
+            return res.status(400).json({
+                ok: false,
+                msg: 'No tiene permisos para crear rubricas',
+            });
+        }
+
         const existeCurso = await Curso.findById(curso);
+        // const existeCriterio = await Criterio.findOne({ criterios });
+
+        //Comprobamos que el curso y el criterio que se va a asignar a la rubrica existe
         if (!existeCurso) {
             return res.status(400).json({
                 ok: false,
-                msg: 'El curso asignado en el rubrica no existe'
+                msg: 'El curso asignado a la rúbrica no existe'
             });
         }
 
-        // Comrprobar que no existe un gurpo en ese mismo curso con ese nombre
-        const existeRubrica = await Rubrica.findOne({ nombre, curso });
-        if (existeRubrica) {
-            return res.status(400).json({
-                ok: false,
-                msg: 'El rubrica ya existe en le mismo curso'
-            });
-        }
-
-        // Comprobamos la lista de alumnos que nos envían que existan
-        let listaalumnosinsertar = [];
+         // Comprobamos la lista de alumnos que nos envían que existan
+         let insertCriteria = [];
         // Si nos ha llegado lista de alumnos comprobar que existen y limpiar campos raros
-        if (alumnos) {
-            let listaalumnosbusqueda = [];
+        if (criterios) {
+            console.log(criterios);
+            let searchCriteria = [];
             // Convertimos el array de objetos en un array con los strings de id de usuario
             // Creamos un array de objetos pero solo con aquellos que tienen el campo usuario correcto
-            const listaalu = alumnos.map(registro => {
-                if (registro.usuario) {
-                    listaalumnosbusqueda.push(registro.usuario);
-                    listaalumnosinsertar.push(registro);
+            const listaalu = criterios.map(value => {
+                console.log(value);
+                if (value.criterio) {
+                    searchCriteria.push(value.criterio);
+                    insertCriteria.push(value);
                 }
             });
             // Comprobamos que los alumnos que nos pasan existen, buscamos todos los alumnos de la lista
-            const existenAlumnos = await Usuario.find().where('_id').in(listaalumnosbusqueda);
-            if (existenAlumnos.length != listaalumnosbusqueda.length) {
+            const existenCriterios = await Criterio.find().where('_id').in(searchCriteria);
+            if (existenCriterios.length != searchCriteria.length) {
                 return res.status(400).json({
                     ok: false,
-                    msg: 'Alguno de los alumnos indicados en el rubrica no existe o están repetidos'
+                    msg: 'Alguno de los alumnos indicados en el grupo no existe o están repetidos'
                 });
             }
         }
 
+
         const rubrica = new Rubrica(req.body);
-        rubrica.alumnos = listaalumnosinsertar;
+        rubrica.criterios = insertCriteria;
 
         // Almacenar en BD
         await rubrica.save();
 
         res.json({
             ok: true,
-            msg: 'Rubrica creado',
+            msg: 'Request createRubric successful',
             rubrica,
         });
 
@@ -145,9 +138,9 @@ const crearRubrica = async(req, res = response) => {
     }
 }
 
-const actualizarRubrica = async(req, res) => {
+rubricCtrl.updateRubric = async(req, res) => {
 
-    const { nombre, alumnos, curso } = req.body;
+    const { curso, criterios } = req.body;
     const uid = req.params.id;
 
     // Solo puede crear usuarios un admin
@@ -161,63 +154,50 @@ const actualizarRubrica = async(req, res) => {
     }
 
     try {
-        // Comprobar que el curso que se va a asignar al Rubrica existe
         const existeCurso = await Curso.findById(curso);
+        // const existeCriterio = await Criterio.findOne({ criterios });
+
+        //Comprobamos que el curso y el criterio que se va a asignar a la rubrica existe
         if (!existeCurso) {
             return res.status(400).json({
                 ok: false,
-                msg: 'El curso asignado en la asignatura no existe'
+                msg: 'El curso asignado a la rúbrica no existe'
             });
         }
 
-        const existeRubrica = await Rubrica.findById(uid);
-        if (!existeRubrica) {
-            return res.status(400).json({
-                ok: false,
-                msg: 'El Rubrica no existe'
-            });
-        }
-
-        // Comprobar que no existe un gurpo en ese mismo curso con ese nombre
-        const existeRubrican = await Rubrica.findOne({ nombre, curso });
-        if (existeRubrican && (existeRubrica._id != uid)) {
-            return res.status(400).json({
-                ok: false,
-                msg: 'El rubrica ya existe en le mismo curso'
-            });
-        }
-
-        // Comprobamos la lista de alumnos que nos envían que existan
-        let listaalumnosinsertar = [];
-        // Si nos ha llegado lista de alumnos comprobar que existen y hay limpiar campos raros
-        if (alumnos) {
-            let listaalumnosbusqueda = [];
+         // Comprobamos la lista de alumnos que nos envían que existan
+         let insertCriteria = [];
+        // Si nos ha llegado lista de alumnos comprobar que existen y limpiar campos raros
+        if (criterios) {
+            console.log(criterios);
+            let searchCriteria = [];
             // Convertimos el array de objetos en un array con los strings de id de usuario
             // Creamos un array de objetos pero solo con aquellos que tienen el campo usuario correcto
-            const listaalu = alumnos.map(registro => {
-                if (registro.usuario) {
-                    listaalumnosbusqueda.push(registro.usuario);
-                    listaalumnosinsertar.push(registro);
+            const listaalu = criterios.map(value => {
+                console.log(value);
+                if (value.criterio) {
+                    searchCriteria.push(value.criterio);
+                    insertCriteria.push(value);
                 }
             });
             // Comprobamos que los alumnos que nos pasan existen, buscamos todos los alumnos de la lista
-            const existenAlumnos = await Usuario.find().where('_id').in(listaalumnosbusqueda);
-            if (existenAlumnos.length != listaalumnosbusqueda.length) {
+            const existenCriterios = await Criterio.find().where('_id').in(searchCriteria);
+            if (existenCriterios.length != searchCriteria.length) {
                 return res.status(400).json({
                     ok: false,
-                    msg: 'Alguno de los alumnos indicados en el rubrica no existe o están repetidos'
+                    msg: 'Alguno de los alumnos indicados en el grupo no existe o están repetidos'
                 });
             }
         }
 
-        // Creamos el registro para insertar pero con la lista de alumnos comprobados
+        // Creamos el value para insertar pero con la lista de alumnos comprobados
         let object = req.body;
-        object.alumnos = listaalumnosinsertar;
+        object.criterios = insertCriteria;
 
         const rubrica = await Rubrica.findByIdAndUpdate(uid, object, { new: true });
         res.json({
             ok: true,
-            msg: 'Rubrica actualizado',
+            msg: 'Rúbrica actualizada',
             rubrica
         });
 
@@ -225,12 +205,12 @@ const actualizarRubrica = async(req, res) => {
         console.log(error);
         return res.status(400).json({
             ok: false,
-            msg: 'Error creando rubrica'
+            msg: 'Error actualizando rúbrica'
         });
     }
 }
 
-const borrarRubrica = async(req, res = response) => {
+rubricCtrl.deleteRubric = async(req, res = response) => {
 
     const uid = req.params.id;
 
@@ -271,4 +251,4 @@ const borrarRubrica = async(req, res = response) => {
     }
 }
 
-module.exports = { obtenerRubricas, crearRubrica, actualizarRubrica, borrarRubrica }
+module.exports = { rubricCtrl }

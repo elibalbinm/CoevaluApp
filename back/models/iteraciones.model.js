@@ -1,27 +1,41 @@
 const { Schema, model } = require('mongoose');
 
 const IteracionSchema = Schema({
-    curso: [{
-        usuario: {
-            type: Schema.Types.ObjectId,
-            ref: 'Usuario'
-        }
-    }],
+    curso: {
+        type: Schema.Types.ObjectId,
+        ref: 'Curso',
+        require: true
+    },
+    rubrica: {
+        type: Schema.Types.ObjectId,
+        ref: 'Rubrica',
+        require: true
+    },
+    iteracion: {
+        type: Number,
+        default: 0,
+        require: true
+    },
     hito: {
         type: Number,
+        default: 0,
         require: true
     },
     fecha_ini: {
-        type: Date
+        type: Date,
+        require: true
     },
     fecha_fin: {
-        type: Date
+        type: Date,
+        require: true
     },
-    fecha_inicio_coe: {
-        type: Date
+    fecha_ini_coe: {
+        type: Date,
+        require: true
     },
     fecha_fin_coe: {
-        type: Date
+        type: Date,
+        require: true
     },
 }, { collection: 'iteraciones' });
 

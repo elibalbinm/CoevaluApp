@@ -1,55 +1,54 @@
 const { response } = require('express');
-
-const Iteracion = require('../models/iteraciones.model');
-const Curso = require('../models/cursos.model');
-const Usuario = require('../models/usuarios.model');
-
 const { infoToken } = require('../helpers/infotoken');
+const Iteracion     = require('../models/iteraciones.model');
+const Curso         = require('../models/cursos.model');
+const Rubrica      = require('../models/rubricas.model');
 
-const obtenerIteraciones = async(req, res = repsonse) => {
+const iterationCtrl = {};
+
+iterationCtrl.getIterations = async(req, res = repsonse) => {
 
     // Paginación
     const desde = Number(req.query.desde) || 0;
-    const registropp = Number(process.env.DOCSPERPAGE);
+    const hasta = req.query.hasta || '';
+    let registropp = Number(process.env.DOCSPERPAGE);
     const id = req.query.id;
-    const textos = req.query.texto || '';
-    const curso = req.query.curso || '';
+    const texto = req.query.texto;
+    let textoBusqueda = '';
 
+    console.log('Texto: '+texto);
+
+    if (texto) {
+        textoBusqueda = new RegExp(texto, 'i');
+        //console.log('texto', texto, ' textoBusqueda', textoBusqueda);
+    }
+    if (hasta === 'todos') {
+        registropp = 1000;
+    }
+    //await sleep(2000);
     try {
         let iteraciones, total;
         if (id) {
             [iteraciones, total] = await Promise.all([
-                Iteracion.findById(id).populate('curso', '-__v'),
+                Iteracion.findById(id),
                 Iteracion.countDocuments()
             ]);
         } else {
-            // {curso:'', {$or: {nombre : '', nombrecorto:''}}
-            let query = {};
-            if (textos !== '') {
-                texto = new RegExp(textos, 'i');
-                if (curso !== '') {
-                    query = { curso: curso, $or: [{ nombre: texto }, { proyecto: texto }] };
-                } else {
-                    query = { $or: [{ nombre: texto }, { proyecto: texto }] };
-                }
+            if (texto) {
+                [iteraciones, total] = await Promise.all([
+                    Iteracion.find({ $or: [{ nombre: textoBusqueda }, { descripcion: textoBusqueda }] }).skip(desde).limit(registropp),
+                    Iteracion.countDocuments({ $or: [{ nombre: textoBusqueda }, { descripcion: textoBusqueda }] })
+                ]);
             } else {
-                if (curso !== '') {
-                    query = { curso: curso };
-                } else {
-                    query = {};
-                }
-            };
-
-
-            [iteracioness, total] = await Promise.all([
-                Iteracion.find(query).skip(desde).limit(registropp).populate('curso', '-__v'),
-                Iteracion.countDocuments(query)
-            ]);
+                [iteraciones, total] = await Promise.all([
+                    Iteracion.find({}).skip(desde).limit(registropp),
+                    Iteracion.countDocuments()
+                ]);
+            }
         }
-
         res.json({
             ok: true,
-            msg: 'obtenerIteracioness',
+            msg: 'Request getIteracion successful',
             iteraciones,
             page: {
                 desde,
@@ -67,9 +66,9 @@ const obtenerIteraciones = async(req, res = repsonse) => {
     }
 }
 
-const crearIteracion = async(req, res = response) => {
+iterationCtrl.createIteration = async(req, res = response) => {
 
-    const { nombre, alumnos, curso } = req.body;
+    const { curso, rubrica } = req.body;
 
     // Solo puede crear usuarios un admin
     const token = req.header('x-token');
@@ -87,51 +86,26 @@ const crearIteracion = async(req, res = response) => {
         if (!existeCurso) {
             return res.status(400).json({
                 ok: false,
-                msg: 'El curso asignado en el iteracion no existe'
+                msg: 'El curso asignado en la iteración no existe'
             });
         }
 
         // Comrprobar que no existe un gurpo en ese mismo curso con ese nombre
-        const existeIteracion = await Iteracion.findOne({ nombre, curso });
-        if (existeIteracion) {
+        const existeRubrica = await Rubrica.findById(rubrica);
+        if (!existeRubrica) {
             return res.status(400).json({
                 ok: false,
-                msg: 'El iteracion ya existe en el mismo curso'
+                msg: 'La rúbrica asignada a la iteración no existe'
             });
-        }
-
-        // Comprobamos la lista de alumnos que nos envían que existan
-        let listaalumnosinsertar = [];
-        // Si nos ha llegado lista de alumnos comprobar que existen y limpiar campos raros
-        if (alumnos) {
-            let listaalumnosbusqueda = [];
-            // Convertimos el array de objetos en un array con los strings de id de usuario
-            // Creamos un array de objetos pero solo con aquellos que tienen el campo usuario correcto
-            const listaalu = alumnos.map(registro => {
-                if (registro.usuario) {
-                    listaalumnosbusqueda.push(registro.usuario);
-                    listaalumnosinsertar.push(registro);
-                }
-            });
-            // Comprobamos que los alumnos que nos pasan existen, buscamos todos los alumnos de la lista
-            const existenAlumnos = await Usuario.find().where('_id').in(listaalumnosbusqueda);
-            if (existenAlumnos.length != listaalumnosbusqueda.length) {
-                return res.status(400).json({
-                    ok: false,
-                    msg: 'Alguno de los alumnos indicados en el iteracion no existe o están repetidos'
-                });
-            }
         }
 
         const iteracion = new Iteracion(req.body);
-        iteracion.alumnos = listaalumnosinsertar;
-
         // Almacenar en BD
         await iteracion.save();
 
         res.json({
             ok: true,
-            msg: 'Iteracion creado',
+            msg: 'Iteración creada',
             iteracion,
         });
 
@@ -139,12 +113,12 @@ const crearIteracion = async(req, res = response) => {
         console.log(error);
         return res.status(400).json({
             ok: false,
-            msg: 'Error creando iteracion'
+            msg: 'Error creando iteración'
         });
     }
 }
 
-const actualizarIteracion = async(req, res) => {
+iterationCtrl.updateIteration = async(req, res) => {
 
     const { nombre, alumnos, curso } = req.body;
     const uid = req.params.id;
@@ -229,7 +203,7 @@ const actualizarIteracion = async(req, res) => {
     }
 }
 
-const borrarIteracion = async(req, res = response) => {
+iterationCtrl.deleteIteration = async(req, res = response) => {
 
     const uid = req.params.id;
 
@@ -270,4 +244,4 @@ const borrarIteracion = async(req, res = response) => {
     }
 }
 
-module.exports = { obtenerIteraciones, crearIteracion, actualizarIteracion, borrarIteracion }
+module.exports = { iterationCtrl }

@@ -1,28 +1,27 @@
 const { Schema, model } = require('mongoose');
 
 const RubricaSchema = Schema({
-    nombre: {
+    texto: {
         type: String,
         require: true
     },
-    proyecto: {
-        type: String,
-        require: true
+    // proyecto: {
+    //     type: String,
+    //     require: true
+    // },
+    curso: {
+        type: Schema.Types.ObjectId,
+        ref: 'Curso'
     },
-    curso: [{
-        curso: {
-            type: Schema.Types.ObjectId,
-            ref: 'Curso'
-        }
-    }],
-    alumnos: [{
-        usuario: {
-            type: Schema.Types.ObjectId,
-            ref: 'Usuario'
-        }
-    }],
+    // alumnos: [{
+    //     usuario: {
+    //         type: Schema.Types.ObjectId,
+    //         ref: 'Usuario'
+    //     }
+    // }],
     activo: {
         type: Boolean,
+        default: true,
         require: true
     },
     criterios: [{
@@ -30,7 +29,7 @@ const RubricaSchema = Schema({
             type: Schema.Types.ObjectId,
             ref: 'Criterio'
         }
-    }],
+    }]
 }, { collection: 'rubricas' });
 
 
