@@ -1,24 +1,10 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 
-import { AuthRoutingModule } from './auth/auth.routing';
-import { PagesRoutingModule } from './pages/pages.routing';
-
-
-const routes: Routes = [
-
-  //  /login y /recovery  --> authroutingmodule
-  //  /admin/* /alu/* /prof/*        --> pagesroutingmodule
-
-  { path: '**', redirectTo: 'login'}
-];
+const routes: Routes = [];
 
 @NgModule({
-  imports: [
-    RouterModule.forRoot(routes),
-    AuthRoutingModule,
-    PagesRoutingModule
-  ],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
