@@ -6,9 +6,9 @@ const Usuario = require('../models/usuarios.model');
 
 const { infoToken } = require('../helpers/infotoken');
 
-const courseCtrl = {};
+const subjectCtrl = {};
 
-courseCtrl.obtenerAsignaturas = async(req, res = repsonse) => {
+subjectCtrl.obtenerAsignaturas = async(req, res = repsonse) => {
 
     // Paginación
     const desde = Number(req.query.desde) || 0;
@@ -98,7 +98,7 @@ courseCtrl.obtenerAsignaturas = async(req, res = repsonse) => {
 }
 
 
-courseCtrl.crearAsignatura = async(req, res = response) => {
+subjectCtrl.crearAsignatura = async(req, res = response) => {
 
     // De lo que nos manden extraemos curso, profesores y alumnos
     // profesores y alumnos no se van a insertar al crear
@@ -199,7 +199,7 @@ courseCtrl.crearAsignatura = async(req, res = response) => {
     }
 }
 
-courseCtrl.actualizarAsignatura = async(req, res) => {
+subjectCtrl.actualizarAsignatura = async(req, res) => {
 
     const { profesores, alumnos, curso, ...object } = req.body;
     const uid = req.params.id;
@@ -274,7 +274,7 @@ courseCtrl.actualizarAsignatura = async(req, res) => {
     }
 }
 
-courseCtrl.borrarAsignatura = async(req, res = response) => {
+subjectCtrl.borrarAsignatura = async(req, res = response) => {
 
     const uid = req.params.id;
 
@@ -315,7 +315,7 @@ courseCtrl.borrarAsignatura = async(req, res = response) => {
     }
 }
 
-courseCtrl.actualizarLista = async(req, res) => {
+subjectCtrl.actualizarLista = async(req, res) => {
 
     const id = req.params.id;
     const tipo = req.body.tipo;
@@ -362,4 +362,4 @@ courseCtrl.actualizarLista = async(req, res) => {
 }
 
 
-module.exports = { courseCtrl }
+module.exports = { subjectCtrl }

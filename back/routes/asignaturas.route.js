@@ -3,7 +3,7 @@ Ruta base: /api/asignaturas
 */
 
 const { Router } = require('express');
-const { courseCtrl } = require('../controllers/asignaturas.controller');
+const { subjectCtrl } = require('../controllers/asignaturas.controller');
 const { check } = require('express-validator');
 const { validarCampos } = require('../middleware/validar-campos');
 const { validarJWT } = require('../middleware/validar-jwt');
@@ -32,7 +32,7 @@ router.get('/', [
     check('texto', 'El texto de búsqueda debe ser un texto').optional().trim(),
     check('curso', 'El curso debe ser un identificador de curso válido').optional().isMongoId(),
     validarCampos,
-], courseCtrl.obtenerAsignaturas);
+], subjectCtrl.obtenerAsignaturas);
 router.post('/', [
     validarJWT,
     check('nombre', 'El argumento nombre es obligatorio').not().isEmpty().trim(),
@@ -41,13 +41,13 @@ router.post('/', [
     // Opcionales lista de profesores, si viene comprobar que es id válido
     check('profesores.*.usuario', 'El identificador de profesor no es válido').optional().isMongoId(),
     validarCampos,
-], courseCtrl.crearAsignatura);
+], subjectCtrl.crearAsignatura);
 router.put('/lista/:id', [
     validarJWT,
     check('id', 'El id de asignatura debe ser válido').isMongoId(),
     check('tipo', 'El argumento tipo es obligatorio (alumnos, profesores)').not().isEmpty().trim(),
     validarCampos,
-], courseCtrl.actualizarLista);
+], subjectCtrl.actualizarLista);
 router.put('/:id', [
     validarJWT,
     check('id', 'El identificador no es válido').isMongoId(),
@@ -57,11 +57,11 @@ router.put('/:id', [
     // Opcionales lista de profesores, si viene comprobar que es id válido
     check('profesores.*.usuario', 'El identificador de profesor no es válido').optional().isMongoId(),
     validarCampos,
-], courseCtrl.actualizarAsignatura);
+], subjectCtrl.actualizarAsignatura);
 router.delete('/:id', [
     validarJWT,
     check('id', 'El identificador no es válido').isMongoId(),
     validarCampos,
-], courseCtrl.borrarAsignatura);
+], subjectCtrl.borrarAsignatura);
 
 module.exports = router;
