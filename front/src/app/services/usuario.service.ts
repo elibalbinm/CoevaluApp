@@ -18,7 +18,6 @@ export class UsuarioService {
   constructor( private http: HttpClient,
                private router: Router ) { }
 
-
   login( formData: loginForm ) {
     return this.http.post(`${environment.base_url}/login`, formData)
       .pipe(
@@ -73,5 +72,4 @@ export class UsuarioService {
   validarToken(): Observable<boolean> {
     return this.validar(true, false);
   }
-
 }
