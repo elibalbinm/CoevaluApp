@@ -1,6 +1,10 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 
+// Guards
+import { AuthGuard } from '../../src/app/guards/auth.guards';
+import { NoauthGuard } from '../../src/app/guards/noauth.guard';
+
 // layouts
 import { AdminComponent } from "./layouts/admin/admin.component";
 import { AuthComponent } from "./layouts/auth/auth.component";
@@ -26,7 +30,7 @@ const routes: Routes = [
     path: "admin",
     component: AdminComponent,
     children: [
-      { path: "dashboard", component: DashboardComponent },
+      { path: "dashboard", component: DashboardComponent, canActivate: [ AuthGuard ], data: {rol: '*', titulo: 'Home'} },
       { path: "settings", component: SettingsComponent },
       { path: "tables", component: TablesComponent },
       { path: "maps", component: MapsComponent },
@@ -38,9 +42,33 @@ const routes: Routes = [
     path: "auth",
     component: AuthComponent,
     children: [
-      { path: "login", component: LoginComponent },
+      { path: "login", component: LoginComponent, canActivate: [ NoauthGuard ] },
       { path: "register", component: RegisterComponent },
       { path: "", redirectTo: "login", pathMatch: "full" },
+    ],
+  },
+  // prof views
+  {
+    path: "prof",
+    component: AdminComponent,
+    children: [
+      { path: "dashboard", component: DashboardComponent, canActivate: [ AuthGuard ], data: {rol: '*', titulo: 'Home'} },
+      { path: "settings", component: SettingsComponent },
+      { path: "tables", component: TablesComponent },
+      { path: "maps", component: MapsComponent },
+      { path: "", redirectTo: "dashboard", pathMatch: "full" },
+    ],
+  },
+  // alumno views
+  {
+    path: "alu",
+    component: AdminComponent,
+    children: [
+      { path: "dashboard", component: DashboardComponent, canActivate: [ AuthGuard ], data: {rol: '*', titulo: 'Home'} },
+      { path: "settings", component: SettingsComponent },
+      { path: "tables", component: TablesComponent },
+      { path: "maps", component: MapsComponent },
+      { path: "", redirectTo: "dashboard", pathMatch: "full" },
     ],
   },
   // no layout views

@@ -20,7 +20,7 @@ export class AuthGuard implements CanActivate {
           tap( resp => {
             // Si devuelve falso, el token no es bueno, salimos a login
             if (!resp) {
-              this.router.navigateByUrl('/login');
+              this.router.navigateByUrl('auth/login');
             } else {
               // Si la ruta no es para el rol del token, reenviamos a ruta base de rol del token
               if ((next.data.rol !== '*') && (this.usuarioService.rol !== next.data.rol)) {

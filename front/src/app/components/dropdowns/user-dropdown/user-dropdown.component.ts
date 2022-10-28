@@ -1,11 +1,16 @@
 import { Component, AfterViewInit, ViewChild, ElementRef } from "@angular/core";
 import { createPopper } from "@popperjs/core";
+import { UsuarioService } from "src/app/services/usuario.service";
 
 @Component({
   selector: "app-user-dropdown",
   templateUrl: "./user-dropdown.component.html",
 })
 export class UserDropdownComponent implements AfterViewInit {
+
+  constructor(private usuarioService: UsuarioService){
+
+  }
   dropdownPopoverShow = false;
   @ViewChild("btnDropdownRef", { static: false }) btnDropdownRef: ElementRef;
   @ViewChild("popoverDropdownRef", { static: false })
@@ -26,5 +31,9 @@ export class UserDropdownComponent implements AfterViewInit {
     } else {
       this.dropdownPopoverShow = true;
     }
+  }
+
+  logout() {
+    this.usuarioService.logout();
   }
 }

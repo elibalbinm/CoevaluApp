@@ -22,7 +22,7 @@ export class UsuarioService {
     return this.http.post(`${environment.base_url}/login`, formData)
       .pipe(
         tap( (res : any) => {
-          // localStorage.setItem('token', res['token']);
+          localStorage.setItem('token', res['token']);
           const {uid, rol} = res;
           this.usuario = new Usuario(uid, rol);
         })
@@ -35,10 +35,10 @@ export class UsuarioService {
 
   validar(correcto: boolean, incorrecto: boolean): Observable<boolean> {
 
-    // if (this.token === '') {
-    //   this.limpiarLocalStore();
-    //   return of(incorrecto);
-    // }
+    if (this.token === '') {
+      this.limpiarLocalStore();
+      return of(incorrecto);
+    }
 
     return this.http.get(`${environment.base_url}/login/token`, this.cabeceras)
       .pipe(
@@ -71,5 +71,18 @@ export class UsuarioService {
 
   validarToken(): Observable<boolean> {
     return this.validar(true, false);
+  }
+
+  validarNoToken(): Observable<boolean> {
+    return this.validar(false, true);
+  }
+
+  limpiarLocalStore(): void{
+    localStorage.removeItem('token');
+  }
+
+  logout(): void {
+    this.limpiarLocalStore();
+    this.router.navigateByUrl('/login');
   }
 }

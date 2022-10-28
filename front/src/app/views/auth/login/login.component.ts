@@ -55,14 +55,13 @@ export class LoginComponent implements OnInit {
       }, (err) => {
         console.warn('Error respueta api:',err);
         Swal.fire({
-          title: 'Error!',
+          title: 'Error',
           text: err.error.msg || 'No pudo completarse la acción, vuelva a intentarlo más tarde',
           icon: 'error',
           confirmButtonText: 'Ok',
           allowOutsideClick: false
         });
         this.waiting = false;
-
       });
 
   }
