@@ -72,6 +72,7 @@ export class UserComponent implements OnInit {
   }
 
   enviar(): void {
+    console.log('Entra')
     this.formSubmited = true;
     if (this.datosForm.invalid) { return; }
     // Diferenciar entre dar de alta uno nuevo o actualizar uno que ya existe
@@ -79,10 +80,12 @@ export class UserComponent implements OnInit {
     if (this.datosForm.get('uid').value === 'nuevo') {
       this.usuarioService.nuevoUsuario( this.datosForm.value )
         .subscribe( res => {
+          console.log(JSON.stringify(res))
           this.datosForm.get('uid').setValue(res['usuario'].uid);
           this.datosForm.get('password').disable();
           this.enablepass = false;
           this.datosForm.markAsPristine();
+
         }, (err) => {
           const errtext = err.error.msg || 'No se pudo completar la acción, vuelva a intentarlo.';
           Swal.fire({icon: 'error', title: 'Oops...', text: errtext,});
@@ -93,6 +96,13 @@ export class UserComponent implements OnInit {
       this.usuarioService.actualizarUsuario( this.datosForm.get('uid').value, this.datosForm.value )
         .subscribe( res => {
           this.datosForm.markAsPristine();
+          Swal.fire({
+            title: 'Datos modificados',
+            text: 'El usuario ' + res['usuario'].nombre + ' ' + res['usuario'].apellidos + ' ha sido modificado correctamente',
+            icon: 'success',
+            confirmButtonText: 'Ok',
+            allowOutsideClick: false
+          });
         }, (err) => {
           const errtext = err.error.msg || 'No se pudo completar la acción, vuelva a intentarlo.';
           Swal.fire({icon: 'error', title: 'Oops...', text: errtext});
