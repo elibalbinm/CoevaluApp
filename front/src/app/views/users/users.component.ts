@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { UsuarioService } from '../../services/usuario.service';
 import { Usuario } from 'src/app/models/usuario.model';
+import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 
 
@@ -19,7 +20,8 @@ export class UsersComponent implements OnInit {
   private ultimaBusqueda = '';
   public listaUsuarios: Usuario[] = [];
 
-  constructor(private usuarioService: UsuarioService) { }
+  constructor(private usuarioService: UsuarioService,
+              private router: Router) { }
 
   ngOnInit(): void {
     this.cargarUsuarios(this.ultimaBusqueda);
@@ -58,6 +60,48 @@ export class UsersComponent implements OnInit {
     pagina = (pagina < 0 ? 0 : pagina);
     this.posicionactual = ((pagina - 1) * this.registrosporpagina >=0 ? (pagina - 1) * this.registrosporpagina : 0);
     this.cargarUsuarios(this.ultimaBusqueda);
+  }
+
+  eliminarUsuario(uid: string, nombre: string, apellidos: string) {
+    // Comprobar que no me borro a mi mismo
+    if (uid === this.usuarioService.uid) {
+      Swal.fire({icon: 'warning', title: 'Oops...', text: 'No puedes eliminar tu propio usuario',});
+      return;
+    }
+    // Solo los admin pueden borrar usuarios
+    if (this.usuarioService.rol !== 'ROL_ADMIN') {
+      Swal.fire({icon: 'warning', title: 'Oops...', text: 'No tienes permisos para realizar esta acción',});
+      return;
+    }
+
+    Swal.fire({
+      title: 'Eliminar usuario',
+      text: `Al eliminar al usuario '${nombre} ${apellidos}' se perderán todos los datos asociados. ¿Desea continuar?`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, borrar'
+    }).then((result) => {
+          if (result.value) {
+            this.usuarioService.borrarUsuario(uid)
+              .subscribe( resp => {
+                this.cargarUsuarios(this.ultimaBusqueda);
+                Swal.fire({
+                  title: 'Usuario eliminado',
+                  text: 'El usuario se ha eliminado correctamente',
+                  icon: 'success',
+                  confirmButtonText: 'Ok',
+                  allowOutsideClick: false
+                });
+                this.router.navigateByUrl('/admin/users/');
+              }
+              ,(err) =>{
+                Swal.fire({icon: 'error', title: 'Oops...', text: 'No se pudo completar la acción, vuelva a intentarlo',});
+                //console.warn('error:', err);
+              })
+          }
+      });
   }
 
 }

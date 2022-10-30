@@ -29,6 +29,10 @@ export class UsuarioService {
       );
   }
 
+  get uid(): string {
+    return this.usuario.uid;
+  }
+
   get rol(): string {
     return this.usuario.rol;
   }
@@ -41,6 +45,11 @@ export class UsuarioService {
   nuevoUsuario ( data: Usuario ) {
     console.log(data);
     return this.http.post(`${environment.base_url}/usuarios/`, data, this.cabeceras);
+  }
+
+  borrarUsuario( uid: string) {
+    if (!uid || uid === null) {uid = 'a'; }
+    return this.http.delete(`${environment.base_url}/usuarios/${uid}` , this.cabeceras);
   }
 
   cargarUsuarios( desde: number, textoBusqueda?: string ): Observable<object> {

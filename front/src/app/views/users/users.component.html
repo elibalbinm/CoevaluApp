@@ -101,7 +101,6 @@
             <i class="fas fa-check-circle text-emerald-500 px-4"></i>
           </td>
           <td
-            [routerLink]="['/admin/users/user', usuario.uid]"
             class="flex items-center border-t-0 px-3 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4"
           >
             <button
@@ -118,6 +117,7 @@
               target="_blank"
             >
               <i
+                (click)="eliminarUsuario(usuario.uid, usuario.nombre, usuario.apellidos)"
                 class="lg:text-blueGray-200 text-blueGray-400 fas fa-trash text-lg leading-lg"
               ></i>
             </button>
