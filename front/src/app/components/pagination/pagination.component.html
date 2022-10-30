@@ -1,0 +1,77 @@
+<div class="container py-4 mx-auto">
+  <nav aria-label="Paginación" class="block w-full px-4 flex-1 md:w-2/12 md:flex-none">
+    <ul class="flex pl-0 place-content-end rounded list-none flex-wrap">
+      <li>
+        <a [ngClass]="{'disabled' : paginaActual<=1}" (click)="cambiaPagina(1)"
+          class="cursor-pointer first:ml-0 text-sm font-bold flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-red-500 bg-white text-teal-600">
+          <i class="fas fa-chevron-left -ml-px"></i>
+          <i class="fas fa-chevron-left -ml-px"></i>
+        </a>
+      </li>
+      <li>
+        <a [ngClass]="{'disabled' : paginaActual<=1}" (click)="cambiaPagina(paginaActual - 1)"
+          class="cursor-pointer first:ml-0 text-sm font-bold flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-red-500 bg-white text-teal-600">
+          <i class="fas fa-chevron-left -ml-px"></i>
+        </a>
+      </li>
+      <li *ngFor="let numeropagina of listaPaginas" (click)="cambiaPagina(numeropagina)">
+        <a [ngClass]="{'bg-teal-600 text-white': numeropagina === paginaActual, 'bg-white text-teal-600': numeropagina !== paginaActual}"
+          class="cursor-pointer first:ml-0 text-sm font-bold flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-red-500">
+          {{numeropagina}}
+        </a>
+      </li>
+      <!-- <li [ngClass]="{'disabled' : paginaActual>=ultimaPagina}" (click)="cambiaPagina(paginaActual + 1)">
+        <a class="cursor-pointer first:ml-0 text-sm font-bold flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-red-500 bg-white text-teal-600">
+          2
+        </a>
+      </li>
+      <li [ngClass]="{'disabled' : paginaActual>=ultimaPagina}" (click)="cambiaPagina(ultimaPagina)">
+        <a class="cursor-pointer first:ml-0 text-sm font-bold flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-red-500 bg-white text-teal-600">
+          3
+        </a>
+      </li> -->
+      <li>
+        <a [ngClass]="{'disabled' : paginaActual>=ultimaPagina}" (click)="cambiaPagina(paginaActual + 1)"
+          class="cursor-pointer first:ml-0 text-sm font-bold flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-red-500 bg-white text-teal-600">
+          <i class="fas fa-chevron-right -mr-px"></i>
+        </a>
+      </li>
+      <li>
+        <a [ngClass]="{'disabled' : paginaActual>=ultimaPagina}" (click)="cambiaPagina(ultimaPagina)"
+          class="cursor-pointer first:ml-0 text-sm font-bold flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-red-500 bg-white text-teal-600">
+          <i class="fas fa-chevron-right -mr-px"></i>
+          <i class="fas fa-chevron-right -mr-px"></i>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</div>
+
+
+<!-- <div class="flex justify-center">
+  <nav aria-label="Paginación">
+    <ul class="flex list-style-none">
+      <li class="page-item"><a
+          (click)="cambiaPagina(paginaActual - 1)"
+          class="page-link relative block py-1.5 px-3 rounded border-0 bg-transparent outline-none transition-all duration-300 rounded text-gray-800 hover:text-gray-800 focus:shadow-none"
+          href="#" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+        </a></li>
+      <li class="page-item"><a
+          *ngFor="let numeropagina of listaPaginas"
+          (click)="cambiaPagina(numeropagina)"
+          class="page-link relative block py-1.5 px-3 rounded border-0 bg-transparent outline-none transition-all duration-300 rounded text-gray-800 hover:text-gray-800 hover:bg-gray-200 focus:shadow-none"
+          href="#">{{numeropagina}}</a></li>
+      <li class="page-item"><a
+         (click)="cambiaPagina(paginaActual + 1)"
+          class="page-link relative block py-1.5 px-3 rounded border-0 bg-transparent outline-none transition-all duration-300 rounded text-gray-800 hover:text-gray-800 hover:bg-gray-200 focus:shadow-none"
+          href="#">2</a></li>
+      <li class="page-item"><a
+          (click)="cambiaPagina(ultimaPagina)"
+          class="page-link relative block py-1.5 px-3 rounded border-0 bg-transparent outline-none transition-all duration-300 rounded text-gray-800 hover:text-gray-800 hover:bg-gray-200 focus:shadow-none"
+          href="#" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+        </a></li>
+    </ul>
+  </nav>
+</div> -->

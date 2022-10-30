@@ -33,6 +33,15 @@ export class UsuarioService {
     return this.usuario.rol;
   }
 
+  cargarUsuario( uid: string) {
+    if (!uid) { uid = '';}
+    return this.http.get(`${environment.base_url}/usuarios/?id=${uid}` , this.cabeceras);
+  }
+
+  nuevoUsuario ( data: Usuario ) {
+    return this.http.post(`${environment.base_url}/usuarios/`, data, this.cabeceras);
+  }
+
   cargarUsuarios( desde: number, textoBusqueda?: string ): Observable<object> {
     if (!desde) { desde = 0;}
     if (!textoBusqueda) {textoBusqueda = '';}
@@ -90,5 +99,9 @@ export class UsuarioService {
   logout(): void {
     this.limpiarLocalStore();
     this.router.navigateByUrl('/login');
+  }
+
+  actualizarUsuario ( uid: string, data: Usuario) {
+    return this.http.put(`${environment.base_url}/usuarios/${uid}`, data, this.cabeceras);
   }
 }

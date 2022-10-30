@@ -11,6 +11,8 @@ import { AuthComponent } from "./layouts/auth/auth.component";
 
 // admin views
 import { DashboardComponent } from "./views/admin/dashboard/dashboard.component";
+import { UserComponent } from "./views/user/user.component";
+import { UsersComponent } from "./views/users/users.component";
 import { MapsComponent } from "./views/admin/maps/maps.component";
 import { SettingsComponent } from "./views/admin/settings/settings.component";
 import { TablesComponent } from "./views/admin/tables/tables.component";
@@ -23,7 +25,7 @@ import { RegisterComponent } from "./views/auth/register/register.component";
 import { IndexComponent } from "./views/index/index.component";
 import { LandingComponent } from "./views/landing/landing.component";
 import { ProfileComponent } from "./views/profile/profile.component";
-import { UsersComponent } from "./views/users/users.component";
+
 
 
 const routes: Routes = [
@@ -33,7 +35,10 @@ const routes: Routes = [
     component: AdminComponent,
     children: [
       { path: "dashboard", component: DashboardComponent, canActivate: [ AuthGuard ], data: {rol: '*', titulo: 'Home'} },
-      { path: "users", component: UsersComponent, canActivate: [ AuthGuard ], data: {rol: '*', titulo: 'Users'} },
+      { path: "users", component: UsersComponent, canActivate: [ AuthGuard ], data: {rol: 'ROL_ADMIN', titulo: 'Users'} },
+      { path: "users/user/:uid", component: UserComponent, canActivate: [ AuthGuard ], data: {rol: 'ROL_ADMIN',
+                                                                                              titulo: 'Users',
+                                                                                              breadcrums: [ {titulo: 'Users', url: '/admin/users'} ]} },
       { path: "settings", component: SettingsComponent },
       { path: "tables", component: TablesComponent },
       { path: "maps", component: MapsComponent },

@@ -17,6 +17,7 @@ import { MapsComponent } from "./views/admin/maps/maps.component";
 import { SettingsComponent } from "./views/admin/settings/settings.component";
 import { TablesComponent } from "./views/admin/tables/tables.component";
 import { UsersComponent } from './views/users/users.component';
+import { UserComponent } from './views/user/user.component';
 
 // auth views
 import { LoginComponent } from "./views/auth/login/login.component";
@@ -55,6 +56,8 @@ import { PagesDropdownComponent } from "./components/dropdowns/pages-dropdown/pa
 import { NotificationDropdownComponent } from "./components/dropdowns/notification-dropdown/notification-dropdown.component";
 import { SidebarComponent } from "./components/sidebar/sidebar.component";
 import { UserDropdownComponent } from "./components/dropdowns/user-dropdown/user-dropdown.component";
+import { PaginationComponent } from './components/pagination/pagination.component';
+
 
 
 @NgModule({
@@ -95,6 +98,8 @@ import { UserDropdownComponent } from "./components/dropdowns/user-dropdown/user
     ProfileComponent,
     UsersComponent,
     CardUsersComponent,
+    UserComponent,
+    PaginationComponent,
   ],
   imports: [
     BrowserModule,
