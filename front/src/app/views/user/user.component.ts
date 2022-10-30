@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -11,28 +11,36 @@ import Swal from 'sweetalert2';
 
 export class UserComponent implements OnInit {
 
+  @ViewChild('formulario') formulario: ElementRef;
+  public nombre = false;
+
   constructor(private fb: FormBuilder,
               private usuarioService: UsuarioService,
               private route: ActivatedRoute,
-              private router: Router) { }
+              private router: Router,
+              private renderer2: Renderer2) { }
+
+
 
   ngOnInit(): void {
     this.uid = this.route.snapshot.params['uid'];
     this.datosForm.get('uid').setValue(this.uid);
     console.log('ID: ' + this.uid);
-    if (this.uid !== 'new') {
+    if (this.uid === 'new') {
+      this.nombre = true;
+    }else{
       this.usuarioService.cargarUsuario(this.uid)
-        .subscribe( res => {
-          if (!res['usuarios']) {
-            this.router.navigateByUrl('/admin/users');
-            return;
-          };
-          this.cargarDatosForm(res);
-        }, (err) => {
+      .subscribe( res => {
+        if (!res['usuarios']) {
           this.router.navigateByUrl('/admin/users');
-          Swal.fire({icon: 'error', title: 'Oops...', text: 'No se pudo completar la acción, vuelva a intentarlo',});
           return;
-        });
+        };
+        this.cargarDatosForm(res);
+      }, (err) => {
+        this.router.navigateByUrl('/admin/users');
+        Swal.fire({icon: 'error', title: 'Oops...', text: 'No se pudo completar la acción, vuelva a intentarlo',});
+        return;
+      });
     }
   }
 

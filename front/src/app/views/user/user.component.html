@@ -6,7 +6,8 @@
     >
       <div class="rounded-t bg-white mb-0 px-6 py-6">
         <div class="text-center flex justify-between">
-          <h6 class="text-blueGray-700 text-xl font-bold">Editar cuenta</h6>
+          <h6 *ngIf="nombre" class="text-blueGray-700 text-xl font-bold">Nuevo usuario</h6>
+          <h6 *ngIf="!nombre" class="text-blueGray-700 text-xl font-bold">Editar usuario</h6>
           <!-- <button
             class="bg-red-600 text-white active:bg-red-700 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
             type="button"
@@ -34,7 +35,7 @@
                   formControlName="nombre"
                   [ngClass]="{'is-invalid' : campoNoValido('nombre')}"
                   class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                  value="lucky.jesse"
+
                 />
               </div>
             </div>
@@ -51,7 +52,7 @@
                   formControlName="apellidos"
                   [ngClass]="{'is-invalid' : campoNoValido('apellidos')}"
                   class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                  value="lucky.jesse"
+
                 />
               </div>
             </div>
@@ -68,7 +69,7 @@
                   formControlName="email"
                   [ngClass]="{ 'is-invalid' : campoNoValido( 'email')}"
                   class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                  value="jesse@example.com"
+
                 />
               </div>
             </div>

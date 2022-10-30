@@ -5,7 +5,6 @@ import { Usuario } from 'src/app/models/usuario.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 
-
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html'
