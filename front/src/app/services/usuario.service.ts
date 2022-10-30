@@ -33,6 +33,12 @@ export class UsuarioService {
     return this.usuario.rol;
   }
 
+  cargarUsuarios( desde: number, textoBusqueda?: string ): Observable<object> {
+    if (!desde) { desde = 0;}
+    if (!textoBusqueda) {textoBusqueda = '';}
+    return this.http.get(`${environment.base_url}/usuarios/?desde=${desde}&texto=${textoBusqueda}` , this.cabeceras);
+  }
+
   validar(correcto: boolean, incorrecto: boolean): Observable<boolean> {
 
     if (this.token === '') {

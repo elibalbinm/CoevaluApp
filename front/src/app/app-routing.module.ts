@@ -23,6 +23,8 @@ import { RegisterComponent } from "./views/auth/register/register.component";
 import { IndexComponent } from "./views/index/index.component";
 import { LandingComponent } from "./views/landing/landing.component";
 import { ProfileComponent } from "./views/profile/profile.component";
+import { UsersComponent } from "./views/users/users.component";
+
 
 const routes: Routes = [
   // admin views
@@ -31,6 +33,7 @@ const routes: Routes = [
     component: AdminComponent,
     children: [
       { path: "dashboard", component: DashboardComponent, canActivate: [ AuthGuard ], data: {rol: '*', titulo: 'Home'} },
+      { path: "users", component: UsersComponent, canActivate: [ AuthGuard ], data: {rol: '*', titulo: 'Users'} },
       { path: "settings", component: SettingsComponent },
       { path: "tables", component: TablesComponent },
       { path: "maps", component: MapsComponent },
