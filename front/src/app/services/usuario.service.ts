@@ -39,6 +39,7 @@ export class UsuarioService {
   }
 
   nuevoUsuario ( data: Usuario ) {
+    console.log(data);
     return this.http.post(`${environment.base_url}/usuarios/`, data, this.cabeceras);
   }
 

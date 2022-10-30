@@ -19,16 +19,17 @@ export class UserComponent implements OnInit {
   ngOnInit(): void {
     this.uid = this.route.snapshot.params['uid'];
     this.datosForm.get('uid').setValue(this.uid);
-    if (this.uid !== 'nuevo') {
+    console.log('ID: ' + this.uid);
+    if (this.uid !== 'new') {
       this.usuarioService.cargarUsuario(this.uid)
         .subscribe( res => {
           if (!res['usuarios']) {
-            this.router.navigateByUrl('/admin/usuarios');
+            this.router.navigateByUrl('/admin/users');
             return;
           };
           this.cargarDatosForm(res);
         }, (err) => {
-          this.router.navigateByUrl('/admin/usuarios');
+          this.router.navigateByUrl('/admin/users');
           Swal.fire({icon: 'error', title: 'Oops...', text: 'No se pudo completar la acción, vuelva a intentarlo',});
           return;
         });
@@ -41,7 +42,7 @@ export class UserComponent implements OnInit {
   public showOKP: boolean = false;
 
   public datosForm = this.fb.group({
-    uid: [{value: 'nuevo', disabled: true}, Validators.required],
+    uid: [{value: 'new', disabled: true}, Validators.required],
     email: [ '', [Validators.required, Validators.email] ],
     nombre: ['', Validators.required ],
     apellidos: ['', Validators.required ],
@@ -71,13 +72,35 @@ export class UserComponent implements OnInit {
     return this.datosForm.get(campo).invalid && this.formSubmited;
   }
 
+  nuevo(): void {
+    // this.formSubmited = false;
+    this.formSubmited = false;
+    this.showOKP = false;
+    this.datosForm.get('uid').setValue('nuevo');
+    this.datosForm.get('rol').setValue('ROL_CLIENTE');
+    this.datosForm.get('password').enable();
+    this.enablepass = true;
+  }
+
+  esnuevo(): boolean {
+    if (this.datosForm.get('uid').value === 'nuevo') return true;
+    return false;
+  }
+
   enviar(): void {
     console.log('Entra')
     this.formSubmited = true;
-    if (this.datosForm.invalid) { return; }
+
+    console.log(this.datosForm.get('uid').value);
+
+    // if (this.datosForm.invalid) { return; }
     // Diferenciar entre dar de alta uno nuevo o actualizar uno que ya existe
     // Alta de uno nuevo
-    if (this.datosForm.get('uid').value === 'nuevo') {
+    if (this.datosForm.get('uid').value === 'new') {
+      console.log('Entra x2')
+      this.datosForm.get('uid').setValue('nuevo');
+      this.datosForm.get('password').setValue('1234');
+      // this.nuevo();
       this.usuarioService.nuevoUsuario( this.datosForm.value )
         .subscribe( res => {
           console.log(JSON.stringify(res))
@@ -85,6 +108,15 @@ export class UserComponent implements OnInit {
           this.datosForm.get('password').disable();
           this.enablepass = false;
           this.datosForm.markAsPristine();
+          Swal.fire({
+            title: 'Nuevo usuario',
+            text: 'El usuario ' + res['usuario'].nombre + ' ' + res['usuario'].apellidos + ' ha sido creado correctamente',
+            icon: 'success',
+            confirmButtonText: 'Ok',
+            allowOutsideClick: false
+          });
+          this.datosForm.reset();
+          this.router.navigateByUrl('/admin/users/user/new');
 
         }, (err) => {
           const errtext = err.error.msg || 'No se pudo completar la acción, vuelva a intentarlo.';
@@ -121,7 +153,7 @@ export class UserComponent implements OnInit {
       .subscribe( res => {
         // Si al tratar de cargar de nuevo los datos no hay, vamos a lista
         if (!res['usuarios']) {
-          this.router.navigateByUrl('/admin/usuarios');
+          this.router.navigateByUrl('/admin/users/');
           return;
         };
         // Restablecemos los datos del formulario en el formulario
