@@ -59,6 +59,7 @@ import { NotificationDropdownComponent } from "./components/dropdowns/notificati
 import { SidebarComponent } from "./components/sidebar/sidebar.component";
 import { UserDropdownComponent } from "./components/dropdowns/user-dropdown/user-dropdown.component";
 import { PaginationComponent } from './components/pagination/pagination.component';
+import { PillsComponent } from './components/pills/pills.component';
 
 @NgModule({
   declarations: [
@@ -102,6 +103,7 @@ import { PaginationComponent } from './components/pagination/pagination.componen
     PaginationComponent,
     AsignaturasComponent,
     AsignaturaComponent,
+    PillsComponent,
   ],
   imports: [
     BrowserModule,

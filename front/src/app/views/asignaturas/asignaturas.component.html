@@ -60,31 +60,31 @@
         <tr *ngFor="let asignatura of listaRegistros">
           <th
             [routerLink]="['/admin/asignaturas/asignatura', asignatura.uid]"
-            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4 text-left"
+            class="border-t-0 px-6 cursor-pointer align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4 text-left"
           >
           {{asignatura.nombre}}
           </th>
           <td
             [routerLink]="['/admin/asignaturas/asignatura', asignatura.uid]"
-            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4"
+            class="border-t-0 px-6 cursor-pointer align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4"
           >
           {{asignatura.nombrecorto}}
           </td>
           <td
             [routerLink]="['/admin/asignaturas/asignatura', asignatura.uid]"
-            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4"
+            class="border-t-0 px-6 cursor-pointer align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4"
           >
           {{asignatura.porcentaje}}
           </td>
           <td
             [routerLink]="['/admin/asignaturas/asignatura', asignatura.uid]"
-            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4"
+            class="border-t-0 px-6 cursor-pointer align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4"
           >
           {{asignatura.curso.nombrecorto}}
           </td>
           <td
             [routerLink]="['/admin/asignaturas/asignatura', asignatura.uid]"
-            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4"
+            class="border-t-0 px-6 cursor-pointer align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4"
           >
           <i class="fa fa-chalkboard-teacher mx-2 font-semibold text-xl text-blueGray-700"></i>
           <span class="text-sm font-semibold text-blueGray-600">{{asignatura.profesores.length}}</span>
