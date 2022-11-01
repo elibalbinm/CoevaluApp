@@ -18,6 +18,8 @@ import { SettingsComponent } from "./views/admin/settings/settings.component";
 import { TablesComponent } from "./views/admin/tables/tables.component";
 import { UsersComponent } from './views/users/users.component';
 import { UserComponent } from './views/user/user.component';
+import { AsignaturaComponent } from './views/asignatura/asignatura.component';
+import { AsignaturasComponent } from './views/asignaturas/asignaturas.component';
 
 // auth views
 import { LoginComponent } from "./views/auth/login/login.component";
@@ -57,8 +59,6 @@ import { NotificationDropdownComponent } from "./components/dropdowns/notificati
 import { SidebarComponent } from "./components/sidebar/sidebar.component";
 import { UserDropdownComponent } from "./components/dropdowns/user-dropdown/user-dropdown.component";
 import { PaginationComponent } from './components/pagination/pagination.component';
-
-
 
 @NgModule({
   declarations: [
@@ -100,6 +100,8 @@ import { PaginationComponent } from './components/pagination/pagination.componen
     CardUsersComponent,
     UserComponent,
     PaginationComponent,
+    AsignaturasComponent,
+    AsignaturaComponent,
   ],
   imports: [
     BrowserModule,

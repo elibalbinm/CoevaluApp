@@ -11,6 +11,8 @@ import { AuthComponent } from "./layouts/auth/auth.component";
 
 // admin views
 import { DashboardComponent } from "./views/admin/dashboard/dashboard.component";
+import { AsignaturaComponent } from './views/asignatura/asignatura.component';
+import { AsignaturasComponent } from './views/asignaturas/asignaturas.component';
 import { UserComponent } from "./views/user/user.component";
 import { UsersComponent } from "./views/users/users.component";
 import { MapsComponent } from "./views/admin/maps/maps.component";
@@ -39,6 +41,16 @@ const routes: Routes = [
       { path: "users/user/:uid", component: UserComponent, canActivate: [ AuthGuard ], data: {rol: 'ROL_ADMIN',
                                                                                               titulo: 'Users',
                                                                                               breadcrums: [ {titulo: 'Users', url: '/admin/users'} ]} },
+      { path: "asignaturas", component: AsignaturasComponent, canActivate: [ AuthGuard ], data: {
+                                                                                                  rol: 'ROL_ADMIN',
+                                                                                                  titulo: 'Asignaturas',
+                                                                                                  breadcrums: [ ],
+                                                                                                },},
+      { path: "asignaturas/asignatura/:uid", component: AsignaturaComponent, canActivate: [ AuthGuard ], data: {
+                                                                                                                rol: 'ROL_ADMIN',
+                                                                                                                titulo: 'Asignatura',
+                                                                                                                breadcrums: [ {titulo: 'Asignaturas', url: '/admin/asignaturas'} ],
+                                                                                                              },},
       { path: "settings", component: SettingsComponent },
       { path: "tables", component: TablesComponent },
       { path: "maps", component: MapsComponent },

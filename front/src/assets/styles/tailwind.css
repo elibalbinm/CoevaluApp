@@ -2237,6 +2237,16 @@ select {
   margin-bottom: 1rem;
 }
 
+.mx-2 {
+  margin-left: 0.5rem; /* 12px */
+  margin-right: 0.5rem; /* 12px */
+}
+
+.mx-3 {
+  margin-left: 0.75rem; /* 12px */
+  margin-right: 0.75rem; /* 12px */
+}
+
 .mx-4 {
   margin-left: 1rem;
   margin-right: 1rem;
