@@ -1,13 +1,30 @@
 const { Schema, model } = require('mongoose');
 
 const EvaluacionSchema = Schema({
-    nombre: {
-        type: String,
-        require: true
-    },
-    votaciones: {
-        type: Array
-    },
+    votaciones: [
+        {
+            usuario: {
+                type: Schema.Types.ObjectId,
+                ref: 'Usuario'
+            } 
+        },
+        {
+            valores: [
+                {
+                    criterio: {
+                        type: Schema.Types.ObjectId,
+                        ref: 'Criterio'
+                    } 
+                },
+                {
+                    valor: {
+                        type: Schema.Types.ObjectId,
+                        ref: 'Escala'
+                    } 
+                }
+            ]
+        }
+    ],
     alumno: [{
         usuario: {
             type: Schema.Types.ObjectId,
