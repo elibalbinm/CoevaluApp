@@ -37,6 +37,11 @@
           <th
             class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-sm uppercase border-l-0 border-r-0 whitespace-nowrap font-bold text-left"
           >
+            Porcentaje
+          </th>
+          <th
+            class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-sm uppercase border-l-0 border-r-0 whitespace-nowrap font-bold text-left"
+          >
             Curso
           </th>
           <th
@@ -64,6 +69,12 @@
             class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4"
           >
           {{asignatura.nombrecorto}}
+          </td>
+          <td
+            [routerLink]="['/admin/asignaturas/asignatura', asignatura.uid]"
+            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4"
+          >
+          {{asignatura.porcentaje}}
           </td>
           <td
             [routerLink]="['/admin/asignaturas/asignatura', asignatura.uid]"
