@@ -2,12 +2,12 @@
   <div class="w-full">
     <ul class="flex mb-0 list-none flex-wrap pt-3 pb-4 flex-row">
       <li class="-mb-px mr-2 last:mr-0 flex-auto text-center">
-        <a class="text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal" (click)="toggleTabs(1)" [ngClass]="{'text-red-600 bg-white': openTab !== 1, 'text-white bg-red-600': openTab === 1}">
+        <a class="text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal" (click)="toggleTabs(1)" [ngClass]="{'text-teal-600 bg-white': openTab !== 1, 'text-white bg-teal-600': openTab === 1}">
           {{ statTitle }}
         </a>
       </li>
       <li class="-mb-px mr-2 last:mr-0 flex-auto text-center">
-        <a class="text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal" (click)="toggleTabs(2)" [ngClass]="{'text-red-600 bg-white': openTab !== 2, 'text-white bg-red-600': openTab === 2}">
+        <a class="text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal" (click)="toggleTabs(2)" [ngClass]="{'text-teal-600 bg-white': openTab !== 2, 'text-white bg-teal-600': openTab === 2}">
           {{ statSubtitle }}
         </a>
       </li>
@@ -17,25 +17,11 @@
         <div class="tab-content tab-space">
           <div [ngClass]="{'hidden': openTab !== 1, 'block': openTab === 1}">
             <p>
-              Collaboratively administrate empowered markets via
-              plug-and-play networks. Dynamically procrastinate B2C users
-              after installed base benefits.
-              <br />
-              <br />
-              Dramatically visualize customer directed convergence
-              without revolutionary ROI.
+              <app-card-select-user [rol]="'ROL_PROFESOR'" [selected]="profesores" (nuevaLista)="guardarLista($event,'profesores')"></app-card-select-user>
             </p>
           </div>
           <div [ngClass]="{'hidden': openTab !== 2, 'block': openTab === 2}">
-            <p>
-              Completely synergize resource taxing relationships via
-              premier niche markets. Professionally cultivate one-to-one
-              customer service with robust ideas.
-              <br />
-              <br />
-              Dynamically innovate resource-leveling customer service for
-              state of the art customer service.
-            </p>
+            <app-card-select-user [rol]="'ROL_ALUMNO'" [selected]="alumnos" (nuevaLista)="guardarLista($event,'alumnos')"></app-card-select-user>
           </div>
         </div>
       </div>

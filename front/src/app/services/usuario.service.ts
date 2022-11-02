@@ -29,6 +29,16 @@ export class UsuarioService {
       );
   }
 
+  cargarListaUsuarios ( uids: string[]) {
+    const data = { lista: uids };
+    return this.http.post(`${environment.base_url}/usuarios/lista` , data, this.cabeceras);
+  }
+
+  cargarUsuariosRol ( rol: string, uids: string[]) {
+    const data = { lista: uids };
+    return this.http.post(`${environment.base_url}/usuarios/rol/${rol}`, data, this.cabeceras);
+  }
+
   get uid(): string {
     return this.usuario.uid;
   }

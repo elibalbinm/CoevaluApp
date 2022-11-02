@@ -60,6 +60,7 @@ import { SidebarComponent } from "./components/sidebar/sidebar.component";
 import { UserDropdownComponent } from "./components/dropdowns/user-dropdown/user-dropdown.component";
 import { PaginationComponent } from './components/pagination/pagination.component';
 import { PillsComponent } from './components/pills/pills.component';
+import { CardSelectUserComponent } from './components/cards/card-select-user/card-select-user.component';
 
 @NgModule({
   declarations: [
@@ -104,6 +105,7 @@ import { PillsComponent } from './components/pills/pills.component';
     AsignaturasComponent,
     AsignaturaComponent,
     PillsComponent,
+    CardSelectUserComponent,
   ],
   imports: [
     BrowserModule,

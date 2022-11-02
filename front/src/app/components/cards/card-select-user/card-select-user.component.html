@@ -1,0 +1,56 @@
+<div class="card">
+  <div class="card-body row">
+    <div class="container px-4 mx-auto">
+      <!--PRIMERA COLUMNA -->
+      <div class="grid grid-rows-3 grid-flow-col gap-3">
+        <div class="">
+          <!-- <span class="text-sm block my-4 p-3 text-blueGray-700 rounded border border-solid border-blueGray-100">One of three columns</span> -->
+          <h5 class="block uppercase text-blueGray-600 text-xs font-bold mb-2">Seleccionados
+            <span class="inline-block py-1 px-2 leading-none text-center whitespace-nowrap align-baseline font-bold bg-emerald-600 text-white rounded ml-2">{{listaSelected.length}}</span></h5>
+          <div class="milista">
+              <div class="ml-10 mb-10" *ngFor="let user of listaSelected;let idx = index">
+                  <i class="fa fa-minus-circle text-red-600 mr-5" (click)="quitar(idx, true)"></i> {{user.nombre}}
+              </div>
+              <div *ngIf="listaSelected.length===0">(No hay elementos)</div>
+          </div>
+        </div>
+        <!-- SEGUNDA COLUMNA -->
+        <div class="">
+          <!-- <span class="text-sm block my-4 p-3 text-blueGray-700 rounded border border-solid border-blueGray-100">One of three columns</span> -->
+          <div class="nav nav-pills flex flex-col flex-wrap list-none pl-0 mr-4 my-6">
+            <div class="nav-item flex-grow text-center mb-2">
+              <button (click)="agregarTodos()"
+              class="bg-emerald-600 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+              type="submit"
+              >
+                <i class="fas fa-arrow-left d-block d-lg-none d-xl-none m-r-5"></i>
+                <span class=""> Agregar<br>todos</span>
+              </button>
+
+            </div>
+            <div class="nav-item flex-grow text-center my-2">
+                <button (click)="quitarTodos()"
+                  class="bg-red-600 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                  type="button"
+                >
+                  <i class="fas fa-arrow-right mr-5"></i>
+                  <span class=""> Quitar<br>todos</span>
+                </button>
+              </div>
+            </div>
+        </div>
+        <!-- TERCERA COLUMNA -->
+        <div class="">
+          <!-- <span class="text-sm block my-4 p-3 text-blueGray-700 rounded border border-solid border-blueGray-100">One of three columns</span> -->
+          <h5 class="block uppercase text-blueGray-600 text-xs font-bold mb-2">Posibles
+            <span class="inline-block py-1 px-2 leading-none text-center whitespace-nowrap align-baseline font-bold bg-red-600 text-white rounded ml-2">{{listaUsers.length}}</span></h5>
+          <div class="h-250 overflow-auto">
+            <div class="ml-10 mb-10" *ngFor="let user of listaUsers;let idx = index">
+                <i class="fa fa-plus-circle mr-5" (click)="agregar(idx, true)"></i> {{user.nombre}}
+            </div>
+            <div *ngIf="listaUsers.length===0">(No hay elementos)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
