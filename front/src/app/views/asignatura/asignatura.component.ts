@@ -16,6 +16,7 @@ export class AsignaturaComponent implements OnInit {
     uid: [{value: 'nuevo', disabled: true}, Validators.required],
     nombre: ['', Validators.required ],
     nombrecorto: ['', Validators.required ],
+    porcentaje: ['', Validators.required ],
     curso: ['', Validators.required ],
   });
   public cursos: Curso[] = [];
@@ -63,6 +64,7 @@ export class AsignaturaComponent implements OnInit {
           this.datosForm.get('nombre').setValue(res['asignaturas'].nombre);
           this.datosForm.get('nombrecorto').setValue(res['asignaturas'].nombrecorto);
           this.datosForm.get('curso').setValue(res['asignaturas'].curso._id);
+          this.datosForm.get('porcentaje').setValue(res['asignaturas'].porcentaje);
           this.datosForm.markAsPristine();
           this.uid = res['asignaturas'].uid;
           this.submited = true;
@@ -75,9 +77,7 @@ export class AsignaturaComponent implements OnInit {
         });
     } else {
       this.nuevo();
-
     }
-
   }
 
   enviar() {
