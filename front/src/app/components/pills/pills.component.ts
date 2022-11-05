@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from "@angular/core";
 import { Validators, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AsignaturaService } from "src/app/services/asignatura.service";
+import { CursoService } from 'src/app/services/curso.service';
 import { Curso } from "src/app/models/curso.model";
 import Swal from 'sweetalert2';
 
@@ -45,9 +46,23 @@ export class PillsComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
               private asignaturaService: AsignaturaService,
+              private cursosService: CursoService,
+              private route: ActivatedRoute,
               private router: Router) { }
 
   ngOnInit(): void {
+    this.cargarCursos();
+    this.uid = this.route.snapshot.params['uid'];
+    this.datosForm.get('uid').setValue(this.uid);
+    this.cargarDatos(this.uid);
+  }
+
+  cargarCursos() {
+    // cargamos todos los cursos
+    this.cursosService.cargarCursos(0, '')
+      .subscribe( res => {
+        this.cursos = res['cursos'];
+      });
   }
 
   openTab = 1;
@@ -100,7 +115,7 @@ export class PillsComponent implements OnInit {
       .subscribe( res => {
         console.log('Llama función guardarLista');
       }, (err)=> {
-        Swal.fire({icon: 'error', title: 'Oops...', text: 'No se pudo completar la acción, inténtelo más tarde'});
+        Swal.fire({icon: 'error', title: 'Oops...', text: 'No se pudo completar la acción, inténtelo más tarde - guardarLista'});
         return;
       });
   }

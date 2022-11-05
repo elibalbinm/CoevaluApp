@@ -42,17 +42,8 @@ export class AsignaturaComponent implements OnInit {
     this.cargarDatos(this.uid);
   }
 
-  guardarLista( evento: string[], tipo: string) {
-    this.asignaturaService.actualizarListas(this.uid, evento, tipo)
-      .subscribe( res => {
-
-      }, (err)=> {
-        Swal.fire({icon: 'error', title: 'Oops...', text: 'No se pudo completar la acción, inténtelo más tarde'});
-        return;
-      });
-  }
-
   cargarDatos( uid: string ) {
+    console.log(uid);
     this.submited = false;
     if (this.uid !== 'nuevo') {
       this.asignaturaService.cargarAsignatura(this.uid)
