@@ -13,6 +13,8 @@ import { AuthComponent } from "./layouts/auth/auth.component";
 import { DashboardComponent } from "./views/admin/dashboard/dashboard.component";
 import { AsignaturaComponent } from './views/asignatura/asignatura.component';
 import { AsignaturasComponent } from './views/asignaturas/asignaturas.component';
+import { CursoComponent } from "./views/curso/curso.component";
+import { CursosComponent } from "./views/cursos/cursos.component";
 import { UserComponent } from "./views/user/user.component";
 import { UsersComponent } from "./views/users/users.component";
 import { MapsComponent } from "./views/admin/maps/maps.component";
@@ -27,7 +29,6 @@ import { RegisterComponent } from "./views/auth/register/register.component";
 import { IndexComponent } from "./views/index/index.component";
 import { LandingComponent } from "./views/landing/landing.component";
 import { ProfileComponent } from "./views/profile/profile.component";
-
 
 
 const routes: Routes = [
@@ -51,6 +52,16 @@ const routes: Routes = [
                                                                                                                 titulo: 'Asignatura',
                                                                                                                 breadcrums: [ {titulo: 'Asignaturas', url: '/admin/asignaturas'} ],
                                                                                                               },},
+      { path: "cursos", component: CursosComponent, canActivate: [ AuthGuard ], data: {
+                                                                                        rol: 'ROL_ADMIN',
+                                                                                        titulo: 'Cursos',
+                                                                                        breadcrums: [ ],
+                                                                                      },},
+      { path: "cursos/curso/:uid", component: CursoComponent, canActivate: [ AuthGuard ], data: {
+                                                                                                  rol: 'ROL_ADMIN',
+                                                                                                  titulo: 'Curso',
+                                                                                                  breadcrums: [ {titulo: 'Curso', url: '/admin/cursos'} ],
+                                                                                                },},
       { path: "settings", component: SettingsComponent },
       { path: "tables", component: TablesComponent },
       { path: "maps", component: MapsComponent },

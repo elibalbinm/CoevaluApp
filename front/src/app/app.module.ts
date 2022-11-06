@@ -20,6 +20,8 @@ import { UsersComponent } from './views/users/users.component';
 import { UserComponent } from './views/user/user.component';
 import { AsignaturaComponent } from './views/asignatura/asignatura.component';
 import { AsignaturasComponent } from './views/asignaturas/asignaturas.component';
+import { CursosComponent } from './views/cursos/cursos.component';
+import { CursoComponent } from './views/curso/curso.component';
 
 // auth views
 import { LoginComponent } from "./views/auth/login/login.component";
@@ -61,6 +63,7 @@ import { UserDropdownComponent } from "./components/dropdowns/user-dropdown/user
 import { PaginationComponent } from './components/pagination/pagination.component';
 import { PillsComponent } from './components/pills/pills.component';
 import { CardSelectUserComponent } from './components/cards/card-select-user/card-select-user.component';
+
 
 @NgModule({
   declarations: [
@@ -106,6 +109,8 @@ import { CardSelectUserComponent } from './components/cards/card-select-user/car
     AsignaturaComponent,
     PillsComponent,
     CardSelectUserComponent,
+    CursosComponent,
+    CursoComponent,
   ],
   imports: [
     BrowserModule,
