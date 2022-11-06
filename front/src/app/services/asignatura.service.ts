@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 import { environment  } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { Asignatura } from '../models/asignatura.model';
 import { UsuarioService } from './usuario.service';
+import { Asignatura } from 'src/app/models/asignatura.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AsignaturaService {
+
+  private asignatura: Asignatura;
 
   constructor( private http: HttpClient,
                private usuarioService: UsuarioService) { }
@@ -62,6 +64,15 @@ export class AsignaturaService {
     return this.http.delete(`${environment.base_url}/asignaturas/${uid}`, this.cabeceras);
   }
 
+  newID(uid: string): void {
+    console.log(this.asignatura.uid)
+    console.log('newID '+uid)
+    this.asignatura.uid = uid;
+    console.log('eeeeeeeeeeeeeeeeeeeeeeeeeeee')
+    console.log(this.asignatura.uid);
+    console.log('aaaaaaaaaaaaaaa')
+  }
+
   get cabeceras(): object {
     return {
       headers: {
@@ -71,5 +82,9 @@ export class AsignaturaService {
 
   get token(): string {
     return localStorage.getItem('token') || '';
+  }
+
+  get uid(): string {
+    return this.asignatura.uid;
   }
 }

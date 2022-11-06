@@ -11,6 +11,7 @@ import { CursoService } from 'src/app/services/curso.service';
   templateUrl: './asignatura.component.html'
 })
 export class AsignaturaComponent implements OnInit {
+  public nombre = false;
 
   public datosForm = this.fb.group({
     uid: [{value: 'nuevo', disabled: true}, Validators.required],
@@ -40,6 +41,12 @@ export class AsignaturaComponent implements OnInit {
     this.uid = this.route.snapshot.params['uid'];
     this.datosForm.get('uid').setValue(this.uid);
     this.cargarDatos(this.uid);
+
+    if(this.uid === 'nuevo'){
+      this.nombre = true;
+      this.datosForm.reset();
+    }
+
   }
 
   cargarDatos( uid: string ) {
@@ -62,7 +69,7 @@ export class AsignaturaComponent implements OnInit {
           this.profesores = res['asignaturas'].profesores;
           this.alumnos = res['asignaturas'].alumnos;
         }, (err) => {
-          this.router.navigateByUrl('/admin/usuarios');
+          this.router.navigateByUrl('/admin/asignaturas');
           Swal.fire({icon: 'error', title: 'Oops...', text: 'No se pudo completar la acción, vuelva a intentarlo'});
           return;
         });
@@ -72,7 +79,9 @@ export class AsignaturaComponent implements OnInit {
   }
 
   enviar() {
+    console.log('Entra a enviar()')
     this.submited = true;
+    console.log(this.datosForm)
     if (this.datosForm.invalid) { return; }
 
     // Si estamos creando uno nuevo
@@ -82,13 +91,29 @@ export class AsignaturaComponent implements OnInit {
           this.uid = res['asignatura'].uid;
           this.datosForm.get('uid').setValue( this.uid );
           this.datosForm.markAsPristine();
+          Swal.fire({
+            title: 'Nueva Asignatura',
+            text: 'La asignatura ' + res['asignatura'].nombre + ' ha sido creada correctamente',
+            icon: 'success',
+            confirmButtonText: 'Ok',
+            allowOutsideClick: false
+          });
+          // this.asignaturaService.
+          this.datosForm.reset();
+          this.router.navigateByUrl('/admin/asignaturas/asignatura/' + this.uid);
+          // this.router.navigateByUrl('/admin/asignaturas/');
+          // this.route.snapshot.params['uid'] = this.uid;
+          // console.log(this.uid);
+          // this.asignaturaService.newID(JSON.stringify(res['asignatura'].uid));
+          // console.log(this.asignaturaService.uid);
+
         }, (err) => {
           const msgerror = err.error.msg || 'No se pudo completar la acción, vuelva a intentarlo';
           Swal.fire({icon: 'error', title: 'Oops...', text: msgerror,});
         })
     } else {
       // ACtualizamos
-      this.asignaturaService.actualizarAsignatura( this.uid, this.datosForm.value)
+      this.asignaturaService.actualizarAsignatura( this.uid, this.datosForm.value )
         .subscribe( res => {
           this.datosForm.markAsPristine();
         }, (err) => {
@@ -100,6 +125,7 @@ export class AsignaturaComponent implements OnInit {
   }
 
   nuevo() {
+    this.nombre = true;
     this.uid = 'nuevo';
     this.datosForm.reset();
     this.submited = false;
@@ -107,7 +133,7 @@ export class AsignaturaComponent implements OnInit {
     this.datosForm.get('nombrecorto').setValue('');
     this.datosForm.get('curso').setValue('');
     this.datosForm.markAsPristine();
-    this.profesores= [];
+    this.profesores = [];
     this.alumnos = [];
   }
 

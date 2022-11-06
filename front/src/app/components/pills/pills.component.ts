@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from "@angular/core";
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges } from "@angular/core";
 import { Validators, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AsignaturaService } from "src/app/services/asignatura.service";
@@ -11,6 +11,8 @@ import Swal from 'sweetalert2';
   templateUrl: './pills.component.html'
 })
 export class PillsComponent implements OnInit {
+
+  @Output() listaActualizada:EventEmitter<string[]> = new EventEmitter();
 
   public datosForm = this.fb.group({
     uid: [{value: 'nuevo', disabled: true}, Validators.required],
@@ -52,7 +54,11 @@ export class PillsComponent implements OnInit {
 
   ngOnInit(): void {
     this.cargarCursos();
+    console.log('Params: '+this.route.snapshot.params['uid'])
     this.uid = this.route.snapshot.params['uid'];
+
+    // console.log('Pills component');
+    // console.log(this.uid);
     this.datosForm.get('uid').setValue(this.uid);
     this.cargarDatos(this.uid);
   }
@@ -69,6 +75,7 @@ export class PillsComponent implements OnInit {
   toggleTabs($tabNumber: number){
     console.log('Hi')
     this.openTab = $tabNumber;
+    this.uid = this.route.snapshot.params['uid'];
   }
 
   cargarDatos( uid: string ) {
@@ -111,6 +118,12 @@ export class PillsComponent implements OnInit {
   }
 
   guardarLista( evento: string[], tipo: string) {
+    console.log('Evento: ');
+    console.log(evento)
+    console.log(this.route.snapshot.params['uid'] );
+    if(this.uid === 'nuevo'){
+      this.uid = this.route.snapshot.params['uid'];
+    }
     this.asignaturaService.actualizarListas(this.uid, evento, tipo)
       .subscribe( res => {
         console.log('Llama función guardarLista');

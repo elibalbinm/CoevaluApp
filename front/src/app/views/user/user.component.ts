@@ -11,7 +11,6 @@ import Swal from 'sweetalert2';
 
 export class UserComponent implements OnInit {
 
-  @ViewChild('formulario') formulario: ElementRef;
   public nombre = false;
 
   constructor(private fb: FormBuilder,
@@ -20,14 +19,13 @@ export class UserComponent implements OnInit {
               private router: Router,
               private renderer2: Renderer2) { }
 
-
-
   ngOnInit(): void {
     this.uid = this.route.snapshot.params['uid'];
     this.datosForm.get('uid').setValue(this.uid);
     console.log('ID: ' + this.uid);
     if (this.uid === 'new') {
       this.nombre = true;
+      this.datosForm.reset();
     }else{
       this.usuarioService.cargarUsuario(this.uid)
       .subscribe( res => {
@@ -90,9 +88,9 @@ export class UserComponent implements OnInit {
     this.enablepass = true;
   }
 
-  esnuevo(): boolean {
-    if (this.datosForm.get('uid').value === 'nuevo') return true;
-    return false;
+  esnuevo(): void {
+      this.nombre = true;
+      this.datosForm.reset();
   }
 
   enviar(): void {
