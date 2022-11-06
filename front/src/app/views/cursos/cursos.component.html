@@ -42,6 +42,16 @@
           <th
             class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-sm uppercase border-l-0 border-r-0 whitespace-nowrap font-bold text-left"
           >
+            Porcentaje
+          </th>
+          <th
+            class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-sm uppercase border-l-0 border-r-0 whitespace-nowrap font-bold text-left"
+          >
+            Activo
+          </th>
+          <th
+            class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-sm uppercase border-l-0 border-r-0 whitespace-nowrap font-bold text-left"
+          >
             Acción
           </th>
         </tr>
@@ -64,7 +74,20 @@
             [routerLink]="['/admin/cursos/curso', curso.uid]"
             class="border-t-0 px-6 cursor-pointer align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4"
           >
-          {{curso.fecha_ini}} - {{curso.fecha_fin}}
+          {{curso.fecha_ini | date : 'dd/MM/yyyy '}} - {{curso.fecha_fin | date : 'dd/MM/yyyy '}}
+          </td>
+          <td
+            [routerLink]="['/admin/cursos/curso', curso.uid]"
+            class="border-t-0 px-6 cursor-pointer align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4"
+          >
+          {{curso.porcentaje}}
+          </td>
+          <td
+            [routerLink]="['/admin/cursos/curso', curso.uid]"
+            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4"
+            *ngIf="curso.activo"
+          >
+            <i class="fas fa-check-circle text-emerald-500 px-4"></i>
           </td>
           <td
             class="flex items-center border-t-0 px-3 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4"
@@ -95,6 +118,5 @@
   <!-- Pagination -->
   <app-pagination (cambiarPagina)="cambiarPagina( $event )" [texto]="true" [totalRegistros]="totalregistros" [registroActual]="registroactual+1" [registrosPorPagina]="registrosporpagina" (cambiarPagina)="cambiarPagina( $event )" [texto]="true" [totalRegistros]="totalregistros" [registroActual]="registroactual+1" [registrosPorPagina]="registrosporpagina"></app-pagination>
 </div>
-
   </div>
 </div>
