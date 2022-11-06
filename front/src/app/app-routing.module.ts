@@ -15,6 +15,8 @@ import { AsignaturaComponent } from './views/asignatura/asignatura.component';
 import { AsignaturasComponent } from './views/asignaturas/asignaturas.component';
 import { CursoComponent } from "./views/curso/curso.component";
 import { CursosComponent } from "./views/cursos/cursos.component";
+import { GruposComponent } from "./views/grupos/grupos.component";
+import { GrupoComponent } from "./views/grupo/grupo.component";
 import { UserComponent } from "./views/user/user.component";
 import { UsersComponent } from "./views/users/users.component";
 import { MapsComponent } from "./views/admin/maps/maps.component";
@@ -29,6 +31,7 @@ import { RegisterComponent } from "./views/auth/register/register.component";
 import { IndexComponent } from "./views/index/index.component";
 import { LandingComponent } from "./views/landing/landing.component";
 import { ProfileComponent } from "./views/profile/profile.component";
+
 
 
 const routes: Routes = [
@@ -62,6 +65,17 @@ const routes: Routes = [
                                                                                                   titulo: 'Curso',
                                                                                                   breadcrums: [ {titulo: 'Curso', url: '/admin/cursos'} ],
                                                                                                 },},
+      { path: "grupos", component: GruposComponent, canActivate: [ AuthGuard ], data: {
+                                                                                        rol: 'ROL_ADMIN',
+                                                                                        titulo: 'Grupos',
+                                                                                        breadcrums: [ ],
+                                                                                      },},
+      { path: "grupos/grupo/:uid", component: GrupoComponent, canActivate: [ AuthGuard ], data: {
+                                                                                                  rol: 'ROL_ADMIN',
+                                                                                                  titulo: 'Curso',
+                                                                                                  breadcrums: [ {titulo: 'Curso', url: '/admin/grupos'} ],
+                                                                                                },},
+
       { path: "settings", component: SettingsComponent },
       { path: "tables", component: TablesComponent },
       { path: "maps", component: MapsComponent },
