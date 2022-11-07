@@ -1,6 +1,5 @@
 <div class="flex flex-wrap mt-4">
   <div class="w-full xl:w-12/12 mb-12 xl:mb-0 px-4">
-
     <div
       class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-100 border-0"
     >
@@ -15,7 +14,7 @@
               [routerLink]="['/admin/grupos/grupo/nuevo']"
               class="bg-teal-600 text-white active:bg-indigo-600 text-sm font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
               type="button"
-              (click)="esnuevo()"
+              (click)="nuevo()"
             >
               Nuevo
             </button>
@@ -76,6 +75,7 @@
                 </select>
               </div>
             </div>
+          </div>
           <!-- Buttons -->
           <div class="text-center flex-auto p-5 lg:p-8">
             <button
@@ -102,10 +102,34 @@
               Cancelar
             </button>
           </div>
+
+          <div *ngIf="!esnuevo()">
+            <h6 class="text-blueGray-400 text-sm mt-6 mb-6 font-bold uppercase">
+              Participantes
+            </h6>
+            <div class="flex flex-wrap">
+              <div class="w-full">
+                <ul class="flex mb-0 list-none flex-wrap pt-3 pb-4 flex-row">
+                  <li class="-mb-px mr-2 last:mr-0 flex-auto text-center">
+                    <a class="text-xs font-bold uppercase text-white bg-teal-600 px-5 py-3 shadow-lg rounded block leading-normal">
+                      Listado de alumnos
+                    </a>
+                  </li>
+                </ul>
+                <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded">
+                  <div class="px-4 py-5 flex-auto">
+                    <div class="tab-content tab-space">
+                      <div>
+                        <app-card-select-user [rol]="'ROL_ALUMNO'" [selected]="alumnos" (nuevaLista)="guardarLista($event)"></app-card-select-user>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </form>
       </div>
     </div>
-
   </div>
 </div>

@@ -18,7 +18,6 @@ export class GrupoComponent implements OnInit {
     uid: [{value: 'nuevo', disabled: true}, Validators.required],
     nombre: ['', Validators.required ],
     proyecto: ['', Validators.required ],
-    proyectodes: ['', Validators.required ],
     curso: ['', Validators.required ],
   });
 
@@ -49,7 +48,9 @@ export class GrupoComponent implements OnInit {
 
 
   enviar() {
+    console.log('Entra')
     this.submited = true;
+    console.log(this.datosForm)
     if (this.datosForm.invalid) { return; }
 
     // Si estamos creando uno nuevo
@@ -59,6 +60,13 @@ export class GrupoComponent implements OnInit {
           this.uid = res['grupo'].uid;
           this.datosForm.get('uid').setValue( this.uid );
           this.datosForm.markAsPristine();
+          Swal.fire({
+            title: 'Nuevo Grupo',
+            text: 'El grupo' + res['grupo'].nombre + ' ha sido creado correctamente',
+            icon: 'success',
+            confirmButtonText: 'Ok',
+            allowOutsideClick: false
+          });
         }, (err) => {
           const msgerror = err.error.msg || 'No se pudo completar la acción, vuelva a intentarlo';
           Swal.fire({icon: 'error', title: 'Oops...', text: msgerror,});
@@ -87,21 +95,19 @@ export class GrupoComponent implements OnInit {
           };
           this.datosForm.get('nombre').setValue(res['grupos'].nombre);
           this.datosForm.get('proyecto').setValue(res['grupos'].proyecto);
-          this.datosForm.get('proyectodes').setValue(res['grupos'].proyectodes);
           this.datosForm.get('curso').setValue(res['grupos'].curso._id);
           this.datosForm.markAsPristine();
           this.uid = res['grupos'].uid;
           this.submited = true;
           this.alumnos = res['grupos'].alumnos;
         }, (err) => {
-          this.router.navigateByUrl('/admin/usuarios');
+          this.router.navigateByUrl('/admin/grupos');
           Swal.fire({icon: 'error', title: 'Oops...', text: 'No se pudo completar la acción, vuelva a intentarlo',});
           return;
         });
     } else {
       this.datosForm.get('nombre').setValue('');
       this.datosForm.get('proyecto').setValue('');
-      this.datosForm.get('proyectodes').setValue('');
       this.datosForm.get('curso').setValue('');
       this.datosForm.markAsPristine();
       this.alumnos = [];
@@ -137,7 +143,9 @@ export class GrupoComponent implements OnInit {
   }
 
   esnuevo(): boolean {
-    if (this.uid === 'nuevo') { return true; }
+    if (this.uid === 'nuevo') {
+      // this.datosForm.reset();
+      return true; }
     return false;
   }
 
@@ -148,4 +156,5 @@ export class GrupoComponent implements OnInit {
         this.cursos = res['cursos'];
       });
   }
+
 }
