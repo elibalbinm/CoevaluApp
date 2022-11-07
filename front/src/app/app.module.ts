@@ -65,6 +65,8 @@ import { UserDropdownComponent } from "./components/dropdowns/user-dropdown/user
 import { PaginationComponent } from './components/pagination/pagination.component';
 import { PillsComponent } from './components/pills/pills.component';
 import { CardSelectUserComponent } from './components/cards/card-select-user/card-select-user.component';
+import { RubricasComponent } from './views/rubricas/rubricas.component';
+import { RubricaComponent } from './views/rubrica/rubrica.component';
 
 @NgModule({
   declarations: [
@@ -114,6 +116,8 @@ import { CardSelectUserComponent } from './components/cards/card-select-user/car
     CursoComponent,
     GruposComponent,
     GrupoComponent,
+    RubricasComponent,
+    RubricaComponent,
   ],
   imports: [
     BrowserModule,
