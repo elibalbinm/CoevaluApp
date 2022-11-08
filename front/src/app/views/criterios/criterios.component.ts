@@ -1,19 +1,18 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CursoService } from 'src/app/services/curso.service';
-import { RubricaService } from 'src/app/services/rubrica.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { CriterioService } from 'src/app/services/criterio.service';
 import { FormBuilder } from '@angular/forms';
 import { environment } from 'src/environments/environment.prod';
 import { Curso } from 'src/app/models/curso.model';
-import { Rubrica } from 'src/app/models/rubrica.model';
+import { Criterio } from 'src/app/models/criterio.model';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-rubricas',
-  templateUrl: './rubricas.component.html'
+  selector: 'app-criterios',
+  templateUrl: './criterios.component.html'
 })
-export class RubricasComponent implements OnInit {
+export class CriteriosComponent implements OnInit {
 
   // Control de paginación
   public totalregistros: number = 0;
@@ -22,7 +21,7 @@ export class RubricasComponent implements OnInit {
   // Control del loading
   public loading = false;
 
-  public listaRegistros: Rubrica[] = [];
+  public listaRegistros: Criterio[] = [];
 
   public cursos: Curso[] = [];
 
@@ -34,26 +33,24 @@ export class RubricasComponent implements OnInit {
 
   constructor( private fb: FormBuilder,
                private cursoService: CursoService,
-               private rubricaService: RubricaService,
                private criterioService: CriterioService,
                private usuarioService: UsuarioService) { }
 
   ngOnInit(): void {
-    this.cargarCursos();
-    this.cargarRubricas();
+    this.cargarCriterios();
     this.subs$ = this.buscarForm.valueChanges
       .subscribe( event => {
-        this.cargarRubricas();
+        this.cargarCriterios();
       });
   }
 
-  cargarRubricas() {
+  cargarCriterios() {
     this.loading = true;
     const curso = this.buscarForm.get('curso').value;
     const texto = this.buscarForm.get('texto').value || '';
-    this.rubricaService.listaRubricas( this.registroactual, texto, curso)
+    this.criterioService.listaAsignaturas( this.registroactual, texto, curso )
       .subscribe( res => {
-        this.listaRegistros = res['grupos'];
+        this.listaRegistros = res['criterios'];
         this.totalregistros = res['page'].total;
         this.loading = false;
       }, (erro) => {
@@ -61,7 +58,7 @@ export class RubricasComponent implements OnInit {
       });
   }
 
-  eliminarRubrica(uid:string, nombre:string) {
+  eliminarCriterio(uid:string, nombre:string) {
     // Solo los admin pueden borrar usuarios
     if (this.usuarioService.rol !== 'ROL_ADMIN') {
       Swal.fire({icon: 'warning', title: 'Oops...', text: 'No tienes permisos para realizar esta acción', });
@@ -69,8 +66,8 @@ export class RubricasComponent implements OnInit {
     }
 
     Swal.fire({
-      title: 'Eliminar grupo',
-      text: `Al eliminar el grupo '${nombre}' se perderán todos los datos asociados. ¿Desea continuar?`,
+      title: 'Eliminar criterio',
+      text: `Al eliminar el criterio '${nombre}' se perderán todos los datos asociados. ¿Desea continuar?`,
       icon: 'question',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -78,9 +75,9 @@ export class RubricasComponent implements OnInit {
       confirmButtonText: 'Si, borrar'
     }).then((result) => {
           if (result.value) {
-            this.rubricaService.eliminarRubrica(uid)
+            this.criterioService.eliminarCriterio(uid)
               .subscribe( resp => {
-                this.cargarRubricas();
+                this.cargarCriterios();
               }
               ,(err) => {
                 Swal.fire({icon: 'error', title: 'Oops...', text: 'No se pudo completar la acción, vuelva a intentarlo',});
@@ -89,23 +86,15 @@ export class RubricasComponent implements OnInit {
       });
   }
 
-  cargarCursos() {
-    // cargamos todos los cursos
-    this.cursoService.cargarCursos(0, '')
-      .subscribe( res => {
-        this.cursos = res['cursos'];
-      });
-  }
-
   borrar() {
     this.buscarForm.reset();
-    this.cargarRubricas();
+    this.cargarCriterios();
   }
 
   cambiarPagina( pagina: number) {
     pagina = (pagina < 0 ? 0 : pagina);
     this.registroactual = ((pagina - 1) * this.registrosporpagina >=0 ? (pagina - 1) * this.registrosporpagina : 0);
-    this.cargarRubricas();
+    this.cargarCriterios();
   }
 
   ngOnDestroy() {

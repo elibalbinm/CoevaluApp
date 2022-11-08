@@ -13,6 +13,8 @@ import { AuthComponent } from "./layouts/auth/auth.component";
 import { DashboardComponent } from "./views/admin/dashboard/dashboard.component";
 import { AsignaturaComponent } from './views/asignatura/asignatura.component';
 import { AsignaturasComponent } from './views/asignaturas/asignaturas.component';
+import { CriteriosComponent } from "./views/criterios/criterios.component";
+import { CriterioComponent } from "./views/criterio/criterio.component";
 import { CursoComponent } from "./views/curso/curso.component";
 import { CursosComponent } from "./views/cursos/cursos.component";
 import { GruposComponent } from "./views/grupos/grupos.component";
@@ -33,6 +35,7 @@ import { RegisterComponent } from "./views/auth/register/register.component";
 import { IndexComponent } from "./views/index/index.component";
 import { LandingComponent } from "./views/landing/landing.component";
 import { ProfileComponent } from "./views/profile/profile.component";
+
 
 
 const routes: Routes = [
@@ -56,6 +59,21 @@ const routes: Routes = [
                                                                                                                 titulo: 'Asignatura',
                                                                                                                 breadcrums: [ {titulo: 'Asignaturas', url: '/admin/asignaturas'} ],
                                                                                                               },},
+                                                                                                              { path: "cursos", component: CursosComponent, canActivate: [ AuthGuard ], data: {
+                                                                                                                rol: 'ROL_ADMIN',
+                                                                                                                titulo: 'Cursos',
+                                                                                                                breadcrums: [ ],
+                                                                                                              },},
+      { path: "criterios", component: CriteriosComponent, canActivate: [ AuthGuard ], data: {
+                                                                                        rol: 'ROL_ADMIN',
+                                                                                        titulo: 'Criterios',
+                                                                                        breadcrums: [ ],
+                                                                                      },},
+      { path: "criterios/criterio/:uid", component: CriterioComponent, canActivate: [ AuthGuard ], data: {
+                                                                                                  rol: 'ROL_ADMIN',
+                                                                                                  titulo: 'Criterio',
+                                                                                                  breadcrums: [ {titulo: 'Criterios', url: '/admin/criterios'} ],
+                                                                                                },},
       { path: "cursos", component: CursosComponent, canActivate: [ AuthGuard ], data: {
                                                                                         rol: 'ROL_ADMIN',
                                                                                         titulo: 'Cursos',

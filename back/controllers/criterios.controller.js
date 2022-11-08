@@ -205,4 +205,36 @@ criterioCtrl.deleteCriterio = async(req, res = response) => {
     }
 }
 
+criterioCtrl.updateList = async(req, res) => {
+
+    const id = req.params.id;
+    const lista = req.body.lista;
+
+    // Solo puede crear usuarios un admin
+    const token = req.header('x-token');
+    // lo puede actualizar un administrador o el propio usuario del token
+    if (!(infoToken(token).rol === 'ROL_ADMIN')) {
+        return res.json({
+            ok: false,
+            msg: 'No tiene permisos para modificar lista de profesores/alumnos de asignatura',
+        });
+    }
+
+    // Antes de insertar, limpiamos la lista de posibles duplicados o no existentes
+    let listaInsertar = [];
+    try {
+        const criterio = await Criterio.findByIdAndUpdate(id, objeto, { new: true });
+        res.json({
+            ok: true,
+            msg: `Criterio - Actualizar lista de alumno`,
+            criterio
+        });
+    } catch (error) {
+        res.status(400).json({
+            ok: false,
+            msg: `Error al actualizar listas de criterios`
+        });
+    }
+}
+
 module.exports = { criterioCtrl }

@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormBuilder } from '@angular/forms';
 import { AsignaturaService } from 'src/app/services/asignatura.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import Swal from 'sweetalert2';
-import { Curso } from 'src/app/models/curso.model';
 import { CursoService } from 'src/app/services/curso.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Curso } from 'src/app/models/curso.model';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-asignatura',
@@ -161,5 +161,4 @@ export class AsignaturaComponent implements OnInit {
         this.cursos = res['cursos'];
       });
   }
-
 }

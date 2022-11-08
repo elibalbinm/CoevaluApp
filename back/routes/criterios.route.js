@@ -25,12 +25,11 @@ router.post('/', [
     check('activo', 'El estado activo debe ser true/false').optional().isBoolean(),
     validarCampos,
 ], criterioCtrl.createCriterio);
-// router.put('/lista/:id', [
-//     validarJWT,
-//     check('id', 'El id del criterio debe ser válido').isMongoId(),
-//     check('tipo', 'El argumento tipo es obligatorio (alumnos, profesores)').not().isEmpty().trim(),
-//     validarCampos,
-// ], actualizarLista);
+router.put('/lista/:id', [
+    validarJWT,
+    check('id', 'El id del criterio debe ser válido').isMongoId(),
+    validarCampos,
+], criterioCtrl.updateList);
 router.put('/:id', [
     validarJWT,
     check('id', 'El identificador no es válido').isMongoId(),

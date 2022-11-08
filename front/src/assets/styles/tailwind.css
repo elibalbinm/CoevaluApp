@@ -2119,6 +2119,10 @@ select {
   height: 600px;
 }
 
+.text-ellipsis{
+  text-overflow: ellipsis;
+}
+
 .text-55 {
   font-size: 55rem;
 }

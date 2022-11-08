@@ -67,6 +67,10 @@ import { PillsComponent } from './components/pills/pills.component';
 import { CardSelectUserComponent } from './components/cards/card-select-user/card-select-user.component';
 import { RubricasComponent } from './views/rubricas/rubricas.component';
 import { RubricaComponent } from './views/rubrica/rubrica.component';
+import { CriteriosComponent } from './views/criterios/criterios.component';
+import { CriterioComponent } from './views/criterio/criterio.component';
+import { EscalasComponent } from './views/escalas/escalas.component';
+import { EscalaComponent } from './views/escala/escala.component';
 
 @NgModule({
   declarations: [
@@ -118,6 +122,10 @@ import { RubricaComponent } from './views/rubrica/rubrica.component';
     GrupoComponent,
     RubricasComponent,
     RubricaComponent,
+    CriteriosComponent,
+    CriterioComponent,
+    EscalasComponent,
+    EscalaComponent,
   ],
   imports: [
     BrowserModule,
