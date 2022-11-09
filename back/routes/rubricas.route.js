@@ -26,6 +26,11 @@ router.post('/', [
     check('activo', 'El argumento activo es obligatorio y debe ser true/false').isBoolean(),
     validarCampos,
 ], rubricCtrl.createRubric);
+router.put('/lista/:id', [
+    validarJWT,
+    check('id', 'El identificador no es válido').isMongoId(),
+    validarCampos,
+], rubricCtrl.updateList);
 router.put('/:id', [
     validarJWT,
     check('id', 'El identificador no es válido').isMongoId(),

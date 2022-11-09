@@ -10,38 +10,42 @@ rubricCtrl.getRubrics = async(req, res = repsonse) => {
 
     // Paginación
     const desde = Number(req.query.desde) || 0;
-    const hasta = req.query.hasta || '';
-    let registropp = Number(process.env.DOCSPERPAGE);
+    const registropp = Number(process.env.DOCSPERPAGE);
     const id = req.query.id;
-    const texto = req.query.texto;
-    let textoBusqueda = '';
-    if (texto) {
-        textoBusqueda = new RegExp(texto, 'i');
-        //console.log('texto', texto, ' textoBusqueda', textoBusqueda);
-    }
-    if (hasta === 'todos') {
-        registropp = 1000;
-    }
+    const textos = req.query.texto || '';
+    const curso = req.query.curso || '';
+    
     //await sleep(2000);
     try {
         let rubricas, total;
         if (id) {
             [rubricas, total] = await Promise.all([
-                Rubrica.findById(id),
+                Rubrica.findById(id).populate('curso', '-__v'),
                 Rubrica.countDocuments()
             ]);
         } else {
-            if (texto) {
-                [rubricas, total] = await Promise.all([
-                    Rubrica.find({ $or: [{ nombre: textoBusqueda }, { descripcion: textoBusqueda }] }).skip(desde).limit(registropp),
-                    Rubrica.countDocuments({ $or: [{ nombre: textoBusqueda }, { descripcion: textoBusqueda }] })
-                ]);
+            // {curso:'', {$or: {nombre : '', nombrecorto:''}}
+            let query = {};
+            if (textos !== '') {
+                texto = new RegExp(textos, 'i');
+                if (curso !== '') {
+                    query = { curso: curso, $or: [{ texto: texto }] };
+                } else {
+                    query = { $or: [{ texto: texto }] };
+                }
             } else {
-                [rubricas, total] = await Promise.all([
-                    Rubrica.find({}).skip(desde).limit(registropp),
-                    Rubrica.countDocuments()
-                ]);
-            }
+                if (curso !== '') {
+                    query = { curso: curso };
+                } else {
+                    query = {};
+                }
+            };
+
+
+            [rubricas, total] = await Promise.all([
+                Rubrica.find(query).skip(desde).limit(registropp).populate('curso', '-__v'),
+                Rubrica.countDocuments(query)
+            ]);
         }
         res.json({
             ok: true,
@@ -66,7 +70,7 @@ rubricCtrl.getRubrics = async(req, res = repsonse) => {
 
 rubricCtrl.createRubric = async(req, res = response) => {
 
-    const { curso, criterios } = req.body;
+    const { texto, criterios, curso } = req.body;
     console.log(curso);
     console.log(criterios);
 
@@ -81,9 +85,6 @@ rubricCtrl.createRubric = async(req, res = response) => {
         }
 
         const existeCurso = await Curso.findById(curso);
-        // const existeCriterio = await Criterio.findOne({ criterios });
-
-        //Comprobamos que el curso y el criterio que se va a asignar a la rubrica existe
         if (!existeCurso) {
             return res.status(400).json({
                 ok: false,
@@ -92,7 +93,7 @@ rubricCtrl.createRubric = async(req, res = response) => {
         }
 
          // Comprobamos la lista de alumnos que nos envían que existan
-         let insertCriteria = [];
+        let insertCriteria = [];
         // Si nos ha llegado lista de alumnos comprobar que existen y limpiar campos raros
         if (criterios) {
             console.log(criterios);
@@ -140,7 +141,7 @@ rubricCtrl.createRubric = async(req, res = response) => {
 
 rubricCtrl.updateRubric = async(req, res) => {
 
-    const { curso, criterios } = req.body;
+    const { texto, criterios, curso } = req.body;
     const uid = req.params.id;
 
     // Solo puede crear usuarios un admin
@@ -225,6 +226,7 @@ rubricCtrl.deleteRubric = async(req, res = response) => {
     }
 
     try {
+        
         // Comprobamos si existe el rubrica que queremos borrar
         const existeRubrica = await Rubrica.findById(uid);
         if (!existeRubrica) {
@@ -248,6 +250,40 @@ rubricCtrl.deleteRubric = async(req, res = response) => {
             msg: 'Error borrando rubrica'
         });
 
+    }
+}
+
+rubricCtrl.updateList = async(req, res) => {
+
+    const id = req.params.id;
+    const lista = req.body.lista;
+
+    // Solo puede crear usuarios un admin
+    const token = req.header('x-token');
+    // lo puede actualizar un administrador o el propio usuario del token
+    if (!(infoToken(token).rol === 'ROL_ADMIN')) {
+        return res.json({
+            ok: false,
+            msg: 'No tiene permisos para modificar lista de profesores/alumnos de asignatura',
+        });
+    }
+
+    // Antes de insertar, limpiamos la lista de posibles duplicados o no existentes
+    let listaInsertar = [];
+    try {
+        const criterios = await Criterio.find({ _id: { $in: lista } }, { _id: 0, 'criterio': '$_id' });
+        const objeto = { criterios: criterios };
+        const grupo = await Grupo.findByIdAndUpdate(id, objeto, { new: true });
+        res.json({
+            ok: true,
+            msg: `Actualizar lista de criterios`,
+            grupo
+        });
+    } catch (error) {
+        res.status(400).json({
+            ok: false,
+            msg: `Error al actualizar la lista de criterios de una rúbrica`
+        });
     }
 }
 

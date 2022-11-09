@@ -51,6 +51,7 @@ export class GruposComponent implements OnInit, OnDestroy {
     const texto = this.buscarForm.get('texto').value || '';
     this.grupoService.listaAsignaturas( this.registroactual, texto, curso)
       .subscribe( res => {
+        console.log(res);
         this.listaRegistros = res['grupos'];
         this.totalregistros = res['page'].total;
         this.loading = false;

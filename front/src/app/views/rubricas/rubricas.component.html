@@ -52,7 +52,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let curso of listaRegistros">
+        <tr *ngFor="let rubrica of listaRegistros">
           <th
             [routerLink]="['/admin/rubricas/rubrica', rubrica.uid]"
             class="border-t-0 px-6 cursor-pointer align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4 text-left"
@@ -63,14 +63,13 @@
             [routerLink]="['/admin/rubricas/rubrica', rubrica.uid]"
             class="border-t-0 px-6 cursor-pointer align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4"
           >
-          {{rubrica.curso.nombrecorto}}
+          {{rubrica.curso.nombre}}
           </td>
           <td
             [routerLink]="['/admin/rubricas/rubrica', rubrica.uid]"
             class="border-t-0 px-6 cursor-pointer align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4"
           >
-          <i class="fa fa-user-graduate mx-2 text-lg leading-lg"></i>
-          <span class="text-sm font-semibold text-blueGray-600">{{rubrica.criterios.length}}</span>
+          {{rubrica.criterios.length}}
           </td>
           <td
             [routerLink]="['/admin/rubricas/rubrica', rubrica.uid]"

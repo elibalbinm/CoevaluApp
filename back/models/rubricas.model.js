@@ -11,7 +11,8 @@ const RubricaSchema = Schema({
     // },
     curso: {
         type: Schema.Types.ObjectId,
-        ref: 'Curso'
+        ref: 'Curso',
+        require: true
     },
     // alumnos: [{
     //     usuario: {

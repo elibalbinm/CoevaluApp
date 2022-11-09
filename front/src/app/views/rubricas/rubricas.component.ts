@@ -8,6 +8,7 @@ import { environment } from 'src/environments/environment.prod';
 import { Curso } from 'src/app/models/curso.model';
 import { Rubrica } from 'src/app/models/rubrica.model';
 import Swal from 'sweetalert2';
+import { Criterio } from 'src/app/models/criterio.model';
 
 @Component({
   selector: 'app-rubricas',
@@ -23,7 +24,7 @@ export class RubricasComponent implements OnInit {
   public loading = false;
 
   public listaRegistros: Rubrica[] = [];
-
+  public criterios: Criterio[] = [];
   public cursos: Curso[] = [];
 
   public buscarForm = this.fb.group({
@@ -39,6 +40,7 @@ export class RubricasComponent implements OnInit {
                private usuarioService: UsuarioService) { }
 
   ngOnInit(): void {
+    // this.cargarCriterios();
     this.cargarCursos();
     this.cargarRubricas();
     this.subs$ = this.buscarForm.valueChanges
@@ -53,11 +55,20 @@ export class RubricasComponent implements OnInit {
     const texto = this.buscarForm.get('texto').value || '';
     this.rubricaService.listaRubricas( this.registroactual, texto, curso)
       .subscribe( res => {
-        this.listaRegistros = res['grupos'];
+        console.log(res);
+        this.listaRegistros = res['rubricas'];
         this.totalregistros = res['page'].total;
         this.loading = false;
       }, (erro) => {
 
+      });
+  }
+
+  cargarCursos() {
+    // cargamos todos los cursos
+    this.cursoService.cargarCursos(0, '')
+      .subscribe( res => {
+        this.cursos = res['cursos'];
       });
   }
 
@@ -89,13 +100,15 @@ export class RubricasComponent implements OnInit {
       });
   }
 
-  cargarCursos() {
-    // cargamos todos los cursos
-    this.cursoService.cargarCursos(0, '')
-      .subscribe( res => {
-        this.cursos = res['cursos'];
-      });
-  }
+  // cargarCriterios() {
+  //   // cargamos todos los cursos
+  //   this.criterioService.cargarCriterios('')
+  //     .subscribe( res => {
+  //       this.criterios = res['criterios'];
+  //     });
+  // }
+
+
 
   borrar() {
     this.buscarForm.reset();
