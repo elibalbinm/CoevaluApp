@@ -142,6 +142,7 @@
               Cancelar
             </button>
           </div>
+        </form>
 
           <hr class="mt-6 border-b-1 border-blueGray-300" />
 
@@ -149,7 +150,7 @@
             Cambiar contraseña
           </h6>
           <div class="flex flex-wrap">
-            <div class="w-full lg:w-12/12 px-4">
+            <!-- <div class="w-full lg:w-12/12 px-4">
               <div class="relative w-full mb-3">
                 <label
                   class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
@@ -163,10 +164,11 @@
                   value="1234"
                 />
               </div>
-            </div>
+            </div> -->
 
             <div class="w-full lg:w-12/12 px-4">
               <div class="relative w-full mb-3">
+                <form [formGroup]="nuevoPassword" (ngSubmit)="cambiarPassword()">
                 <label
                   class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
                   htmlFor="grid-password"
@@ -175,13 +177,38 @@
                 </label>
                 <input
                   type="password"
+                  formControlName="password"
                   class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                   value=""
                 />
+
+              <!-- <span class="text-xs font-semibold inline-block py-1 px-2 rounded text-red-600 bg-red-200 uppercase last:mr-0 mr-1" *ngIf="(showOKP)" [ngClass]="{'animate__fadeIn': (nuevoPassword.pristine && showOKP), 'animate__fadeOut': (!nuevoPassword.pristine) }">
+                Actualizada
+              </span> -->
+              <!-- Buttons -->
+              <div class="text-center flex-auto p-5 lg:p-8">
+                <button
+                  id="enviar"
+                  class="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                  type="submit"
+                >
+                  Enviar
+                </button>
+                <button
+                  (click)="cancelar()" id="cancelar"
+                  [disabled]="nuevoPassword.pristine || nuevoPassword.get('password').value.length===0"
+                  class="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                  type="button"
+                >
+                  Cancelar
+                </button>
+              </div>
+              </form>
               </div>
             </div>
 
-            <div class="w-full lg:w-12/12 px-4">
+
+            <!-- <div class="w-full lg:w-12/12 px-4">
               <div class="relative w-full mb-3">
                 <label
                   class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
@@ -195,27 +222,9 @@
                   value=""
                 />
               </div>
-            </div>
+            </div> -->
           </div>
 
-          <!-- Buttons -->
-          <div class="text-center flex-auto p-5 lg:p-8">
-            <button
-              id="enviar"
-              class="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-              type="button"
-            >
-              Enviar
-            </button>
-            <button
-              (click)="cancelar()" id="cancelar"
-              class="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-              type="button"
-            >
-              Cancelar
-            </button>
-          </div>
-        </form>
       </div>
     </div>
 

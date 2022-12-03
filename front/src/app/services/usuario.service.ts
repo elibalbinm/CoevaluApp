@@ -29,6 +29,10 @@ export class UsuarioService {
       );
   }
 
+  cambiarPassword( uid: string, data) {
+    return this.http.put(`${environment.base_url}/usuarios/np/${uid}`, data, this.cabeceras);
+  }
+
   cargarListaUsuarios ( uids: string[]) {
     const data = { lista: uids };
     return this.http.post(`${environment.base_url}/usuarios/lista` , data, this.cabeceras);

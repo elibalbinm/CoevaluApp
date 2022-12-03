@@ -74,6 +74,31 @@ export class UserComponent implements OnInit {
     this.datosForm.markAsPristine();
   }
 
+  cambiarPassword(){
+    // ponemos el mismo valor en los tres campos
+    const data = {
+      password : this.nuevoPassword.get('password').value,
+      nuevopassword: this.nuevoPassword.get('password').value,
+      nuevopassword2: this.nuevoPassword.get('password').value
+    };
+    this.usuarioService.cambiarPassword( this.datosForm.get('uid').value, data)
+      .subscribe(res => {
+        this.nuevoPassword.reset();
+        this.showOKP = true;
+        Swal.fire({
+          title: 'Contraseña actualizada',
+          text: 'La contraseña ha sido a actualizada correctamente',
+          icon: 'success',
+          confirmButtonText: 'Ok',
+          allowOutsideClick: false
+        });
+      }, (err)=>{
+        const errtext = err.error.msg || 'No se pudo completar la acción, vuelva a intentarlo.';
+        Swal.fire({icon: 'error', title: 'Oops...', text: errtext});
+        return;
+      });
+  }
+
   campoNoValido( campo: string) {
     return this.datosForm.get(campo).invalid && this.formSubmited;
   }
