@@ -41,7 +41,7 @@ export class RubricasComponent implements OnInit {
 
   ngOnInit(): void {
     // this.cargarCriterios();
-    this.cargarCursos();
+    // this.cargarCursos();
     this.cargarRubricas();
     this.subs$ = this.buscarForm.valueChanges
       .subscribe( event => {

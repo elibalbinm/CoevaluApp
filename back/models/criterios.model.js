@@ -15,12 +15,11 @@ const CriterioSchema = Schema({
         require: true,
         default: true
     },
-    // escala: [{
-    //     usuario: {
-    //         type: Schema.Types.ObjectId,
-    //         ref: 'Usuario'
-    //     }
-    // }],
+    // escala: {
+    //     type: Schema.Types.ObjectId,
+    //     ref: 'Criterio',
+    //     require: true
+    // },
 }, { collection: 'criterios' });
 
 CriterioSchema.method('toJSON', function() {

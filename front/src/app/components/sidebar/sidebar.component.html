@@ -70,16 +70,17 @@
       </form>
 
       <!-- Divider -->
-      <hr class="my-4 md:min-w-full" />
+      <hr *ngIf="logueado == 'admin'" class="my-4 md:min-w-full" />
       <!-- Heading -->
       <h6
+        *ngIf="logueado == 'admin'"
         class="md:min-w-full text-blueGray-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline"
       >
         ADMINISTRADOR/A
       </h6>
       <!-- Navigation -->
 
-      <ul class="md:flex-col md:min-w-full flex flex-col list-none">
+      <ul *ngIf="logueado == 'admin'" class="md:flex-col md:min-w-full flex flex-col list-none">
         <li class="items-center">
           <a
             [routerLink]="['/admin/users']"
@@ -260,16 +261,17 @@
 
 
       <!-- Divider -->
-      <hr class="my-4 md:min-w-full" />
+      <hr *ngIf="logueado == 'profe'" class="my-4 md:min-w-full" />
       <!-- Heading -->
       <h6
+      *ngIf="logueado == 'profe'"
         class="md:min-w-full text-blueGray-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline"
       >
         PROFESOR
       </h6>
       <!-- Navigation -->
 
-      <ul class="md:flex-col md:min-w-full flex flex-col list-none">
+      <ul *ngIf="logueado == 'profe'" class="md:flex-col md:min-w-full flex flex-col list-none">
         <li class="items-center">
           <a
             [routerLink]="['/admin/settings']"
@@ -360,7 +362,7 @@
 
       </ul>
 
-      <ul class="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
+      <!-- <ul class="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
         <li class="items-center">
           <a
             [routerLink]="['/auth/login']"
@@ -380,19 +382,19 @@
             Register
           </a>
         </li>
-      </ul>
+      </ul> -->
 
       <!-- Divider -->
-      <hr class="my-4 md:min-w-full" />
+      <!-- <hr class="my-4 md:min-w-full" /> -->
       <!-- Heading -->
-      <h6
+      <!-- <h6
         class="md:min-w-full text-blueGray-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline"
       >
         No Layout Pages
-      </h6>
+      </h6> -->
       <!-- Navigation -->
 
-      <ul class="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
+      <!-- <ul class="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
         <li class="items-center">
           <a
             [routerLink]="['/landing']"
@@ -412,7 +414,7 @@
             Profile Page
           </a>
         </li>
-      </ul>
+      </ul> -->
 
       <!-- Divider -->
       <hr class="my-4 md:min-w-full" />

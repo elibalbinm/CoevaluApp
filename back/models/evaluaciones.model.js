@@ -5,7 +5,8 @@ const EvaluacionSchema = Schema({
         {
             usuario: {
                 type: Schema.Types.ObjectId,
-                ref: 'Usuario'
+                ref: 'Usuario',
+                required: true
             } 
         },
         {
@@ -13,30 +14,38 @@ const EvaluacionSchema = Schema({
                 {
                     criterio: {
                         type: Schema.Types.ObjectId,
-                        ref: 'Criterio'
+                        ref: 'Criterio',
+                        required: true
+                    } 
+                },
+                {
+                    escala: {
+                        type: Schema.Types.ObjectId,
+                        ref: 'Escala',
+                        required: true
                     } 
                 },
                 {
                     valor: {
-                        type: Schema.Types.ObjectId,
-                        ref: 'Escala'
+                        type: Number,
+                        required: true
                     } 
                 }
             ]
         }
     ],
-    alumno: [{
+    alumno: {
         usuario: {
             type: Schema.Types.ObjectId,
             ref: 'Usuario'
         }
-    }],
-    iteracion: [{
+    },
+    iteracion: {
         iteracion: {
             type: Schema.Types.ObjectId,
             ref: 'Iteracion'
         }
-    }],
+    },
     fecha: {
         type: Date,
         require: true,

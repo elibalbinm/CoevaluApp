@@ -45,7 +45,7 @@ const routes: Routes = [
     component: AdminComponent,
     children: [
       { path: "dashboard", component: DashboardComponent, canActivate: [ AuthGuard ], data: {rol: '*', titulo: 'Home'} },
-      { path: "users", component: UsersComponent, canActivate: [ AuthGuard ], data: {rol: 'ROL_ADMIN', titulo: 'Users'} },
+      { path: "users",     component: UsersComponent, canActivate: [ AuthGuard ], data: {rol: 'ROL_ADMIN', titulo: 'Users'} },
       { path: "users/user/:uid", component: UserComponent, canActivate: [ AuthGuard ], data: {rol: 'ROL_ADMIN',
                                                                                               titulo: 'Users',
                                                                                               breadcrums: [ {titulo: 'Users', url: '/admin/users'} ]} },
