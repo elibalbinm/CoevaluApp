@@ -7,6 +7,8 @@ import { NoauthGuard } from '../../src/app/guards/noauth.guard';
 
 // layouts
 import { AdminComponent } from "./layouts/admin/admin.component";
+import { ProfesorComponent } from "./layouts/profesor/profesor.component";
+import { AlumnoComponent } from "./layouts/alumno/alumno.component";
 import { AuthComponent } from "./layouts/auth/auth.component";
 
 // admin views
@@ -35,6 +37,7 @@ import { RegisterComponent } from "./views/auth/register/register.component";
 import { IndexComponent } from "./views/index/index.component";
 import { LandingComponent } from "./views/landing/landing.component";
 import { ProfileComponent } from "./views/profile/profile.component";
+
 
 
 
@@ -124,9 +127,9 @@ const routes: Routes = [
   // prof views
   {
     path: "prof",
-    component: AdminComponent,
+    component: ProfesorComponent,
     children: [
-      { path: "dashboard", component: DashboardComponent, canActivate: [ AuthGuard ], data: {rol: '*', titulo: 'Home'} },
+      { path: "dashboard", component: DashboardComponent, canActivate: [ AuthGuard ], data: {rol: 'ROL_PROFESOR', titulo: 'Home'} },
       { path: "settings", component: SettingsComponent },
       { path: "tables", component: TablesComponent },
       { path: "maps", component: MapsComponent },
@@ -136,7 +139,7 @@ const routes: Routes = [
   // alumno views
   {
     path: "alu",
-    component: AdminComponent,
+    component: AlumnoComponent,
     children: [
       { path: "dashboard", component: DashboardComponent, canActivate: [ AuthGuard ], data: {rol: '*', titulo: 'Home'} },
       { path: "settings", component: SettingsComponent },

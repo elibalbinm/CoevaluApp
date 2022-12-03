@@ -71,6 +71,9 @@ import { CriteriosComponent } from './views/criterios/criterios.component';
 import { CriterioComponent } from './views/criterio/criterio.component';
 import { EscalasComponent } from './views/escalas/escalas.component';
 import { EscalaComponent } from './views/escala/escala.component';
+import { AlumnoComponent } from './layouts/alumno/alumno.component';
+import { ProfesorComponent } from './layouts/profesor/profesor.component';
+import { PanelComponent } from './components/panel/panel.component';
 
 @NgModule({
   declarations: [
@@ -126,6 +129,9 @@ import { EscalaComponent } from './views/escala/escala.component';
     CriterioComponent,
     EscalasComponent,
     EscalaComponent,
+    AlumnoComponent,
+    ProfesorComponent,
+    PanelComponent,
   ],
   imports: [
     BrowserModule,

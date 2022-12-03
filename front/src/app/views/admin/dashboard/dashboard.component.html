@@ -1,16 +1,65 @@
-<div class="flex flex-wrap">
-  <div class="w-full xl:w-8/12 mb-12 xl:mb-0 px-4">
-    <app-card-line-chart></app-card-line-chart>
+<div class="flex flex-wrap items-center">
+  <div class="w-full xl:w-6/12 px-4">
+    <app-card-line-chart *ngIf="logueado == 'admin'"></app-card-line-chart>
+    <div
+      *ngIf="logueado == 'profe'"
+      class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded"
+    >
+      <div class="px-4 py-5 flex-auto">
+        <div class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-red-400">
+          <i class="fas fa-award"></i>
+        </div>
+        <h6 class="text-xl font-semibold">Awarded Agency</h6>
+        <p class="mt-2 mb-4 text-blueGray-500"> Divide details about your product or agency work into parts. A paragraph describing a feature will be enough. </p>
+      </div>
+    </div>
   </div>
-  <div class="w-full xl:w-4/12 px-4">
-    <app-card-bar-chart></app-card-bar-chart>
+  <div class="w-full xl:w-6/12 px-4">
+    <app-card-bar-chart *ngIf="logueado == 'admin'"></app-card-bar-chart>
+    <div
+      *ngIf="logueado == 'profe'"
+      class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded"
+    >
+      <div class="px-4 py-5 flex-auto">
+        <div class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-red-400">
+          <i class="fas fa-award"></i>
+        </div>
+        <h6 class="text-xl font-semibold">Awarded Agency</h6>
+        <p class="mt-2 mb-4 text-blueGray-500"> Divide details about your product or agency work into parts. A paragraph describing a feature will be enough. </p>
+      </div>
+    </div>
   </div>
 </div>
 <div class="flex flex-wrap mt-4">
-  <div class="w-full xl:w-8/12 mb-12 xl:mb-0 px-4">
-    <app-card-page-visits></app-card-page-visits>
+  <div class="w-full xl:w-6/12 px-4">
+    <app-card-page-visits *ngIf="logueado == 'admin'"></app-card-page-visits>
+    <div
+      *ngIf="logueado == 'profe'"
+      class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded"
+    >
+      <div class="px-4 py-5 flex-auto">
+        <div class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-red-400">
+          <i class="fas fa-award"></i>
+        </div>
+        <h6 class="text-xl font-semibold">Awarded Agency</h6>
+        <p class="mt-2 mb-4 text-blueGray-500"> Divide details about your product or agency work into parts. A paragraph describing a feature will be enough. </p>
+      </div>
+    </div>
   </div>
-  <div class="w-full xl:w-4/12 px-4">
-    <app-card-social-traffic></app-card-social-traffic>
+
+  <div class="w-full xl:w-6/12 px-4">
+    <app-card-social-traffic *ngIf="logueado == 'admin'"></app-card-social-traffic>
+    <div
+      *ngIf="logueado == 'profe'"
+      class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded"
+    >
+      <div class="px-4 py-5 flex-auto">
+        <div class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-red-400">
+          <i class="fas fa-award"></i>
+        </div>
+        <h6 class="text-xl font-semibold">Awarded Agency</h6>
+        <p class="mt-2 mb-4 text-blueGray-500"> Divide details about your product or agency work into parts. A paragraph describing a feature will be enough. </p>
+      </div>
+    </div>
   </div>
 </div>
