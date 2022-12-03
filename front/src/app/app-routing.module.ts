@@ -130,6 +130,46 @@ const routes: Routes = [
     component: ProfesorComponent,
     children: [
       { path: "dashboard", component: DashboardComponent, canActivate: [ AuthGuard ], data: {rol: 'ROL_PROFESOR', titulo: 'Home'} },
+      { path: "asignaturas", component: AsignaturasComponent, canActivate: [ AuthGuard ], data: {
+        rol: 'ROL_PROFESOR',
+        titulo: 'Asignaturas',
+        breadcrums: [ ],
+      },},
+      { path: "asignaturas/asignatura/:uid", component: AsignaturaComponent, canActivate: [ AuthGuard ], data: {
+                                                                                                                rol: 'ROL_PROFESOR',
+                                                                                                                titulo: 'Asignatura',
+                                                                                                                breadcrums: [ {titulo: 'Asignaturas', url: '/admin/asignaturas'} ],
+                                                                                                              },},
+      { path: "criterios", component: CriteriosComponent, canActivate: [ AuthGuard ], data: {
+                                                                                            rol: 'ROL_PROFESOR',
+                                                                                            titulo: 'Criterios',
+                                                                                            breadcrums: [ ],
+      },},
+      { path: "criterios/criterio/:uid", component: CriterioComponent, canActivate: [ AuthGuard ], data: {
+                                                                                            rol: 'ROL_PROFESOR',
+                                                                                            titulo: 'Criterio',
+                                                                                            breadcrums: [ {titulo: 'Criterios', url: '/prof/criterios'} ],
+                                                                                          },},
+      { path: "grupos", component: GruposComponent, canActivate: [ AuthGuard ], data: {
+      rol: 'ROL_PROFESOR',
+      titulo: 'Grupos',
+      breadcrums: [ ],
+      },},
+      { path: "grupos/grupo/:uid", component: GrupoComponent, canActivate: [ AuthGuard ], data: {
+                                                                                                  rol: 'ROL_PROFESOR',
+                                                                                                  titulo: 'Grupo',
+                                                                                                  breadcrums: [ {titulo: 'Grupos', url: '/prof/grupos'} ],
+                                                                                                },},
+      { path: "rubricas", component: RubricasComponent, canActivate: [ AuthGuard ], data: {
+                                                                                          rol: 'ROL_PROFESOR',
+                                                                                          titulo: 'Rubricas',
+                                                                                          breadcrums: [ ],
+                                                                                          },},
+      { path: "rubricas/rubrica/:uid", component: RubricaComponent, canActivate: [ AuthGuard ], data: {
+                                                                                                        rol: 'ROL_PROFESOR',
+                                                                                                        titulo: 'Rubrica',
+                                                                                                        breadcrums: [ {titulo: 'Rubricas', url: '/prof/rubricas'} ],
+                                                                                                      },},
       { path: "settings", component: SettingsComponent },
       { path: "tables", component: TablesComponent },
       { path: "maps", component: MapsComponent },
@@ -142,6 +182,7 @@ const routes: Routes = [
     component: AlumnoComponent,
     children: [
       { path: "dashboard", component: DashboardComponent, canActivate: [ AuthGuard ], data: {rol: '*', titulo: 'Home'} },
+
       { path: "settings", component: SettingsComponent },
       { path: "tables", component: TablesComponent },
       { path: "maps", component: MapsComponent },

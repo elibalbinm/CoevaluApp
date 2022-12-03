@@ -64,7 +64,7 @@
           <input
             type="text"
             placeholder="Search"
-            class="border-0 px-3 py-2 h-12 border border-solid border-blueGray-500 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-base leading-snug shadow-none outline-none focus:outline-none w-full font-normal"
+            class="px-3 py-2 h-12 border border-solid border-blueGray-500 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-base leading-snug shadow-none outline-none focus:outline-none w-full font-normal"
           />
         </div>
       </form>
@@ -274,7 +274,7 @@
       <ul *ngIf="logueado == 'profe'" class="md:flex-col md:min-w-full flex flex-col list-none">
         <li class="items-center">
           <a
-            [routerLink]="['/admin/settings']"
+            [routerLink]="['/prof/asignaturas']"
             class="text-xs uppercase py-3 font-bold block"
             routerLinkActive
             #adminSettings="routerLinkActive"
@@ -296,7 +296,7 @@
 
         <li class="items-center">
           <a
-            [routerLink]="['/admin/settings']"
+            [routerLink]="['/prof/criterios']"
             class="text-xs uppercase py-3 font-bold block"
             routerLinkActive
             #adminSettings="routerLinkActive"
@@ -318,7 +318,7 @@
 
         <li class="items-center">
           <a
-            [routerLink]="['/admin/dashboard']"
+          [routerLink]="['/prof/grupos']"
             class="text-xs uppercase py-3 font-bold block"
             routerLinkActive
             #adminDashboard="routerLinkActive"
@@ -340,7 +340,7 @@
 
         <li class="items-center">
           <a
-            [routerLink]="['/admin/maps']"
+          [routerLink]="['/prof/rubricas']"
             class="text-xs uppercase py-3 font-bold block"
             routerLinkActive
             #adminMaps="routerLinkActive"
