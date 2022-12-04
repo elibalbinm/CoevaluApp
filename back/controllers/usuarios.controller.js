@@ -21,6 +21,15 @@ const sleep = (ms) => {
     });
 }
 
+userCtrl.totalUsuarios = async(req, res) => {
+    
+    Usuario.estimatedDocumentCount((err, numOfDocs) => {
+        if(err) throw(err);
+
+        console.log(`Total: ${numOfDocs}.`);
+    });
+}
+
 const listaUsuarios = async(req, res) => {
     const lista = req.body.lista;
 
