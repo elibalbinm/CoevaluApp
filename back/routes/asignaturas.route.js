@@ -33,6 +33,10 @@ router.get('/', [
     check('curso', 'El curso debe ser un identificador de curso válido').optional().isMongoId(),
     validarCampos,
 ], subjectCtrl.obtenerAsignaturas);
+
+router.get('/totalCursos', subjectCtrl.totalCursos);
+router.get('/total', subjectCtrl.totalAsignaturas);
+
 router.post('/', [
     validarJWT,
     check('nombre', 'El argumento nombre es obligatorio').not().isEmpty().trim(),

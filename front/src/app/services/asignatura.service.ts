@@ -3,6 +3,7 @@ import { environment  } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { UsuarioService } from './usuario.service';
 import { Asignatura } from 'src/app/models/asignatura.model';
+import { of, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +11,7 @@ import { Asignatura } from 'src/app/models/asignatura.model';
 export class AsignaturaService {
 
   private asignatura: Asignatura;
+  public total = "0";
 
   constructor( private http: HttpClient,
                private usuarioService: UsuarioService) { }
@@ -47,7 +49,15 @@ export class AsignaturaService {
     return this.http.get(`${environment.base_url}/asignaturas/?idprof=${uid}&desde=${desde}${texto}${curso}` , this.cabeceras);
   }
 
-  crearAsignatura( data) {
+  totalAsignaturas (): Observable<object>{
+    return this.http.get(`${environment.base_url}/asignaturas/total`, this.cabeceras);
+  }
+
+  totalCursos (): Observable<object> {
+    return this.http.get(`${environment.base_url}/asignaturas/totalCursos` , this.cabeceras);
+  }
+
+  crearAsignatura( data ) {
     return this.http.post(`${environment.base_url}/asignaturas/`, data, this.cabeceras);
   }
 

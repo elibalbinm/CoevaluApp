@@ -18,6 +18,9 @@ router.get('/', [
     check('texto', 'El texto debe ser válido').optional().trim(),
     validarCampos
 ], rubricCtrl.getRubrics);
+
+router.get('/total', rubricCtrl.totalRubricas);
+
 router.post('/', [
     validarJWT,
     check('texto', 'El argumento nombre es obligatorio').not().isEmpty().trim(),

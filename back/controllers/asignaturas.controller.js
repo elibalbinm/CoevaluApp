@@ -8,6 +8,51 @@ const { infoToken } = require('../helpers/infotoken');
 
 const subjectCtrl = {};
 
+subjectCtrl.totalAsignaturas = async(req, res) => {
+    
+    try {
+        const total = await Asignatura.estimatedDocumentCount((err, numOfDocs) => {
+            if(err) throw(err);
+    
+            console.log(`Total asignaturas: ${numOfDocs}.`);
+
+            res.json({
+                ok: true,
+                msg: 'Número de asignaturas registradas en la BBDD',
+                numOfDocs
+            });
+        });
+        
+    } catch (error) {
+        return res.status(400).json({
+            ok: false,
+            msg: 'Error al contabilizar el número de Asignaturas.',
+            error
+        });
+    }
+}
+
+subjectCtrl.totalCursos = async(req, res) => {
+    
+    try {
+        const total = await Curso.estimatedDocumentCount((err, numOfDocs) => {
+            if(err) throw(err);
+    
+            console.log(`Total cursos: ${numOfDocs}.`);
+        });
+        res.json({
+            ok: true,
+            msg: 'Número de cursos registrados en la BBDD',
+            total
+        });
+    } catch (error) {
+        return res.status(400).json({
+            ok: false,
+            msg: 'Error al contabilizar el número de Cursos.',
+        });
+    }
+}
+
 subjectCtrl.obtenerAsignaturas = async(req, res = repsonse) => {
 
     // Paginación

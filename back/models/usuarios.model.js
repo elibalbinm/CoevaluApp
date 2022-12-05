@@ -23,6 +23,11 @@ const UsuarioSchema = Schema({
         require: true,
         default: 'ROL_ALUMNO'
     },
+    curso: {
+        type: Schema.Types.ObjectId,
+        ref: 'Curso',
+        require: true
+    },
     alta: {
         type: Date,
         default: Date.now

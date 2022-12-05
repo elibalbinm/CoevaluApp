@@ -6,6 +6,30 @@ const Criterio      =   require('../models/criterios.model');
 
 const rubricCtrl = {};
 
+rubricCtrl.totalRubricas = async(req, res) => {
+    
+    try {
+        const total = await Rubrica.estimatedDocumentCount((err, numOfDocs) => {
+            if(err) throw(err);
+    
+            console.log(`Total registros: ${numOfDocs}.`);
+
+            res.json({
+                ok: true,
+                msg: 'Número de rúbricas registradas en la BBDD',
+                numOfDocs
+            });
+
+        });
+        
+    } catch (error) {
+        return res.status(400).json({
+            ok: false,
+            msg: 'Error al contabilizar el número de Usuarios registrados.',
+        });
+    }
+}
+
 rubricCtrl.getRubrics = async(req, res = repsonse) => {
 
     // Paginación

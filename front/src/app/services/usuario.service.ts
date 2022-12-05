@@ -72,6 +72,10 @@ export class UsuarioService {
     return this.http.get(`${environment.base_url}/usuarios/?desde=${desde}&texto=${textoBusqueda}` , this.cabeceras);
   }
 
+  totalRegistros (): Observable<object> {
+    return this.http.get(`${environment.base_url}/usuarios/total` , this.cabeceras);
+  }
+
   validar(correcto: boolean, incorrecto: boolean): Observable<boolean> {
 
     if (this.token === '') {

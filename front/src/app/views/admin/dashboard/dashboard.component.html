@@ -1,21 +1,23 @@
-<div class="flex flex-wrap items-center">
-  <div class="w-full xl:w-6/12 px-4">
-    <app-card-line-chart *ngIf="logueado == 'admin'"></app-card-line-chart>
-    <app-panel *ngIf="logueado == 'profe'"></app-panel>
+<div class="justify-center text-center mb-24">
+  <div class="flex flex-wrap justify-center items-center">
+    <div class="w-full xl:w-6/12 px-4">
+      <app-card-line-chart *ngIf="logueado == 'admin'"></app-card-line-chart>
+      <app-panel coleccion="Asignaturas" *ngIf="logueado == 'profe'"></app-panel>
+    </div>
+    <div class="w-full xl:w-6/12 px-4">
+      <app-card-bar-chart *ngIf="logueado == 'admin'"></app-card-bar-chart>
+      <app-panel coleccion="Criterios" *ngIf="logueado == 'profe'"></app-panel>
+    </div>
   </div>
-  <div class="w-full xl:w-6/12 px-4">
-    <app-card-bar-chart *ngIf="logueado == 'admin'"></app-card-bar-chart>
-    <app-panel *ngIf="logueado == 'profe'"></app-panel>
+  <div class="flex flex-wrap justify-center items-center">
+    <div class="w-full xl:w-6/12 px-4">
+      <app-card-line-chart *ngIf="logueado == 'admin'"></app-card-line-chart>
+      <app-panel coleccion="Grupos" *ngIf="logueado == 'profe'"></app-panel>
+    </div>
+    <div class="w-full xl:w-6/12 px-4">
+      <app-card-bar-chart *ngIf="logueado == 'admin'"></app-card-bar-chart>
+      <app-panel coleccion="Rúbricas" *ngIf="logueado == 'profe'"></app-panel>
+    </div>
   </div>
 </div>
-<div class="flex flex-wrap mt-4">
-  <div class="w-full xl:w-6/12 px-4">
-    <app-card-page-visits *ngIf="logueado == 'admin'"></app-card-page-visits>
-    <app-panel *ngIf="logueado == 'profe'"></app-panel>
-  </div>
 
-  <div class="w-full xl:w-6/12 px-4">
-    <app-card-social-traffic *ngIf="logueado == 'admin'"></app-card-social-traffic>
-    <app-panel *ngIf="logueado == 'profe'"></app-panel>
-  </div>
-</div>

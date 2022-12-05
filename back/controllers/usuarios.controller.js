@@ -23,11 +23,26 @@ const sleep = (ms) => {
 
 userCtrl.totalUsuarios = async(req, res) => {
     
-    Usuario.estimatedDocumentCount((err, numOfDocs) => {
-        if(err) throw(err);
+    try {
+        const total = await Usuario.estimatedDocumentCount((err, numOfDocs) => {
+            if(err) throw(err);
+    
+            console.log(`Total registros: ${numOfDocs}.`);
 
-        console.log(`Total: ${numOfDocs}.`);
-    });
+            res.json({
+                ok: true,
+                msg: 'Número de usuarios registrados en la BBDD',
+                numOfDocs
+            });
+
+        });
+        
+    } catch (error) {
+        return res.status(400).json({
+            ok: false,
+            msg: 'Error al contabilizar el número de Usuarios registrados.',
+        });
+    }
 }
 
 const listaUsuarios = async(req, res) => {
@@ -312,19 +327,21 @@ userCtrl.updateUser = async(req, res = response) => {
 
         // Comprobar si está intentando cambiar el email, que no coincida con alguno que ya esté en BD
         // Obtenemos si hay un usuaruio en BD con el email que nos llega en post
-        const existeEmail = await Usuario.findOne({ email: email });
+        if(email !== undefined){
+            const existeEmail = await Usuario.findOne({ email: email });
 
-        if (existeEmail) {
-            // Si existe un usuario con ese email
-            // Comprobamos que sea el suyo, el UID ha de ser igual, si no el email est en uso
-            if (existeEmail._id != uid) {
-                return res.status(400).json({
-                    ok: false,
-                    msg: 'Email ya existe'
-                });
+            if (existeEmail) {
+                // Si existe un usuario con ese email
+                // Comprobamos que sea el suyo, el UID ha de ser igual, si no el email est en uso
+                if (existeEmail._id != uid) {
+                    return res.status(400).json({
+                        ok: false,
+                        msg: 'Email ya existe'
+                    });
+                }
             }
         }
-
+        
         // Comprobar si existe el usuario que queremos actualizar
         const existeUsuario = await Usuario.findById(uid);
 
@@ -335,8 +352,11 @@ userCtrl.updateUser = async(req, res = response) => {
             });
         }
         // llegadoa aquí el email o es el mismo o no está en BD, es obligatorio que siempre llegue un email
-        object.email = email;
-
+        if(email !== undefined){
+            console.log(email);
+            object.email = email;
+        }
+        
         // Si el rol es de administrador, entonces si en los datos venía el campo activo lo dejamos
         if ((infoToken(token).rol === 'ROL_ADMIN') && activo !== undefined) {
             object.activo = activo;

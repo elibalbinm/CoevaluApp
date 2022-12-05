@@ -54,10 +54,9 @@ router.put('/np/:id', [
 
 router.put('/:id', [
     validarJWT,
-    check('nombre', 'El argumento nombre es obligatorio').not().isEmpty().trim(),
-    check('apellidos', 'El argumento apellidos es obligatorio').not().isEmpty().trim(),
-    check('email', 'El argumento email es obligatorio').not().isEmpty(),
-    check('email', 'El argumento email debe ser un email').isEmail(),
+    check('nombre', 'El argumento nombre es obligatorio').optional().trim(),
+    check('apellidos', 'El argumento apellidos es obligatorio').optional().trim(),
+    check('email', 'El argumento email debe ser un email').optional().isEmail(),
     check('id', 'El identificador no es válido').isMongoId(),
     // campos que son opcionales que vengan pero que si vienen queremos validar el tipo
     check('activo', 'El estado activo debe ser true/false').optional().isBoolean(),

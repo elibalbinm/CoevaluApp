@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment  } from '../../environments/environment';
+import { of, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
@@ -16,6 +17,10 @@ export class RubricaService {
 
   crearRubrica(data) {
     return this.http.post(`${environment.base_url}/rubricas/`, data, this.cabeceras);
+  }
+
+  totalRubricas (): Observable<object> {
+    return this.http.get(`${environment.base_url}/rubricas/total` , this.cabeceras);
   }
 
   actualizarRubrica(uid: string, data) {
