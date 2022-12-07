@@ -25,7 +25,7 @@ router.post('/', [
     validarJWT,
     check('texto', 'El argumento nombre es obligatorio').not().isEmpty().trim(),
     check('curso', 'El identificador del curso no es válido').isMongoId(),
-    check('criterios.*.criterio', 'El identificador de alumno no es válido').isMongoId(),
+    check('criterios.*.criterio', 'El identificador de criterio no es válido').isMongoId(),
     check('activo', 'El argumento activo es obligatorio y debe ser true/false').isBoolean(),
     validarCampos,
 ], rubricCtrl.createRubric);

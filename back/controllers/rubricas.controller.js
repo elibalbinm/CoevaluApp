@@ -41,13 +41,19 @@ rubricCtrl.getRubrics = async(req, res = repsonse) => {
     
     //await sleep(2000);
     try {
-        let rubricas, total;
+        let rubricas, criterios, total;
         if (id) {
             [rubricas, total] = await Promise.all([
                 Rubrica.findById(id).populate('curso', '-__v'),
+                Rubrica.findById(id).populate( 
+                    {path: 'criterios',
+                    // Get friends of friends - populate the 'friends' array for every friend
+                    populate: { path: 'criterio', model: Criterio }
+                    }),
                 Rubrica.countDocuments()
             ]);
         } else {
+            console.log('Entra al else')
             // {curso:'', {$or: {nombre : '', nombrecorto:''}}
             let query = {};
             if (textos !== '') {
@@ -65,16 +71,23 @@ rubricCtrl.getRubrics = async(req, res = repsonse) => {
                 }
             };
 
-
+            // console.log('Almaceno rubricas')
             [rubricas, total] = await Promise.all([
                 Rubrica.find(query).skip(desde).limit(registropp).populate('curso', '-__v'),
+                Rubrica.find(query).skip(desde).limit(registropp).populate( 
+                    {path: 'criterios',
+                    // Get friends of friends - populate the 'friends' array for every friend
+                    populate: { path: 'criterio', model: Criterio }
+                    }),
                 Rubrica.countDocuments(query)
             ]);
+            
         }
         res.json({
             ok: true,
             msg: 'Request getRubrics successful',
             rubricas,
+            criterios,
             page: {
                 desde,
                 registropp,

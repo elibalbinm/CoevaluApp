@@ -66,10 +66,11 @@
           {{rubrica.curso.nombre}}
           </td>
           <td
+            *ngFor="let criterio of criterios"
             [routerLink]="['/admin/rubricas/rubrica', rubrica.uid]"
             class="border-t-0 px-6 cursor-pointer align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4"
           >
-          {{rubrica.criterios.length}}
+          {{criterio.criterios.descripcion}}
           </td>
           <td
             [routerLink]="['/admin/rubricas/rubrica', rubrica.uid]"

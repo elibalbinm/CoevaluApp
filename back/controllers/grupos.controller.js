@@ -42,7 +42,6 @@ groupCtrl.getGroup = async(req, res = repsonse) => {
                 }
             };
 
-
             [grupos, total] = await Promise.all([
                 Grupo.find(query).skip(desde).limit(registropp).populate('curso', '-__v'),
                 Grupo.countDocuments(query)

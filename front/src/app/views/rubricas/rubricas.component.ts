@@ -24,7 +24,8 @@ export class RubricasComponent implements OnInit {
   public loading = false;
 
   public listaRegistros: Rubrica[] = [];
-  public criterios: Criterio[] = [];
+  public criterios: Criterio [] = [];
+  public listaCriterios: Criterio[] = [];
   public cursos: Curso[] = [];
 
   public buscarForm = this.fb.group({
@@ -57,7 +58,9 @@ export class RubricasComponent implements OnInit {
       .subscribe( res => {
         console.log(res);
         this.listaRegistros = res['rubricas'];
+        this.criterios = res['page']['total'];
         this.totalregistros = res['page'].total;
+        console.log(this.criterios[0]);
         this.loading = false;
       }, (erro) => {
 
@@ -102,13 +105,11 @@ export class RubricasComponent implements OnInit {
 
   // cargarCriterios() {
   //   // cargamos todos los cursos
-  //   this.criterioService.cargarCriterios('')
+  //   this.criterioService.cargarCriterios(0, '')
   //     .subscribe( res => {
   //       this.criterios = res['criterios'];
   //     });
   // }
-
-
 
   borrar() {
     this.buscarForm.reset();
