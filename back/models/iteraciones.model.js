@@ -6,11 +6,6 @@ const IteracionSchema = Schema({
         ref: 'Curso',
         require: true
     },
-    rubrica: {
-        type: Schema.Types.ObjectId,
-        ref: 'Rubrica',
-        require: true
-    },
     iteracion: {
         type: Number,
         default: 0,

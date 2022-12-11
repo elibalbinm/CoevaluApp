@@ -24,6 +24,8 @@ import { CursosComponent } from './views/cursos/cursos.component';
 import { CursoComponent } from './views/curso/curso.component';
 import { GruposComponent } from './views/grupos/grupos.component';
 import { GrupoComponent } from './views/grupo/grupo.component';
+import { IteracionesComponent } from './views/iteraciones/iteraciones.component';
+import { IteracionComponent } from './views/iteracion/iteracion.component';
 
 // auth views
 import { LoginComponent } from "./views/auth/login/login.component";
@@ -74,6 +76,7 @@ import { EscalaComponent } from './views/escala/escala.component';
 import { AlumnoComponent } from './layouts/alumno/alumno.component';
 import { ProfesorComponent } from './layouts/profesor/profesor.component';
 import { PanelComponent } from './components/panel/panel.component';
+
 
 @NgModule({
   declarations: [
@@ -132,6 +135,8 @@ import { PanelComponent } from './components/panel/panel.component';
     AlumnoComponent,
     ProfesorComponent,
     PanelComponent,
+    IteracionesComponent,
+    IteracionComponent,
   ],
   imports: [
     BrowserModule,

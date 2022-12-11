@@ -58,9 +58,13 @@ export class RubricasComponent implements OnInit {
       .subscribe( res => {
         console.log(res);
         this.listaRegistros = res['rubricas'];
-        this.criterios = res['page']['total'];
+        this.criterios = res['page']['total'][0].criterios.criterio;
+
+        console.log(res['page']['total'][0].criterios.criterio)
+        // console.log('Res: '+JSON.stringify(res['page']['total'][0]))
+
         this.totalregistros = res['page'].total;
-        console.log(this.criterios[0]);
+        console.log('Criterios: '+JSON.stringify(this.criterios));
         this.loading = false;
       }, (erro) => {
 

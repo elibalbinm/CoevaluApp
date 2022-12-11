@@ -37,6 +37,8 @@ import { RegisterComponent } from "./views/auth/register/register.component";
 import { IndexComponent } from "./views/index/index.component";
 import { LandingComponent } from "./views/landing/landing.component";
 import { ProfileComponent } from "./views/profile/profile.component";
+import { IteracionesComponent } from "./views/iteraciones/iteraciones.component";
+import { IteracionComponent } from "./views/iteracion/iteracion.component";
 
 
 
@@ -87,6 +89,22 @@ const routes: Routes = [
                                                                                                   titulo: 'Curso',
                                                                                                   breadcrums: [ {titulo: 'Cursos', url: '/admin/cursos'} ],
                                                                                                 },},
+      { path: "iteraciones", component: IteracionesComponent, canActivate: [ AuthGuard ], data: {
+        rol: 'ROL_ADMIN',
+        titulo: 'Iteraciones',
+        breadcrums: [ ],
+      },},
+      { path: "iteraciones/iteracion/:uid", component: IteracionComponent, canActivate: [ AuthGuard ], data: {
+                                                                                                                rol: 'ROL_ADMIN',
+                                                                                                                titulo: 'Iteracion',
+                                                                                                                breadcrums: [ {titulo: 'Iteraciones', url: '/admin/iteraciones'} ],
+                                                                                                              },},
+      { path: "cursos", component: CursosComponent, canActivate: [ AuthGuard ], data: {
+        rol: 'ROL_ADMIN',
+        titulo: 'Cursos',
+        breadcrums: [ ],
+      },},
+
       { path: "grupos", component: GruposComponent, canActivate: [ AuthGuard ], data: {
                                                                                         rol: 'ROL_ADMIN',
                                                                                         titulo: 'Grupos',

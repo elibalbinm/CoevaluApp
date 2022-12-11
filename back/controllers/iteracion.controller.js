@@ -6,15 +6,18 @@ const Rubrica      = require('../models/rubricas.model');
 
 const iterationCtrl = {};
 
-iterationCtrl.getIterations = async(req, res = repsonse) => {
+iterationCtrl.getIterations = async(req, res = response) => {
 
     // Paginación
+    // console.log("Res: "+res)
+    console.log("Response: "+req.query.texto)
     const desde = Number(req.query.desde) || 0;
     const hasta = req.query.hasta || '';
     let registropp = Number(process.env.DOCSPERPAGE);
     const id = req.query.id;
     const texto = req.query.texto;
     let textoBusqueda = '';
+    const curso = req.query.curso || '';
 
     console.log('Texto: '+texto);
 
@@ -30,7 +33,7 @@ iterationCtrl.getIterations = async(req, res = repsonse) => {
         let iteraciones, total;
         if (id) {
             [iteraciones, total] = await Promise.all([
-                Iteracion.findById(id),
+                Iteracion.findById(id).populate('curso', '-__v'),
                 Iteracion.countDocuments()
             ]);
         } else {
@@ -41,11 +44,14 @@ iterationCtrl.getIterations = async(req, res = repsonse) => {
                 ]);
             } else {
                 [iteraciones, total] = await Promise.all([
-                    Iteracion.find({}).skip(desde).limit(registropp),
+                    Iteracion.find({}).skip(desde).limit(registropp).populate('curso', '-__v'),
                     Iteracion.countDocuments()
                 ]);
             }
         }
+
+        
+
         res.json({
             ok: true,
             msg: 'Request getIteracion successful',
@@ -223,7 +229,7 @@ iterationCtrl.deleteIteration = async(req, res = response) => {
         if (!existeIteracion) {
             return res.status(400).json({
                 ok: true,
-                msg: 'El iteracion no existe'
+                msg: 'La iteracion no existe'
             });
         }
         // Lo eliminamos y devolvemos el usuaurio recien eliminado
@@ -231,7 +237,7 @@ iterationCtrl.deleteIteration = async(req, res = response) => {
 
         res.json({
             ok: true,
-            msg: 'Iteracion eliminado',
+            msg: 'Iteracion eliminada',
             resultado: resultado
         });
     } catch (error) {
