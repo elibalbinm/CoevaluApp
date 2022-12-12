@@ -73,12 +73,11 @@ rubricCtrl.getRubrics = async(req, res = repsonse) => {
 
             // console.log('Almaceno rubricas')
             [rubricas, total] = await Promise.all([
-                Rubrica.find(query).skip(desde).limit(registropp).populate('curso', '-__v'),
                 Rubrica.find(query).skip(desde).limit(registropp).populate( 
                     {path: 'criterios',
                     // Get friends of friends - populate the 'friends' array for every friend
                     populate: { path: 'criterio', model: Criterio }
-                    }),
+                    }).populate('curso'),
                 Rubrica.countDocuments(query)
             ]);
             

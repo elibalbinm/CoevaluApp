@@ -1,4 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
+import { IteracionService } from 'src/app/services/iteracion.service';
+import { CursoService } from 'src/app/services/curso.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Curso } from 'src/app/models/curso.model';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-iteracion',
@@ -6,9 +12,145 @@ import { Component, OnInit } from '@angular/core';
 })
 export class IteracionComponent implements OnInit {
 
-  constructor() { }
+  public nombre = false;
+
+  public datosForm = this.fb.group({
+    uid: [{value: 'nuevo', disabled: true}, Validators.required],
+    hito: ['', Validators.required ],
+    iteracion: ['', Validators.required ],
+    curso: ['', Validators.required ],
+  });
+
+  public cursos: Curso[] = [];
+
+  public submited = false;
+  public uid: string = 'nuevo';
+
+  public alumnos: string[];
+
+  constructor(private fb: FormBuilder,
+              private iteracionService: IteracionService,
+              private cursosService: CursoService,
+              private route: ActivatedRoute,
+              private router: Router) { }
 
   ngOnInit(): void {
+    this.cargarCursos();
+    this.uid = this.route.snapshot.params['uid'];
+    this.datosForm.get('uid').setValue(this.uid);
+    this.cargarDatos();
+
+    if(this.uid === 'nuevo'){
+      this.nombre = true;
+      this.datosForm.reset();
+    }
+  }
+
+
+  enviar() {
+    console.log('Entra')
+    this.submited = true;
+    console.log(this.datosForm)
+    if (this.datosForm.invalid) { return; }
+
+    // Si estamos creando uno nuevo
+    if (this.uid === 'nuevo') {
+      this.iteracionService.crearIteracion( this.datosForm.value )
+        .subscribe( res => {
+          this.uid = res['iteracion'].uid;
+          this.datosForm.get('uid').setValue( this.uid );
+          this.datosForm.markAsPristine();
+          Swal.fire({
+            title: 'Nueva Iteración',
+            text: 'La iteracion' + res['iteracion'].iteracion + ' ha sido creado correctamente',
+            icon: 'success',
+            confirmButtonText: 'Ok',
+            allowOutsideClick: false
+          });
+        }, (err) => {
+          const msgerror = err.error.msg || 'No se pudo completar la acción, vuelva a intentarlo';
+          Swal.fire({icon: 'error', title: 'Oops...', text: msgerror,});
+        })
+    } else {
+      // ACtualizamos
+      this.iteracionService.actualizarIteracion(this.uid, this.datosForm.value)
+        .subscribe( res => {
+          this.datosForm.markAsPristine();
+        }, (err) => {
+          const msgerror = err.error.msg || 'No se pudo completar la acción, vuelva a intentarlo';
+          Swal.fire({icon: 'error', title: 'Oops...', text: msgerror,});
+        })
+    }
+
+  }
+
+  cargarDatos() {
+    this.submited = false;
+    if (this.uid !== 'nuevo') {
+      this.iteracionService.cargarIteracion(this.uid)
+        .subscribe( res => {
+          if (!res['iteraciones']) {
+            this.router.navigateByUrl('/admin/iteraciones');
+            return;
+          };
+          this.datosForm.get('iteracion').setValue(res['iteraciones'].iteracion);
+          this.datosForm.get('hito').setValue(res['iteraciones'].hito);
+          this.datosForm.get('curso').setValue(res['iteraciones'].curso._id);
+          this.datosForm.get('fecha_ini').setValue(res['iteraciones'].fecha_ini);
+          this.datosForm.get('fecha_fin').setValue(res['iteraciones'].fecha_fin);
+          this.datosForm.get('fecha_ini_coe').setValue(res['iteraciones'].fecha_ini_coe);
+          this.datosForm.get('fecha_fin_coe').setValue(res['iteraciones'].fecha_fin_coe);
+          this.datosForm.markAsPristine();
+          this.uid = res['iteraciones'].uid;
+          this.submited = true;
+        }, (err) => {
+          this.router.navigateByUrl('/admin/iteraciones');
+          Swal.fire({icon: 'error', title: 'Oops...', text: 'No se pudo completar la acción, vuelva a intentarlo',});
+          return;
+        });
+    } else {
+      this.datosForm.get('iteracion').setValue('');
+        this.datosForm.get('hito').setValue('');
+        // this.datosForm.get('curso').setValue('');
+        // this.datosForm.get('fecha_ini').setValue('');
+        // this.datosForm.get('fecha_fin').setValue('');
+        // this.datosForm.get('fecha_ini_coe').setValue('');
+        // this.datosForm.get('fecha_fin_coe').setValue('');
+      this.datosForm.markAsPristine();
+    }
+  }
+
+  nuevo() {
+    this.uid = 'nuevo';
+    this.datosForm.reset();
+    this.submited = false;
+  }
+
+  cancelar() {
+    if (this.uid === 'nuevo') {
+      this.router.navigateByUrl('/admin/iteraciones');
+    } else {
+      this.cargarDatos();
+    }
+  }
+
+  campoNoValido( campo: string) {
+    return this.datosForm.get(campo).invalid && this.submited;
+  }
+
+  esnuevo(): boolean {
+    if (this.uid === 'nuevo') {
+      // this.datosForm.reset();
+      return true; }
+    return false;
+  }
+
+  cargarCursos() {
+    // cargamos todos los cursos
+    this.cursosService.cargarCursos(0, '')
+      .subscribe( res => {
+        this.cursos = res['cursos'];
+      });
   }
 
 }

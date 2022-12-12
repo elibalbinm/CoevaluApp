@@ -19,8 +19,6 @@ iterationCtrl.getIterations = async(req, res = response) => {
     let textoBusqueda = '';
     const curso = req.query.curso || '';
 
-    console.log('Texto: '+texto);
-
     if (texto) {
         textoBusqueda = new RegExp(texto, 'i');
         //console.log('texto', texto, ' textoBusqueda', textoBusqueda);
@@ -49,8 +47,6 @@ iterationCtrl.getIterations = async(req, res = response) => {
                 ]);
             }
         }
-
-        
 
         res.json({
             ok: true,
