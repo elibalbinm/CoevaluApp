@@ -70,7 +70,7 @@
                 </label>
                 <select
                   formControlName="curso" [ngClass]="{'is-invalid' : campoNoValido('curso')}"
-                  class="block appearance-none w-full placeholder-blueGray-300 bg-white border rounded text-sm shadow border-gray-200 text-gray-700 py-3 px-4 pr-8 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="rol">
+                  class="block appearance-none w-full placeholder-blueGray-300 bg-white border rounded text-sm shadow border-gray-200 text-gray-700 py-3 px-4 pr-8 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="curso">
                   <option value="" selected>Seleccione un curso</option>
                   <option *ngFor="let curso of cursos" value="{{curso.uid}}">{{curso.nombrecorto}}</option>
                 </select>

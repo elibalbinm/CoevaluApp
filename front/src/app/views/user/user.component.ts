@@ -1,8 +1,10 @@
 import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { UsuarioService } from 'src/app/services/usuario.service';
+import { CursoService } from 'src/app/services/curso.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { Curso } from 'src/app/models/curso.model';
 
 @Component({
   selector: 'app-user',
@@ -15,11 +17,13 @@ export class UserComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
               private usuarioService: UsuarioService,
+              private cursosService: CursoService,
               private route: ActivatedRoute,
               private router: Router,
               private renderer2: Renderer2) { }
 
   ngOnInit(): void {
+    this.cargarCursos();
     this.uid = this.route.snapshot.params['uid'];
     this.datosForm.get('uid').setValue(this.uid);
     console.log('ID: ' + this.uid);
@@ -42,6 +46,7 @@ export class UserComponent implements OnInit {
     }
   }
 
+  public cursos: Curso[] = [];
   private formSubmited = false;
   private uid: string = '';
   public enablepass: boolean = true;
@@ -53,6 +58,7 @@ export class UserComponent implements OnInit {
     nombre: ['', Validators.required ],
     apellidos: ['', Validators.required ],
     password: ['', Validators.required ],
+    curso: ['', Validators.required ],
     rol: ['ROL_ALUMNO', Validators.required ],
     activo: [true, Validators.required ],
   });
@@ -67,11 +73,20 @@ export class UserComponent implements OnInit {
     this.datosForm.get('apellidos').setValue(res['usuarios'].apellidos);
     this.datosForm.get('email').setValue(res['usuarios'].email);
     this.datosForm.get('rol').setValue(res['usuarios'].rol);
+    this.datosForm.get('curso').setValue(res['usuarios'].curso._id);
     this.datosForm.get('activo').setValue(res['usuarios'].activo);
     this.datosForm.get('password').setValue('1234');
     this.datosForm.get('password').disable();
     this.enablepass = false;
     this.datosForm.markAsPristine();
+  }
+
+  cargarCursos() {
+    // cargamos todos los cursos
+    this.cursosService.cargarCursos(0, '')
+      .subscribe( res => {
+        this.cursos = res['cursos'];
+      });
   }
 
   cambiarPassword(){
@@ -108,7 +123,7 @@ export class UserComponent implements OnInit {
     this.formSubmited = false;
     this.showOKP = false;
     this.datosForm.get('uid').setValue('nuevo');
-    this.datosForm.get('rol').setValue('ROL_CLIENTE');
+    // this.datosForm.get('rol').setValue('ROL_CLIENTE');
     this.datosForm.get('password').enable();
     this.enablepass = true;
   }

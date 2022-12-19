@@ -101,6 +101,22 @@
                   class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
                   htmlFor="grid-password"
                 >
+                  Curso
+                </label>
+                <select
+                  formControlName="curso" [ngClass]="{'is-invalid' : campoNoValido('curso')}"
+                  class="block appearance-none w-full placeholder-blueGray-300 bg-white border rounded text-sm shadow border-gray-200 text-gray-700 py-3 px-4 pr-8 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="curso">
+                  <option value="" selected>Seleccione un curso</option>
+                  <option *ngFor="let curso of cursos" value="{{curso.uid}}">{{curso.nombrecorto}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="w-full lg:w-12/12 px-4">
+              <div class="relative w-full mb-3">
+                <label
+                  class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                  htmlFor="grid-password"
+                >
                   Rol
                 </label>
                 <select
