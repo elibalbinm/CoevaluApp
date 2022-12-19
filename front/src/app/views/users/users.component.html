@@ -42,6 +42,11 @@
           <th
             class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-sm uppercase border-l-0 border-r-0 whitespace-nowrap font-bold text-left"
           >
+            Curso
+          </th>
+          <th
+            class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-sm uppercase border-l-0 border-r-0 whitespace-nowrap font-bold text-left"
+          >
             Rol
           </th>
           <th
@@ -62,40 +67,40 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let usuario of listaUsuarios">
+        <tr *ngFor="let usuario of listaUsuarios" [routerLink]="['/admin/users/user', usuario.uid]">
           <th
-            [routerLink]="['/admin/users/user', usuario.uid]"
-            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4 text-left"
+
+            class="border-t-0 px-6 cursor-pointer align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4 text-left"
           >
           {{usuario.nombre}}
           </th>
           <td
-            [routerLink]="['/admin/users/user', usuario.uid]"
-            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4"
+            class="border-t-0 px-6 cursor-pointer align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4"
           >
           {{usuario.apellidos}}
           </td>
           <td
-            [routerLink]="['/admin/users/user', usuario.uid]"
-            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4"
+            class="border-t-0 px-6 cursor-pointer align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4"
           >
           {{usuario.email}}
           </td>
           <td
-            [routerLink]="['/admin/users/user', usuario.uid]"
-            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4"
+            class="border-t-0 px-6 cursor-pointer align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4"
+          >
+          {{usuario.curso.nombre}}
+          </td>
+          <td
+            class="border-t-0 px-6 cursor-pointer align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4"
           >
             {{usuario.rol}}
           </td>
           <td
-            [routerLink]="['/admin/users/user', usuario.uid]"
-            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4"
+            class="border-t-0 px-6 cursor-pointer align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4"
           >
             {{usuario.alta}}
           </td>
           <td
-            [routerLink]="['/admin/users/user', usuario.uid]"
-            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4"
+            class="border-t-0 px-6 cursor-pointer align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4"
             *ngIf="usuario.activo"
           >
             <i class="fas fa-check-circle text-emerald-500 px-4"></i>

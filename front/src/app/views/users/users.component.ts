@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { UsuarioService } from '../../services/usuario.service';
-import { Usuario } from 'src/app/models/usuario.model';
+import { CursoService } from 'src/app/services/curso.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Usuario } from 'src/app/models/usuario.model';
+import { Curso } from 'src/app/models/curso.model';
 import Swal from 'sweetalert2';
+
 
 @Component({
   selector: 'app-users',
@@ -18,12 +21,23 @@ export class UsersComponent implements OnInit {
 
   private ultimaBusqueda = '';
   public listaUsuarios: Usuario[] = [];
+  public cursos: Curso[] = [];
 
   constructor(private usuarioService: UsuarioService,
+              private cursoService: CursoService,
               private router: Router) { }
 
   ngOnInit(): void {
+    this.cargarCursos();
     this.cargarUsuarios(this.ultimaBusqueda);
+  }
+
+  cargarCursos() {
+    // cargamos todos los cursos
+    this.cursoService.cargarCursos(0, '')
+      .subscribe( res => {
+        this.cursos = res['cursos'];
+      });
   }
 
   cargarUsuarios( textoBuscar: string ) {
@@ -31,6 +45,7 @@ export class UsersComponent implements OnInit {
     this.loading = true;
     this.usuarioService.cargarUsuarios( this.posicionactual, textoBuscar )
       .subscribe( res => {
+        console.log(res['usuarios']);
         // Lo que nos llega lo asignamos a lista usuarios para renderizar la tabla
         // Comprobamos si estamos en un apágina vacia, si es así entonces retrocedemos una página si se puede
         if (res['usuarios'].length === 0) {

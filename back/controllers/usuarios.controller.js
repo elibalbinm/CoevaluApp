@@ -146,7 +146,7 @@ userCtrl.getUsers = async(req, res) => {
         if (id) {
 
             [usuarios, total] = await Promise.all([
-                Usuario.findById(id),
+                Usuario.findById(id).populate('curso', '-__v'),
                 Usuario.countDocuments()
             ]);
 
@@ -160,7 +160,7 @@ userCtrl.getUsers = async(req, res) => {
             }
 
             [usuarios, total] = await Promise.all([
-                Usuario.find(query).skip(desde).limit(registropp).collation({ locale: 'es' }).sort({ apellidos: 1, nombre: 1 }),
+                Usuario.find(query).skip(desde).limit(registropp).populate('curso', '-__v').collation({ locale: 'es' }).sort({ apellidos: 1, nombre: 1 }),
                 Usuario.countDocuments(query)
             ]);
         }
