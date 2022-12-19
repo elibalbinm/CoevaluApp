@@ -61,7 +61,7 @@ export class CursoComponent implements OnInit {
           this.datosForm.markAsPristine();
           this.submited = true;
         }, (err) => {
-          this.router.navigateByUrl('/admin/usuarios');
+          this.router.navigateByUrl('/admin/cursos');
           Swal.fire({icon: 'error', title: 'Oops...', text: 'No se pudo completar la acción, vuelva a intentarlo',});
           return;
         });

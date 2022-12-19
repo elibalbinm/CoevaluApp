@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { IteracionService } from 'src/app/services/iteracion.service';
 import { CursoService } from 'src/app/services/curso.service';
-import { ActivatedRoute, Router } from '@angular/router';
 import { Curso } from 'src/app/models/curso.model';
 import Swal from 'sweetalert2';
+import moment from 'moment';
 
 @Component({
   selector: 'app-iteracion',
@@ -19,6 +20,10 @@ export class IteracionComponent implements OnInit {
     hito: ['', Validators.required ],
     iteracion: ['', Validators.required ],
     curso: ['', Validators.required ],
+    fecha_ini: ['', Validators.required ],
+    fecha_fin: ['', Validators.required ],
+    fecha_ini_coe: ['', Validators.required ],
+    fecha_fin_coe: ['', Validators.required ],
   });
 
   public cursos: Curso[] = [];
@@ -76,6 +81,13 @@ export class IteracionComponent implements OnInit {
       this.iteracionService.actualizarIteracion(this.uid, this.datosForm.value)
         .subscribe( res => {
           this.datosForm.markAsPristine();
+          Swal.fire({
+            title: 'Iteración modificada',
+            text: 'La iteración se ha modificado correctamente',
+            icon: 'success',
+            confirmButtonText: 'Ok',
+            allowOutsideClick: false
+          });
         }, (err) => {
           const msgerror = err.error.msg || 'No se pudo completar la acción, vuelva a intentarlo';
           Swal.fire({icon: 'error', title: 'Oops...', text: msgerror,});
@@ -96,10 +108,10 @@ export class IteracionComponent implements OnInit {
           this.datosForm.get('iteracion').setValue(res['iteraciones'].iteracion);
           this.datosForm.get('hito').setValue(res['iteraciones'].hito);
           this.datosForm.get('curso').setValue(res['iteraciones'].curso._id);
-          this.datosForm.get('fecha_ini').setValue(res['iteraciones'].fecha_ini);
-          this.datosForm.get('fecha_fin').setValue(res['iteraciones'].fecha_fin);
-          this.datosForm.get('fecha_ini_coe').setValue(res['iteraciones'].fecha_ini_coe);
-          this.datosForm.get('fecha_fin_coe').setValue(res['iteraciones'].fecha_fin_coe);
+          this.datosForm.get('fecha_ini').setValue(moment(res['iteraciones'].fecha_ini).format('YYYY-MM-DD'));
+          this.datosForm.get('fecha_fin').setValue(moment(res['iteraciones'].fecha_fin).format('YYYY-MM-DD'));
+          this.datosForm.get('fecha_ini_coe').setValue(moment(res['iteraciones'].fecha_ini_coe).format('YYYY-MM-DD'));
+          this.datosForm.get('fecha_fin_coe').setValue(moment(res['iteraciones'].fecha_fin_coe).format('YYYY-MM-DD'));
           this.datosForm.markAsPristine();
           this.uid = res['iteraciones'].uid;
           this.submited = true;
@@ -111,11 +123,11 @@ export class IteracionComponent implements OnInit {
     } else {
       this.datosForm.get('iteracion').setValue('');
       this.datosForm.get('hito').setValue('');
-        // this.datosForm.get('curso').setValue('');
-        // this.datosForm.get('fecha_ini').setValue('');
-        // this.datosForm.get('fecha_fin').setValue('');
-        // this.datosForm.get('fecha_ini_coe').setValue('');
-        // this.datosForm.get('fecha_fin_coe').setValue('');
+      this.datosForm.get('curso').setValue('');
+      this.datosForm.get('fecha_ini').setValue('');
+      this.datosForm.get('fecha_fin').setValue('');
+      this.datosForm.get('fecha_ini_coe').setValue('');
+      this.datosForm.get('fecha_fin_coe').setValue('');
       this.datosForm.markAsPristine();
     }
   }
@@ -127,14 +139,10 @@ export class IteracionComponent implements OnInit {
   }
 
   cancelar() {
-    if (this.uid === 'nuevo') {
-      this.router.navigateByUrl('/admin/iteraciones');
-    } else {
-      this.cargarDatos();
-    }
+    this.router.navigateByUrl('/admin/iteraciones');
   }
 
-  campoNoValido( campo: string) {
+  campoNoValido(campo: string) {
     return this.datosForm.get(campo).invalid && this.submited;
   }
 
