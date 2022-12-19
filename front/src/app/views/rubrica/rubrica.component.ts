@@ -271,11 +271,7 @@ export class RubricaComponent implements OnInit {
   }
 
   cancelar() {
-    if (this.uid === 'nuevo') {
       this.router.navigateByUrl('/admin/rubricas');
-    } else {
-      this.cargarDatos(this.uid);
-    }
   }
 
   campoNoValido( campo: string) {

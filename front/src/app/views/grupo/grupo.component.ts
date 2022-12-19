@@ -131,11 +131,7 @@ export class GrupoComponent implements OnInit {
   }
 
   cancelar() {
-    if (this.uid === 'nuevo') {
       this.router.navigateByUrl('/admin/grupos');
-    } else {
-      this.cargarDatos();
-    }
   }
 
   campoNoValido( campo: string) {

@@ -175,9 +175,11 @@ export class UserComponent implements OnInit {
   }
 
   cancelar(): void {
+    console.log('Entra')
     // Si estamos creando uno nuevo, vamos a la lista
-    if (this.datosForm.get('uid').value === 'nuevo') {
-      this.router.navigateByUrl('/admin/usuarios');
+    if (this.datosForm.get('uid').value === 'new') {
+      console.log('Entra')
+      this.router.navigateByUrl('/admin/users');
       return;
     } else {
       this.usuarioService.cargarUsuario(this.datosForm.get('uid').value)
@@ -190,7 +192,7 @@ export class UserComponent implements OnInit {
         // Restablecemos los datos del formulario en el formulario
         this.cargarDatosForm(res);
       }, (err) => {
-        this.router.navigateByUrl('/admin/usuarios');
+        this.router.navigateByUrl('/admin/users');
         Swal.fire({icon: 'error', title: 'Oops...', text: 'No se pudo completar la acción, vuelva a intentarlo',});
       });
     }
