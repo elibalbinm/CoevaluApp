@@ -10,6 +10,10 @@ const { validarJWT }     = require('../middleware/validar-jwt');
 
 const router = Router();
 
+router.post('/criterios',[
+    validarJWT,
+    validarCampos
+], rubricCtrl.listaCriterios);
 router.get('/', [
     validarJWT,
     // Campos opcionales que si vienen los validamos desde e id
@@ -20,7 +24,9 @@ router.get('/', [
 ], rubricCtrl.getRubrics);
 
 router.get('/total', rubricCtrl.totalRubricas);
-
+router.post('/lista', [
+    validarJWT,
+], rubricCtrl.listCriteria);
 router.post('/', [
     validarJWT,
     check('texto', 'El argumento nombre es obligatorio').not().isEmpty().trim(),

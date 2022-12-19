@@ -83,8 +83,8 @@ export class RubricasComponent implements OnInit {
     }
 
     Swal.fire({
-      title: 'Eliminar grupo',
-      text: `Al eliminar el grupo '${nombre}' se perderán todos los datos asociados. ¿Desea continuar?`,
+      title: 'Eliminar rúbrica',
+      text: `Al eliminar la rúbrica se perderán todos los datos asociados. ¿Desea continuar?`,
       icon: 'question',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',

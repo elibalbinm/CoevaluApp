@@ -110,7 +110,7 @@ export class IteracionComponent implements OnInit {
         });
     } else {
       this.datosForm.get('iteracion').setValue('');
-        this.datosForm.get('hito').setValue('');
+      this.datosForm.get('hito').setValue('');
         // this.datosForm.get('curso').setValue('');
         // this.datosForm.get('fecha_ini').setValue('');
         // this.datosForm.get('fecha_fin').setValue('');

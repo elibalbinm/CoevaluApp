@@ -1,180 +1,55 @@
-<div
-  class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded"
->
-  <div class="rounded-t mb-0 px-4 py-3 border-0">
-    <div class="flex flex-wrap items-center">
-      <div class="relative w-full px-2 py-4 max-w-full flex-grow flex-1">
-        <h3 class="font-bold text-lg text-blueGray-700">Usuarios</h3>
+<div class="card">
+  <div class="card-body row">
+    <div class="container px-4 mx-auto">
+      <!--PRIMERA COLUMNA -->
+      <div class="grid grid-rows-3 grid-flow-col gap-3">
+        <div class="">
+          <!-- <span class="text-sm block my-4 p-3 text-blueGray-700 rounded border border-solid border-blueGray-100">One of three columns</span> -->
+          <h5 class="block uppercase text-blueGray-600 text-xs font-bold mb-2">Seleccionados
+            <span class="inline-block py-1 px-2 leading-none text-center whitespace-nowrap align-baseline font-bold bg-emerald-600 text-white rounded ml-2">{{listaSelected.length}}</span></h5>
+          <div class="milista">
+              <div class="ml-10 mb-10" *ngFor="let user of listaSelected;let idx = index">
+                  <i class="fa fa-minus-circle text-red-600 mr-5" (click)="quitar(idx, true)"></i> {{user.nombre}}
+              </div>
+              <div *ngIf="listaSelected.length===0">(No hay elementos)</div>
+          </div>
+        </div>
+        <!-- SEGUNDA COLUMNA -->
+        <div class="">
+          <!-- <span class="text-sm block my-4 p-3 text-blueGray-700 rounded border border-solid border-blueGray-100">One of three columns</span> -->
+          <div class="nav nav-pills flex flex-col flex-wrap list-none pl-0 mr-4 my-6">
+            <div class="nav-item flex-grow text-center mb-2">
+              <button (click)="agregarTodos()"
+              class="bg-emerald-600 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+              type="submit"
+              >
+                <i class="fas fa-arrow-left d-block d-lg-none d-xl-none m-r-5"></i>
+                <span class=""> Agregar<br>todos</span>
+              </button>
+            </div>
+            <div class="nav-item flex-grow text-center my-2">
+                <button (click)="quitarTodos()"
+                  class="bg-red-600 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                  type="button"
+                >
+                  <i class="fas fa-arrow-right mr-5"></i>
+                  <span class=""> Quitar<br>todos</span>
+                </button>
+              </div>
+            </div>
+        </div>
+        <!-- TERCERA COLUMNA -->
+        <div class="">
+          <!-- <span class="text-sm block my-4 p-3 text-blueGray-700 rounded border border-solid border-blueGray-100">One of three columns</span> -->
+          <h5 class="block uppercase text-blueGray-600 text-xs font-bold mb-2">Posibles
+            <span class="inline-block py-1 px-2 leading-none text-center whitespace-nowrap align-baseline font-bold bg-red-600 text-white rounded ml-2">{{listaUsers.length}}</span></h5>
+          <div class="h-250 overflow-auto">
+            <div class="ml-10 mb-10" *ngFor="let user of listaUsers;let idx = index">
+                <i class="fa fa-plus-circle mr-5" (click)="agregar(idx, true)"></i> {{user.nombre}}
+            </div>
+            <div *ngIf="listaUsers.length===0">(No hay elementos)</div>
+          </div>
+        </div>
       </div>
-      <!-- <div class="relative w-full px-4 max-w-full flex-grow flex-1 text-right">
-        <button
-          class="bg-indigo-500 text-white active:bg-indigo-600 text-sm font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-          type="button"
-        >
-          See all
-        </button>
-      </div> -->
     </div>
   </div>
-  <div class="block w-full overflow-x-auto">
-    <!-- Projects table -->
-    <table class="items-center w-full bg-transparent border-collapse">
-      <thead>
-        <tr>
-          <th
-            class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-sm uppercase border-l-0 border-r-0 whitespace-nowrap font-extrabold text-left"
-          >
-            Nombre
-          </th>
-          <th
-            class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-sm uppercase border-l-0 border-r-0 whitespace-nowrap font-bold text-left"
-          >
-            Apellidos
-          </th>
-          <th
-            class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-sm uppercase border-l-0 border-r-0 whitespace-nowrap font-bold text-left"
-          >
-            E-mail
-          </th>
-          <th
-            class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-sm uppercase border-l-0 border-r-0 whitespace-nowrap font-bold text-left"
-          >
-            Rol
-          </th>
-          <th
-            class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-sm uppercase border-l-0 border-r-0 whitespace-nowrap font-bold text-left"
-          >
-            Alta
-          </th>
-          <th
-            class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-sm uppercase border-l-0 border-r-0 whitespace-nowrap font-bold text-left"
-          >
-            Activo
-          </th>
-          <th
-            class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-sm uppercase border-l-0 border-r-0 whitespace-nowrap font-bold text-left"
-          >
-            Acción
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let usuario of listaUsuarios">
-          <th
-            [routerLink]="['/admin/users/user', usuario.uid]"
-            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4 text-left"
-          >
-          {{usuario.nombre}}
-          </th>
-          <td
-            [routerLink]="['/admin/users/user', usuario.uid]"
-            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4"
-          >
-          {{usuario.apellidos}}
-          </td>
-          <td
-            [routerLink]="['/admin/users/user', usuario.uid]"
-            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4"
-          >
-          {{usuario.email}}
-          </td>
-          <td
-            [routerLink]="['/admin/users/user', usuario.uid]"
-            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4"
-          >
-            {{usuario.rol}}
-          </td>
-          <td
-            [routerLink]="['/admin/users/user', usuario.uid]"
-            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4"
-          >
-            {{usuario.alta}}
-          </td>
-          <td
-            [routerLink]="['/admin/users/user', usuario.uid]"
-            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4"
-            *ngIf="usuario.activo"
-          >
-            <i class="fas fa-check-circle text-emerald-500 px-4"></i>
-          </td>
-          <td
-            [routerLink]="['/admin/users/user', usuario.uid]"
-            class="flex items-center border-t-0 px-3 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4"
-          >
-            <button
-              class="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-sm uppercase font-bold"
-              target="_blank"
-            >
-              <i
-                [routerLink]="['/admin/users/user', usuario.uid]"
-                class="lg:text-blueGray-200 text-blueGray-400 fas fa-edit text-lg leading-lg"
-              ></i>
-            </button>
-            <button
-              class="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-sm uppercase font-bold"
-              target="_blank"
-            >
-              <i
-                class="lg:text-blueGray-200 text-blueGray-400 fas fa-trash text-lg leading-lg"
-              ></i>
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <!-- Pagination -->
-  <div class="container py-4 mx-auto">
-    <nav class="block w-full px-4 flex-1 md:w-2/12 md:flex-none">
-      <ul class="flex pl-0 place-content-end rounded list-none flex-wrap">
-        <li>
-          <a href="#pablo" class="first:ml-0 text-sm font-bold flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-red-500 bg-white text-teal-600">
-            <i class="fas fa-chevron-left -ml-px"></i>
-            <i class="fas fa-chevron-left -ml-px"></i>
-          </a>
-        </li>
-        <li>
-          <a href="#pablo" class="first:ml-0 text-sm font-bold flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-red-500 bg-white text-teal-600">
-            <i class="fas fa-chevron-left -ml-px"></i>
-          </a>
-        </li>
-        <li>
-          <a href="#pablo" class="first:ml-0 text-sm font-bold flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-red-500 text-white bg-teal-600">
-            1
-          </a>
-        </li>
-        <li>
-          <a href="#pablo" class="first:ml-0 text-sm font-bold flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-red-500 bg-white text-teal-600">
-            2
-          </a>
-        </li>
-        <li>
-          <a href="#pablo" class="first:ml-0 text-sm font-bold flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-red-500 bg-white text-teal-600">
-            3
-          </a>
-        </li>
-        <li>
-          <a href="#pablo" class="first:ml-0 text-sm font-bold flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-red-500 bg-white text-teal-600">
-            4
-          </a>
-        </li>
-        <li>
-          <a href="#pablo" class="first:ml-0 text-sm font-bold flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-red-500 bg-white text-teal-600">
-            5
-          </a>
-        </li>
-        <li>
-          <a href="#pablo" class="first:ml-0 text-sm font-bold flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-red-500 bg-white text-teal-600">
-            <i class="fas fa-chevron-right -mr-px"></i>
-          </a>
-        </li>
-        <li>
-          <a href="#pablo" class="first:ml-0 text-sm font-bold flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-red-500 bg-white text-teal-600">
-            <i class="fas fa-chevron-right -mr-px"></i>
-            <i class="fas fa-chevron-right -mr-px"></i>
-          </a>
-        </li>
-      </ul>
-    </nav>
-  </div>
-</div>

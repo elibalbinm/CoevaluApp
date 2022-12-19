@@ -2,21 +2,29 @@ import { Component, OnInit, Input, Output, EventEmitter, OnChanges } from '@angu
 import { UserSelect } from 'src/app/interfaces/user-select.interface';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
+interface criteriaSelect{
+  nombre: string;
+  uid: string;
+}
+
 @Component({
   selector: 'app-card-select-user',
   templateUrl: './card-select-user.component.html'
 })
 
+
 export class CardSelectUserComponent implements OnInit, OnChanges {
 
   // Recibe una lista de usuarios extraidos de alumnos/profesores de BD
   // tiene la estructura {_id: string, usuario: string}
+  @Input() criterios: {_id: string, criterio: string}[] = [];
   @Input() selected: {_id: string, usuario: string}[] = [];
   @Input() rol: string = 'ROL_ALUMNO';
 
   // Emite la lista de string de los usuarios seleccionados
   @Output() nuevaLista:EventEmitter<string[]> = new EventEmitter();
 
+  public listaCriterios: criteriaSelect[] = [];
   public listaSelected: UserSelect[] = [];
   public listaUsers: UserSelect[] = [];
 
@@ -27,11 +35,14 @@ export class CardSelectUserComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(): void{
+    console.log('Entra a onChanges')
 
+    // if(this.selected.length < 0){
+    //   this.cargarCriteriosSeleccionables;
+    // }
     this.cargarUsuariosSeleccionados();
     this.cargarUsuariosSeleccionables();
   }
-
 
   ordenarLista(lista: UserSelect[]) {
     return lista.sort( (a, b): number => {
@@ -124,6 +135,25 @@ export class CardSelectUserComponent implements OnInit, OnChanges {
         }, (err) => {
         });
   }
+
+  // cargarCriteriosSeleccionables(): void {
+  //   // Convertir el userSelected[] a string[]
+  //   let selectedarray: string[] = [];
+  //   if (this.selected !== undefined) {
+
+  //     this.selected.forEach(user => {
+  //       selectedarray.push(user.usuario);
+  //     });
+  //   }
+  //   this.rubricaService.cargarListaCriterios( selectedarray )
+  //     .subscribe( res => {
+  //       this.listaUsers = [];
+  //       res['usuarios'].map( usuario => {
+  //         this.listaUsers.push({nombre: `${usuario.apellidos}, ${usuario.nombre}` , uid: `${usuario.uid}`});
+  //       });
+  //     }, (err) => {
+  //     });
+  // }
 
   cargarUsuariosSeleccionables(): void {
     // Convertir el userSelected[] a string[]

@@ -6,6 +6,38 @@ const Criterio      =   require('../models/criterios.model');
 
 const rubricCtrl = {};
 
+rubricCtrl.listaCriterios = async(req, res) => {
+    const rol = req.params.rol;
+    const lista = req.body.lista;
+
+    // Solo puede listar usuarios un admin
+    const token = req.header('x-token');
+    if (!(infoToken(token).rol === 'ROL_ADMIN')) {
+        return res.status(400).json({
+            ok: false,
+            msg: 'No tiene permisos para listar criterios',
+        });
+    }
+
+    listaB = [];
+    if (!lista) { listaB = []; }
+
+    try {
+        const criterios = await Criterio.find({ _id: { $nin: lista }, activo: true }).collation({ locale: 'es' }).sort({ nombre: 1, descripcion: 1 });
+        res.json({
+            ok: true,
+            msg: 'listaCriterios',
+            criterios
+        });
+    } catch (error) {
+        return res.status(400).json({
+            ok: false,
+            msg: 'Error al listar criterios',
+            error
+        });
+    }
+}
+
 rubricCtrl.totalRubricas = async(req, res) => {
     
     try {
@@ -44,8 +76,7 @@ rubricCtrl.getRubrics = async(req, res = repsonse) => {
         let rubricas, criterios, total;
         if (id) {
             [rubricas, total] = await Promise.all([
-                Rubrica.findById(id).populate('curso', '-__v'),
-                Rubrica.findById(id).populate( 
+                Rubrica.findById(id).populate('curso', '-__v').populate( 
                     {path: 'criterios',
                     // Get friends of friends - populate the 'friends' array for every friend
                     populate: { path: 'criterio', model: Criterio }
@@ -247,6 +278,42 @@ rubricCtrl.updateRubric = async(req, res) => {
     }
 }
 
+rubricCtrl.listCriteria = async(req, res) => {
+    const lista = req.body.lista;
+
+    if (!lista) {
+        return res.json({
+            ok: true,
+            msg: 'Lista de criterios',
+            criterios: 'none',
+        });
+    }
+
+    // Solo puede listar usuarios un admin
+    const token = req.header('x-token');
+    if (!(infoToken(token).rol === 'ROL_ADMIN')) {
+        return res.status(400).json({
+            ok: false,
+            msg: 'No tiene permisos para listar criterios',
+        });
+    }
+
+    try {
+        const criterios = await Criterio.find({ _id: { $in: lista }, activo: true }).collation({ locale: 'es' }).sort({ nombre: 1, descripcion: 1 });
+        res.json({
+            ok: true,
+            msg: 'Lista de criterios correcta',
+            criterios
+        });
+    } catch (error) {
+        return res.status(400).json({
+            ok: false,
+            msg: 'Error al listar criterios por uids',
+        });
+    }
+
+}
+
 rubricCtrl.deleteRubric = async(req, res = response) => {
 
     const uid = req.params.id;
@@ -268,7 +335,7 @@ rubricCtrl.deleteRubric = async(req, res = response) => {
         if (!existeRubrica) {
             return res.status(400).json({
                 ok: true,
-                msg: 'El rubrica no existe'
+                msg: 'La rúbrica no existe'
             });
         }
         // Lo eliminamos y devolvemos el usuaurio recien eliminado
@@ -300,7 +367,7 @@ rubricCtrl.updateList = async(req, res) => {
     if (!(infoToken(token).rol === 'ROL_ADMIN')) {
         return res.json({
             ok: false,
-            msg: 'No tiene permisos para modificar lista de profesores/alumnos de asignatura',
+            msg: 'No tiene permisos para modificar lista de criterios de una rúbrica',
         });
     }
 
@@ -309,7 +376,7 @@ rubricCtrl.updateList = async(req, res) => {
     try {
         const criterios = await Criterio.find({ _id: { $in: lista } }, { _id: 0, 'criterio': '$_id' });
         const objeto = { criterios: criterios };
-        const grupo = await Grupo.findByIdAndUpdate(id, objeto, { new: true });
+        const grupo = await Rubrica.findByIdAndUpdate(id, objeto, { new: true });
         res.json({
             ok: true,
             msg: `Actualizar lista de criterios`,

@@ -10,9 +10,20 @@ export class RubricaService {
 
   constructor(private http: HttpClient) { }
 
+  //Bien
   actualizarLista(uid:string, plista: string[]) {
     const data = {lista: plista};
     return this.http.put(`${environment.base_url}/rubricas/lista/${uid}`, data, this.cabeceras);
+  }
+
+  cargarListaCriterios ( uids: string[]) {
+    const data = { lista: uids };
+    return this.http.post(`${environment.base_url}/criterios/lista` , data, this.cabeceras);
+  }
+
+  cargarCriterios ( uids: string[]) {
+    const data = { lista: uids };
+    return this.http.post(`${environment.base_url}/rubricas/criterios` , data, this.cabeceras);
   }
 
   crearRubrica(data) {

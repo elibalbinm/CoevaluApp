@@ -10,6 +10,42 @@ const sleep = (ms) => {
     });
 }
 
+criterioCtrl.listaCriterios = async(req, res) => {
+    const lista = req.body.lista;
+
+    if (!lista) {
+        return res.json({
+            ok: true,
+            msg: 'Lista de criterios',
+            criterios: 'none',
+        });
+    }
+
+    // Solo puede listar criterios un admin
+    const token = req.header('x-token');
+    if (!(infoToken(token).rol === 'ROL_ADMIN')) {
+        return res.status(400).json({
+            ok: false,
+            msg: 'No tiene permisos para listar criterios',
+        });
+    }
+
+    try {
+        const criterios = await Criterio.find({ _id: { $in: lista }, activo: true }).collation({ locale: 'es' }).sort({ nombre: 1, descripcion: 1 });
+        res.json({
+            ok: true,
+            msg: 'Lista de criterios',
+            criterios
+        });
+    } catch (error) {
+        return res.status(400).json({
+            ok: false,
+            msg: 'Error al listar criterios por uids',
+        });
+    }
+
+}
+
 criterioCtrl.getCriterio = async(req, res = repsonse) => {
 
     // Paginación
