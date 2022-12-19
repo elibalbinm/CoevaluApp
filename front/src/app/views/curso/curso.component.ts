@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { CursoService } from 'src/app/services/curso.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import moment from 'moment';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -55,8 +56,8 @@ export class CursoComponent implements OnInit {
           this.datosForm.get('nombrecorto').setValue(res['cursos'].nombrecorto);
           this.datosForm.get('activo').setValue(res['cursos'].activo);
           this.datosForm.get('porcentaje').setValue(res['cursos'].porcentaje);
-          this.datosForm.get('fecha_ini').setValue(res['cursos'].fecha_ini);
-          this.datosForm.get('fecha_fin').setValue(res['cursos'].fecha_fin);
+          this.datosForm.get('fecha_ini').setValue(moment(res['cursos'].fecha_ini).format('YYYY-MM-DD'));
+          this.datosForm.get('fecha_fin').setValue(moment(res['cursos'].fecha_fin).format('YYYY-MM-DD'));
           this.datosForm.markAsPristine();
           this.submited = true;
         }, (err) => {

@@ -292,7 +292,7 @@ export class RubricaComponent implements OnInit {
   }
 
   guardarLista(evento: string[]) {
-    console.log('Guardamos lista rubricas',this.uid);
+    console.log('Guardamos lista rubricas', this.uid);
     this.rubricaService.actualizarLista(this.uid, evento)
       .subscribe( res => {
       },(err)=>{
@@ -300,5 +300,4 @@ export class RubricaComponent implements OnInit {
         return;
       });
   }
-
 }
