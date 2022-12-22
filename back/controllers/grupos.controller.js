@@ -130,6 +130,8 @@ groupCtrl.createGroup = async(req, res = response) => {
         const grupo = new Grupo(req.body);
         grupo.alumnos = listaalumnosinsertar;
 
+        console.log(grupo.alumnos);
+
         // Almacenar en BD
         await grupo.save();
 

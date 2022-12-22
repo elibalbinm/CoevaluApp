@@ -3,7 +3,7 @@ Ruta base: /api/asignaturas
 */
 
 const { Router } = require('express');
-const { courseCtrl } = require('../controllers/asignaturas.controller');
+const { evaluationCtrl } = require('../controllers/evaluaciones.controller');
 const { check } = require('express-validator');
 const Usuario      = require('../models/usuarios.model');
 const Iteracion     = require('../models/iteraciones.model');
@@ -34,37 +34,41 @@ router.get('/', [
     check('texto', 'El texto de búsqueda debe ser un texto').optional().trim(),
     // check('curso', 'El curso debe ser un identificador de curso válido').optional().isMongoId(),
     validarCampos,
-], courseCtrl.obtenerAsignaturas);
+], evaluationCtrl.getEvaluations);
+
 router.post('/', [
     validarJWT,
-    check('nombre', 'El argumento nombre es obligatorio').not().isEmpty().trim(),
-    check('nombrecorto', 'El argumento nombrecorto es obligatorio').not().isEmpty().trim(),
-    check('curso', 'El argumento curso no es válido').isMongoId(),
-    // Opcionales lista de profesores, si viene comprobar que es id válido
-    check('iteracion.*.iteracion', 'El identificador de Iteración no es válido').optional().isMongoId(),
-    check('alumno.*.usuario', 'El identificador de Alumno no es válido').optional().isMongoId(),
+    check('votaciones.*.usuario', 'El usuario definido no existe en la BBDD').optional().isMongoId(),
+    check('votaciones.*.valores.*.criterio', 'El criterio definido no existe en la BBDD').optional().isMongoId(),
+    check('votaciones.*.valores.*.escala', 'El criterio definido no existe en la BBDD').optional().isMongoId(),
+    check('votaciones.*.valores.*.valor', 'El criterio definido no existe en la BBDD').optional().isNumeric(),
+    check('iteracion', 'El identificador de Iteración no es válido').optional().isMongoId(),
+    check('alumno', 'El identificador de Alumno no es válido').optional().isMongoId(),
     validarCampos,
-], courseCtrl.crearAsignatura);
-router.put('/lista/:id', [
-    validarJWT,
-    check('id', 'El id de asignatura debe ser válido').isMongoId(),
-    check('tipo', 'El argumento tipo es obligatorio (alumnos, profesores)').not().isEmpty().trim(),
-    validarCampos,
-], courseCtrl.actualizarLista);
+], evaluationCtrl.createEvaluation);
+
+// router.put('/lista/:id', [
+//     validarJWT,
+//     check('id', 'El id de asignatura debe ser válido').isMongoId(),
+//     check('tipo', 'El argumento tipo es obligatorio (alumnos, profesores)').not().isEmpty().trim(),
+//     validarCampos,
+// ], evaluationCtrl.actualizarLista);
+
 router.put('/:id', [
     validarJWT,
-    check('id', 'El identificador no es válido').isMongoId(),
-    check('nombre', 'El argumento nombre es obligatorio').not().isEmpty(),
-    check('nombrecorto', 'El argumento nombrecorto es obligatorio').not().isEmpty(),
-    check('curso', 'El argumento curso no es válido').isMongoId(),
-    // Opcionales lista de profesores, si viene comprobar que es id válido
-    check('profesores.*.usuario', 'El identificador de profesor no es válido').optional().isMongoId(),
+    check('votaciones.*.usuario', 'El usuario definido no existe en la BBDD').optional().isMongoId(),
+    check('votaciones.*.valores.*.criterio', 'El criterio definido no existe en la BBDD').optional().isMongoId(),
+    check('votaciones.*.valores.*.escala', 'El criterio definido no existe en la BBDD').optional().isMongoId(),
+    check('votaciones.*.valores.*.valor', 'El criterio definido no existe en la BBDD').optional().isNumeric(),
+    check('iteracion', 'El identificador de Iteración no es válido').optional().isMongoId(),
+    check('alumno', 'El identificador de Alumno no es válido').optional().isMongoId(),
     validarCampos,
-], courseCtrl.actualizarAsignatura);
+], evaluationCtrl.updateEvaluation);
+
 router.delete('/:id', [
     validarJWT,
     check('id', 'El identificador no es válido').isMongoId(),
     validarCampos,
-], courseCtrl.borrarAsignatura);
+], evaluationCtrl.deleteEvaluation);
 
 module.exports = router;

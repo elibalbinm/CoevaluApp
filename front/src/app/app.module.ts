@@ -76,6 +76,8 @@ import { EscalaComponent } from './views/escala/escala.component';
 import { AlumnoComponent } from './layouts/alumno/alumno.component';
 import { ProfesorComponent } from './layouts/profesor/profesor.component';
 import { PanelComponent } from './components/panel/panel.component';
+import { EvaluacionesComponent } from './views/evaluaciones/evaluaciones.component';
+import { EvaluacionComponent } from './views/evaluacion/evaluacion.component';
 
 
 @NgModule({
@@ -137,6 +139,8 @@ import { PanelComponent } from './components/panel/panel.component';
     PanelComponent,
     IteracionesComponent,
     IteracionComponent,
+    EvaluacionesComponent,
+    EvaluacionComponent,
   ],
   imports: [
     BrowserModule,

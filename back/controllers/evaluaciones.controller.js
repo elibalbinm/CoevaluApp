@@ -1,8 +1,10 @@
 const { response } = require('express');
 const { infoToken } = require('../helpers/infotoken');
-const Iteracion     = require('../models/iteraciones.model');
-const Curso         = require('../models/cursos.model');
-const Rubrica      = require('../models/rubricas.model');
+const Evaluacion     = require('../models/evaluaciones.model');
+const Iteracion      = require('../models/iteraciones.model');
+const Criterio        = require('../models/criterios.model');
+const Usuario        = require('../models/usuarios.model');
+const Escala        = require('../models/escalas.model');
 
 const evaluationCtrl = {};
 
@@ -30,19 +32,26 @@ evaluationCtrl.getEvaluations = async(req, res = repsonse) => {
         let evaluaciones, total;
         if (id) {
             [evaluaciones, total] = await Promise.all([
-                Iteracion.findById(id),
-                Iteracion.countDocuments()
+                Evaluacion.findById(id).populate('usuario').populate('iteracion'),
+                Evaluacion.countDocuments()
             ]);
         } else {
             if (texto) {
                 [evaluaciones, total] = await Promise.all([
-                    Iteracion.find({ $or: [{ nombre: textoBusqueda }, { descripcion: textoBusqueda }] }).skip(desde).limit(registropp),
-                    Iteracion.countDocuments({ $or: [{ nombre: textoBusqueda }, { descripcion: textoBusqueda }] })
+                    Evaluacion.find({ $or: [{ nombre: textoBusqueda }, { descripcion: textoBusqueda }] }).skip(desde).limit(registropp),
+                    Evaluacion.countDocuments({ $or: [{ nombre: textoBusqueda }, { descripcion: textoBusqueda }] })
                 ]);
             } else {
                 [evaluaciones, total] = await Promise.all([
-                    Iteracion.find({}).skip(desde).limit(registropp),
-                    Iteracion.countDocuments()
+                    Evaluacion.find({}).skip(desde).limit(registropp).populate( 
+                        {path: 'votaciones',
+                        // Get friends of friends - populate the 'friends' array for every friend
+                        populate: { path: 'usuario', model: Usuario }
+                        }).
+                        populate( { path: 'alumno', model: Usuario }
+                        ).
+                        populate('iteracion'),
+                    Evaluacion.countDocuments()
                 ]);
             }
         }
@@ -66,10 +75,19 @@ evaluationCtrl.getEvaluations = async(req, res = repsonse) => {
     }
 }
 
-evaluationCtrl.createIteration = async(req, res = response) => {
+evaluationCtrl.createEvaluation = async(req, res = response) => {
+    console.log('Entra a createEvaluation')
 
-    const { curso, rubrica } = req.body;
+    if (!req.body)
+        return res.sendStatus(400)
+    console.log(req.body);
 
+    const { alumno, iteracion, votaciones } = req.body;
+    // console.log("Alumno: "+alumno)
+    // console.log("Iteracion: "+iteracion)
+    // console.log("Votaciones: ",votaciones)
+    // const valores = votaciones[0].valores;
+    // console.log("Valores: ",valores)
     // Solo puede crear usuarios un admin
     const token = req.header('x-token');
     // lo puede actualizar un administrador o el propio usuario del token
@@ -81,46 +99,108 @@ evaluationCtrl.createIteration = async(req, res = response) => {
     }
 
     try {
-        // Comprobar que el curso que se va a asignar al iteracion existe
-        const existeCurso = await Curso.findById(curso);
-        if (!existeCurso) {
+        //Comprobar que existe el usuario 
+        const existeAlumno = await Usuario.find().where('_id').in(alumno);
+        if (!existeAlumno) {
             return res.status(400).json({
                 ok: false,
-                msg: 'El curso asignado en la iteración no existe'
+                msg: 'El alumno asignado a la evaluación no existe'
             });
         }
 
-        // Comrprobar que no existe un gurpo en ese mismo curso con ese nombre
-        const existeRubrica = await Rubrica.findById(rubrica);
-        if (!existeRubrica) {
+        // Comrprobar que existe la iteracion
+        const existeIteracion = await Iteracion.findById(iteracion);
+        if (!existeIteracion) {
             return res.status(400).json({
                 ok: false,
-                msg: 'La rúbrica asignada a la iteración no existe'
+                msg: 'La iteración asignada a la evaluación no existe'
             });
         }
 
-        const iteracion = new Iteracion(req.body);
-        // Almacenar en BD
-        await iteracion.save();
+        //Comprobación del array de votaciones 
+        let listavotacionesusu = [];
+        if(votaciones){
+            console.log('Votaciones: '+votaciones);
+            let listavotacionesbusqueda = [];
+            // Convertimos el array de objetos en un array con los strings de id de usuario
+            // Creamos un array de objetos pero solo con aquellos que tienen el campo usuario correcto
+            const listausu = votaciones.map(async registro => {
+                console.log('Registro: '+registro);
+                if(registro.usuario){
+                    console.log('Registro.usuario: '+registro.usuario);
+                    listavotacionesbusqueda.push(registro.usuario);
+
+                    console.log('Valores: '+ registro.valores);
+                    const listaValores = registro.valores;
+                    const resultado = listaValores.map(async registro2 =>{
+                        if(registro2.criterio){
+                            console.log('Criterio: '+registro2.criterio);
+                            // listavotacionesusu.concat(registro2.criterio);
+                            // console.log('Despues: Listavotacionesusu: '+JSON.stringify(listavotacionesusu));
+                            const existeCriterio = await Criterio.findById(registro2.criterio);
+                            if (!existeCriterio) {
+                                return res.status(400).json({
+                                    ok: false,
+                                    msg: 'El criterio asignado a la evaluación no existe en la BBDD'
+                                });
+                            }
+                        }
+
+                        if(registro2.escala){
+                            console.log('Escala: '+registro2.escala);
+                            const existeEscala = await Escala.findById(registro2.escala);
+                            if (!existeEscala) {
+                                return res.status(400).json({
+                                    ok: false,
+                                    msg: 'La escala asignada a la evaluación no existe en la BBDD'
+                                });
+                            }
+                        }
+                    });
+
+                    // console.log('Antes: listavotacionesusu: '+JSON.stringify(listavotacionesusu));
+                    // console.log('Done')
+                    const existeAlumnoRubrica = await Usuario.find().where('_id').in(registro.usuario);
+                    if (!existeAlumnoRubrica) {
+                        return res.status(400).json({
+                            ok: false,
+                            msg: 'El alumno asignado en la votación no existe en la BBDD'
+                        });
+                    }
+
+                    //Esto dejarlo a lo ultimo, primero hacer las comprobaciones de criterio y escala
+                    listavotacionesusu.push(registro);
+                    console.log("Registroooooooo "+registro)
+                    console.log('Listavotacionesusu: '+JSON.stringify(listavotacionesusu));
+                }
+            });
+        }
+
+        const evaluacion = new Evaluacion(req.body);
+        // evaluacion.votaciones = listavotacionesusu;
+
+        console.log('Evaluación votaciones: '+evaluacion.votaciones);
+
+        await evaluacion.save();
 
         res.json({
             ok: true,
-            msg: 'Iteración creada',
-            iteracion,
+            msg: 'Evaluación creada con éxito',
+            evaluacion,
         });
 
     } catch (error) {
         console.log(error);
         return res.status(400).json({
             ok: false,
-            msg: 'Error creando iteración'
+            msg: 'Error creando evaluación'
         });
     }
 }
 
-evaluationCtrl.updateIteration = async(req, res) => {
+evaluationCtrl.updateEvaluation = async(req, res) => {
 
-    const { nombre, alumnos, curso } = req.body;
+    const { alumno, iteracion, votaciones } = req.body;
     const uid = req.params.id;
 
     // Solo puede crear usuarios un admin
@@ -129,81 +209,54 @@ evaluationCtrl.updateIteration = async(req, res) => {
     if (!(infoToken(token).rol === 'ROL_ADMIN')) {
         return res.status(400).json({
             ok: false,
-            msg: 'No tiene permisos para actualizar evaluacioness',
+            msg: 'No tiene permisos para actualizar evaluaciones',
         });
     }
 
     try {
-        // Comprobar que el curso que se va a asignar al iteracion existe
-        const existeCurso = await Curso.findById(curso);
-        if (!existeCurso) {
+        const existeEvaluacion = await Evaluacion.findById(uid);
+        if (!existeEvaluacion) {
             return res.status(400).json({
                 ok: false,
-                msg: 'El curso asignado en la asignatura no existe'
+                msg: 'La evaluación no existe'
             });
         }
 
-        const existeIteracion = await Iteracion.findById(uid);
+        //Comprobar que existe el usuario 
+        const existeAlumno = await Usuario.find().where('_id').in(alumno);
+        if (!existeAlumno) {
+            return res.status(400).json({
+                ok: false,
+                msg: 'El alumno asignado a la evaluación no existe'
+            });
+        }
+
+        // Comrprobar que existe la iteracion
+        const existeIteracion = await Iteracion.findById(iteracion);
         if (!existeIteracion) {
             return res.status(400).json({
                 ok: false,
-                msg: 'El iteracion no existe'
+                msg: 'La iteración asignada a la evaluación no existe'
             });
         }
 
-        // Comprobar que no existe un gurpo en ese mismo curso con ese nombre
-        const existeIteracionn = await Iteracion.findOne({ nombre, curso });
-        if (existeIteracionn && (existeIteracion._id != uid)) {
-            return res.status(400).json({
-                ok: false,
-                msg: 'El iteracion ya existe en le mismo curso'
-            });
-        }
-
-        // Comprobamos la lista de alumnos que nos envían que existan
-        let listaalumnosinsertar = [];
-        // Si nos ha llegado lista de alumnos comprobar que existen y hay limpiar campos raros
-        if (alumnos) {
-            let listaalumnosbusqueda = [];
-            // Convertimos el array de objetos en un array con los strings de id de usuario
-            // Creamos un array de objetos pero solo con aquellos que tienen el campo usuario correcto
-            const listaalu = alumnos.map(registro => {
-                if (registro.usuario) {
-                    listaalumnosbusqueda.push(registro.usuario);
-                    listaalumnosinsertar.push(registro);
-                }
-            });
-            // Comprobamos que los alumnos que nos pasan existen, buscamos todos los alumnos de la lista
-            const existenAlumnos = await Usuario.find().where('_id').in(listaalumnosbusqueda);
-            if (existenAlumnos.length != listaalumnosbusqueda.length) {
-                return res.status(400).json({
-                    ok: false,
-                    msg: 'Alguno de los alumnos indicados en el iteracion no existe o están repetidos'
-                });
-            }
-        }
-
-        // Creamos el registro para insertar pero con la lista de alumnos comprobados
-        let object = req.body;
-        object.alumnos = listaalumnosinsertar;
-
-        const iteracion = await Iteracion.findByIdAndUpdate(uid, object, { new: true });
+        const evaluacion = await Evaluacion.findByIdAndUpdate(uid, object, { new: true });
         res.json({
             ok: true,
-            msg: 'Iteracion actualizado',
-            iteracion
+            msg: 'Evaluacion actualizado',
+            evaluacion
         });
 
     } catch (error) {
         console.log(error);
         return res.status(400).json({
             ok: false,
-            msg: 'Error creando iteracion'
+            msg: 'Error creando evaluacion'
         });
     }
 }
 
-evaluationCtrl.deleteIteration = async(req, res = response) => {
+evaluationCtrl.deleteEvaluation = async(req, res = response) => {
 
     const uid = req.params.id;
 
@@ -218,27 +271,27 @@ evaluationCtrl.deleteIteration = async(req, res = response) => {
     }
 
     try {
-        // Comprobamos si existe el Iteracion que queremos borrar
-        const existeIteracion = await Iteracion.findById(uid);
-        if (!existeIteracion) {
+        // Comprobamos si existe el Evaluacion que queremos borrar
+        const existeEvaluacion = await Evaluacion.findById(uid);
+        if (!existeEvaluacion) {
             return res.status(400).json({
                 ok: true,
-                msg: 'El iteracion no existe'
+                msg: 'La evaluación no existe'
             });
         }
         // Lo eliminamos y devolvemos el usuaurio recien eliminado
-        const resultado = await Iteracion.findByIdAndRemove(uid);
+        const resultado = await Evaluacion.findByIdAndRemove(uid);
 
         res.json({
             ok: true,
-            msg: 'Iteracion eliminado',
+            msg: 'Evaluación eliminada',
             resultado: resultado
         });
     } catch (error) {
         console.log(error);
         return res.status(400).json({
             ok: false,
-            msg: 'Error borrando iteracion'
+            msg: 'Error borrando evaluación'
         });
 
     }
