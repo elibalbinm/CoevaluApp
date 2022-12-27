@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EvaluacionService } from 'src/app/services/evaluacion.service';
 import { CriterioService } from 'src/app/services/criterio.service';
@@ -12,6 +12,7 @@ import moment from 'moment';
   templateUrl: './evaluacion.component.html'
 })
 export class EvaluacionComponent implements OnInit {
+  [x: string]: any;
 
   constructor(private fb: FormBuilder,
     private evaluacionService: EvaluacionService,
@@ -24,11 +25,14 @@ export class EvaluacionComponent implements OnInit {
   public datosForm = this.fb.group({
     uid: [{value: 'nuevo', disabled: true}, Validators.required],
     alumno: ['', Validators.required ],
+    votaciones: this.fb.group({
+      usuario: ['', Validators.required],
+      valores: this.fb.array([]) // create empty form array
+    }),
     iteracion: ['', Validators.required ],
     criterio: ['', Validators.required ],
     escala: ['', Validators.required ],
     valor: ['', Validators.required ],
-    votaciones: ['', Validators.required ],
     alumno_votado: ['', Validators.required ],
     fecha: ['', Validators.required ]
   });
@@ -37,10 +41,12 @@ export class EvaluacionComponent implements OnInit {
 
   public submited = false;
   public uid: string = 'nuevo';
-
+  public valores: {criterio: '', escala: '', valor: ''}
   public alumnos: string[];
+  public votaciones: any;
 
   ngOnInit(): void {
+    this.control = <FormArray>this.datosForm.controls['votaciones.valores'];
     this.cargarCriterios();
     this.uid = this.route.snapshot.params['uid'];
     this.datosForm.get('uid').setValue(this.uid);
@@ -50,6 +56,25 @@ export class EvaluacionComponent implements OnInit {
       this.nombre = true;
       this.datosForm.reset();
     }
+  }
+
+  //Funcion para obtener los valores del form y utilizarlo en actualizar Evaluacion
+  patch(votaciones: any) {
+    const alumno = this.datosForm.get('votaciones.usuario');
+    this.control = <FormArray>this.datosForm.get('votaciones.valores');
+    votaciones.forEach(x => {
+      this.control.push(this.patchValues(x.criterio._id, x.escala._id, x.valor))
+    });
+    console.log(this.control);
+  }
+
+  // Assign the values
+  patchValues(criterio, escala, valor) {
+    return this.fb.group({
+      criterio: [criterio],
+      escala: [escala],
+      valor: [valor]
+    })
   }
 
   cargarCriterios() {
@@ -63,11 +88,29 @@ export class EvaluacionComponent implements OnInit {
   enviar() {
     console.log('Entra')
     this.submited = true;
+
+    //Asignamos los valores de Alumno, Criterio, Escala al campo de Votaciones
+    var objeto={ "usuario":["a0","b0","c0"],"arr_1":["a1","b1","c1"] };
+    const votaciones = [
+      {
+        usuario: "John"
+      },
+      {
+        name: "Margarita",
+        lastName: "Gonzales",
+      }
+    ];
+    this.datosForm.get('votaciones').setValue(this.votaciones);
+
     console.log(this.datosForm)
+
     if (this.datosForm.invalid) { return; }
 
     // Si estamos creando uno nuevo
     if (this.uid === 'nuevo') {
+
+
+
       this.evaluacionService.crearEvaluacion( this.datosForm.value )
         .subscribe( res => {
           this.uid = res['evaluacion'].uid;
@@ -116,11 +159,15 @@ export class EvaluacionComponent implements OnInit {
           this.datosForm.get('alumno').setValue(res['evaluaciones'].alumno.nombre);
           this.datosForm.get('iteracion').setValue(res['evaluaciones'].iteracion.iteracion);
           this.datosForm.get('fecha').setValue(moment(res['evaluaciones'].fecha).format('YYYY-MM-DD'));
+          //------------------------------------------------------------------------------------------------
           this.datosForm.get('alumno_votado').setValue(res['evaluaciones'].votaciones[0].usuario.nombre);
           console.log('ID de Criterio: ',res['evaluaciones'].votaciones[0].valores[0].criterio._id)
           this.datosForm.get('criterio').setValue(res['evaluaciones'].votaciones[0].valores[0].criterio._id);
           this.datosForm.get('escala').setValue(res['evaluaciones'].votaciones[0].valores[0].escala.nivel);
           this.datosForm.get('valor').setValue(res['evaluaciones'].votaciones[0].valores[0].valor);
+          //------------------------------------------------------------------------------------------------
+          this.patch(res['evaluaciones'].votaciones[0].valores);
+          //-------------------------------------------------------------------------------------------------
           this.datosForm.markAsPristine();
           this.uid = res['evaluaciones'].uid;
           this.submited = true;
