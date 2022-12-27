@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EvaluacionService } from 'src/app/services/evaluacion.service';
-import { CursoService } from 'src/app/services/curso.service';
-import { Curso } from 'src/app/models/curso.model';
+import { CriterioService } from 'src/app/services/criterio.service';
+import { Criterio } from 'src/app/models/criterio.model';
 import Swal from 'sweetalert2';
 import moment from 'moment';
 
@@ -15,7 +15,7 @@ export class EvaluacionComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
     private evaluacionService: EvaluacionService,
-    private cursosService: CursoService,
+    private criterioService: CriterioService,
     private route: ActivatedRoute,
     private router: Router) { }
 
@@ -33,7 +33,7 @@ export class EvaluacionComponent implements OnInit {
     fecha: ['', Validators.required ]
   });
 
-  public cursos: Curso[] = [];
+  public criterios: Criterio[] = [];
 
   public submited = false;
   public uid: string = 'nuevo';
@@ -41,7 +41,7 @@ export class EvaluacionComponent implements OnInit {
   public alumnos: string[];
 
   ngOnInit(): void {
-    // this.cargarCursos();
+    this.cargarCriterios();
     this.uid = this.route.snapshot.params['uid'];
     this.datosForm.get('uid').setValue(this.uid);
     this.cargarDatos();
@@ -50,6 +50,14 @@ export class EvaluacionComponent implements OnInit {
       this.nombre = true;
       this.datosForm.reset();
     }
+  }
+
+  cargarCriterios() {
+    this.criterioService.cargarCriterios(0, '')
+      .subscribe( res => {
+        console.log('Criterios',res['criterios'])
+        this.criterios = res['criterios'];
+      });
   }
 
   enviar() {
@@ -109,7 +117,8 @@ export class EvaluacionComponent implements OnInit {
           this.datosForm.get('iteracion').setValue(res['evaluaciones'].iteracion.iteracion);
           this.datosForm.get('fecha').setValue(moment(res['evaluaciones'].fecha).format('YYYY-MM-DD'));
           this.datosForm.get('alumno_votado').setValue(res['evaluaciones'].votaciones[0].usuario.nombre);
-          this.datosForm.get('criterio').setValue(res['evaluaciones'].votaciones[0].valores[0].criterio.nombre);
+          console.log('ID de Criterio: ',res['evaluaciones'].votaciones[0].valores[0].criterio._id)
+          this.datosForm.get('criterio').setValue(res['evaluaciones'].votaciones[0].valores[0].criterio._id);
           this.datosForm.get('escala').setValue(res['evaluaciones'].votaciones[0].valores[0].escala.nivel);
           this.datosForm.get('valor').setValue(res['evaluaciones'].votaciones[0].valores[0].valor);
           this.datosForm.markAsPristine();
@@ -124,7 +133,7 @@ export class EvaluacionComponent implements OnInit {
       this.datosForm.get('alumno').setValue('');
       this.datosForm.get('iteracion').setValue('');
       this.datosForm.get('fecha').setValue('');
-
+      this.datosForm.get('criterio').setValue('');
       //----------------------------Votaciones-------------------------------
       // Estructura JSON:
       //   "votaciones": [

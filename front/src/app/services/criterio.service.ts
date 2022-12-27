@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment  } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +26,13 @@ export class CriterioService {
   cargarCriterio( uid: string) {
     if (uid === undefined) { uid=''}
     return this.http.get(`${environment.base_url}/criterios/?id=${uid}` , this.cabeceras);
+  }
+
+  cargarCriterios( desde: number, textoBusqueda?: string, hasta?:string ): Observable<object> {
+    if (!desde) { desde = 0; }
+    if (!textoBusqueda) { textoBusqueda = ''; }
+    if (!hasta) { hasta = '10'; }
+    return this.http.get(`${environment.base_url}/criterios/?desde=${desde}&texto=${textoBusqueda}&hasta=${hasta}` , this.cabeceras);
   }
 
   listaAsignaturas(desde: number, texto: string, curso: string) {
