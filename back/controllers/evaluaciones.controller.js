@@ -32,7 +32,20 @@ evaluationCtrl.getEvaluations = async(req, res = repsonse) => {
         let evaluaciones, total;
         if (id) {
             [evaluaciones, total] = await Promise.all([
-                Evaluacion.findById(id).populate('usuario').populate('iteracion'),
+                Evaluacion.findById(id).populate( 
+                    { path: 'alumno', model: Usuario }
+                ).populate('iteracion')
+                .populate( 
+                    {path: 'votaciones',
+                    // Get friends of friends - populate the 'friends' array for every friend
+                    populate: { path: 'usuario', model: Usuario }
+                    }).populate
+                    ({path: 'votaciones.valores',
+                    populate: { path: 'criterio', model: Criterio }
+                    }).populate
+                    ({path: 'votaciones.valores',
+                    populate: { path: 'escala', model: Escala }
+                    }),
                 Evaluacion.countDocuments()
             ]);
         } else {
@@ -47,10 +60,15 @@ evaluationCtrl.getEvaluations = async(req, res = repsonse) => {
                         {path: 'votaciones',
                         // Get friends of friends - populate the 'friends' array for every friend
                         populate: { path: 'usuario', model: Usuario }
-                        }).
-                        populate( { path: 'alumno', model: Usuario }
-                        ).
-                        populate('iteracion'),
+                        }).populate
+                        ({path: 'votaciones.valores',
+                        populate: { path: 'criterio', model: Criterio }
+                        }).populate
+                        ({path: 'votaciones.valores',
+                        populate: { path: 'escala', model: Escala }
+                        }).populate( 
+                            { path: 'alumno', model: Usuario }
+                        ).populate('iteracion'),
                     Evaluacion.countDocuments()
                 ]);
             }

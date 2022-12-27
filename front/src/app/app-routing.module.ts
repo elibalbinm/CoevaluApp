@@ -95,7 +95,7 @@ const routes: Routes = [
                                                                                                     titulo: 'Evaluaciones',
                                                                                                     breadcrums: [ ],
                                                                                                   },},
-      { path: "evaluaciones/evaluacion/:uid", component: IteracionComponent, canActivate: [ AuthGuard ], data: {
+      { path: "evaluaciones/evaluacion/:uid", component: EvaluacionComponent, canActivate: [ AuthGuard ], data: {
                                                                                                                 rol: 'ROL_ADMIN',
                                                                                                                 titulo: 'Evaluacion',
                                                                                                                 breadcrums: [ {titulo: 'Evaluaciones', url: '/admin/evaluaciones'} ],

@@ -57,23 +57,29 @@
 
             class="border-t-0 px-6 cursor-pointer align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4 text-left"
           >
-          {{evaluacion.alumno}}
+          {{evaluacion.alumno.nombre + ' ' + evaluacion.alumno.apellidos}}
           </th>
           <td
             class="border-t-0 px-6 cursor-pointer align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4"
           >
-          {{evaluacion.iteracion}}
+          {{evaluacion.iteracion.iteracion}}
           </td>
           <td
             class="border-t-0 px-6 cursor-pointer align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4"
           >
-          {{evaluacion.fecha}}
+          {{evaluacion.fecha | date : 'dd/MM/yyyy '}}
           </td>
-          <td
+          <td *ngFor="let valor of evaluacion.votaciones;"
             class="border-t-0 px-6 cursor-pointer align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4"
           >
-          <i class="fa fa-user-graduate mx-2 text-lg leading-lg"></i>
-          <span class="text-sm font-semibold text-blueGray-600">{{evaluacion.votaciones}}</span>
+            <div class="flex flex-col">
+              <span
+              > Alumno: {{valor.usuario.nombre + ' ' + valor.usuario.apellidos}}
+              </span>
+              <span *ngFor="let x of valor.valores;">
+                Valores: {{x.criterio.nombre + ' - ' + x.escala.nivel}}
+              </span>
+            </div>
           </td>
           <td
             class="flex items-center border-t-0 px-3 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4"

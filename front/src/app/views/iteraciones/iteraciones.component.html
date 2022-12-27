@@ -70,43 +70,43 @@
         <tr *ngFor="let iteracion of listaRegistros">
           <th
             [routerLink]="['/admin/iteraciones/iteracion', iteracion.uid]"
-            class="border-t-0 px-6 iteracionr-pointer align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4 text-left"
+            class="border-t-0 px-6 cursor-pointer align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4 text-left"
           >
           {{iteracion.curso.nombrecorto}}
           </th>
           <td
             [routerLink]="['/admin/iteraciones/iteracion', iteracion.uid]"
-            class="border-t-0 px-6 iteracionr-pointer align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4"
+            class="border-t-0 px-6 cursor-pointer align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4"
           >
           {{iteracion.iteracion}}
           </td>
           <td
             [routerLink]="['/admin/iteraciones/iteracion', iteracion.uid]"
-            class="border-t-0 px-6 iteracionr-pointer align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4"
+            class="border-t-0 px-6 cursor-pointer align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4"
           >
           {{iteracion.hito}}
           </td>
           <td
             [routerLink]="['/admin/iteraciones/iteracion', iteracion.uid]"
-            class="border-t-0 px-6 iteracionr-pointer align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4"
+            class="border-t-0 px-6 cursor-pointer align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4"
           >
           {{iteracion.fecha_ini | date : 'dd/MM/yyyy '}}
           </td>
           <td
             [routerLink]="['/admin/iteraciones/iteracion', iteracion.uid]"
-            class="border-t-0 px-6 iteracionr-pointer align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4"
+            class="border-t-0 px-6 cursor-pointer align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4"
           >
           {{iteracion.fecha_fin | date : 'dd/MM/yyyy '}}
           </td>
           <td
             [routerLink]="['/admin/iteraciones/iteracion', iteracion.uid]"
-            class="border-t-0 px-6 iteracionr-pointer align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4"
+            class="border-t-0 px-6 cursor-pointer align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4"
           >
           {{iteracion.fecha_ini_coe | date : 'dd/MM/yyyy '}}
           </td>
           <td
             [routerLink]="['/admin/iteraciones/iteracion', iteracion.uid]"
-            class="border-t-0 px-6 iteracionr-pointer align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4"
+            class="border-t-0 px-6 cursor-pointer align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4"
           >
           {{iteracion.fecha_fin_coe | date : 'dd/MM/yyyy '}}
           </td>

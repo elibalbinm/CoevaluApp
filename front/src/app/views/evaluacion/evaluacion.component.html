@@ -1,1 +1,187 @@
-<p>evaluacion works!</p>
+<div class="flex flex-wrap mt-4">
+  <div class="w-full xl:w-12/12 mb-12 xl:mb-0 px-4">
+    <div
+      class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-100 border-0"
+    >
+      <div class="rounded-t mb-0 px-4 py-3 bg-white border-0">
+        <div class="flex flex-wrap items-center">
+          <div class="relative w-full px-2 py-4 max-w-full flex-grow flex-1">
+            <h3 *ngIf="nombre" class="font-bold text-lg text-blueGray-700">Nueva evaluación</h3>
+            <h3 *ngIf="!nombre" class="font-bold text-lg text-blueGray-700">Editar evaluación</h3>
+          </div>
+          <div class="relative w-full px-4 max-w-full flex-grow flex-1 text-right">
+            <button
+              *ngIf="!nombre"
+              [routerLink]="['/admin/evaluaciones/evaluacion/nuevo']"
+              class="bg-teal-600 text-white active:bg-indigo-600 text-sm font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+              type="button"
+              (click)="nuevo()"
+            >
+              Nuevo
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="flex-auto px-4 lg:px-10 py-10 pt-0">
+        <form [formGroup]="datosForm" (ngSubmit)="enviar()">
+          <h6 class="text-blueGray-400 text-sm mt-3 mb-6 font-bold uppercase">
+            Datos de la evaluación
+          </h6>
+          <div class="flex flex-wrap">
+            <div class="w-full lg:w-12/12 px-4">
+              <div class="relative w-full mb-3">
+                <label
+                  class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                  htmlFor="grid-password"
+                >
+                  Alumno
+                </label>
+                <input
+                  type="text"
+                  formControlName="alumno"
+                  [ngClass]="{'is-invalid' : campoNoValido('alumno')}"
+                  class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                />
+              </div>
+            </div>
+            <div class="w-full lg:w-12/12 px-4">
+              <div class="relative w-full mb-3">
+                <label
+                  class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                  htmlFor="grid-password"
+                >
+                  Iteración
+                </label>
+                <input
+                  type="text"
+                  formControlName="iteracion"
+                  [ngClass]="{'is-invalid' : campoNoValido('iteracion')}"
+                  class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                />
+              </div>
+            </div>
+            <div class="w-full lg:w-12/12 px-4">
+              <div class="relative w-full mb-3">
+                <label
+                  class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                  htmlFor="grid-password"
+                >
+                  Fecha
+                </label>
+                <input
+                  type="date"
+                  formControlName="fecha"
+                  [ngClass]="{ 'is-invalid' : campoNoValido('fecha')}"
+                  class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- Votaciones -->
+          <div *ngIf="!esnuevo()">
+            <h6 class="text-blueGray-400 text-sm mt-6 mb-6 font-bold uppercase">
+              Votaciones
+            </h6>
+            <div class="flex flex-wrap">
+
+              <div class="relative w-full mb-3">
+                <label
+                  class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                  htmlFor="grid-password"
+                >
+                  Alumno
+                </label>
+                <input
+                  type="text"
+                  formControlName="alumno_votado"
+                  [ngClass]="{'is-invalid' : campoNoValido('alumno_votado')}"
+                  class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                />
+              </div>
+
+              <h6 class="text-blueGray-400 text-sm mt-6 mb-6 font-bold uppercase">
+                Valores
+              </h6>
+
+              <div class="relative w-full mb-3">
+                <label
+                  class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                  htmlFor="grid-password"
+                >
+                  Criterio
+                </label>
+                <input
+                  type="text"
+                  formControlName="criterio"
+                  [ngClass]="{'is-invalid' : campoNoValido('criterio')}"
+                  class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                />
+              </div>
+
+              <div class="relative w-full mb-3">
+                <label
+                  class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                  htmlFor="grid-password"
+                >
+                  Escala
+                </label>
+                <input
+                  type="text"
+                  formControlName="escala"
+                  [ngClass]="{'is-invalid' : campoNoValido('escala')}"
+                  class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                />
+              </div>
+
+              <div class="relative w-full mb-3">
+                <label
+                  class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                  htmlFor="grid-password"
+                >
+                  Valor
+                </label>
+                <input
+                  type="text"
+                  formControlName="valor"
+                  [ngClass]="{'is-invalid' : campoNoValido('valor')}"
+                  class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                />
+              </div>
+
+            </div>
+          </div>
+          <!--Votaciones-->
+
+          <!-- Buttons -->
+          <div class="text-center flex-auto p-5 lg:p-8">
+            <button
+              id="enviar"
+              class="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+              type="submit"
+              *ngIf="nombre"
+            >
+              Enviar
+            </button>
+            <button
+              class="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+              type="submit"
+              *ngIf="!nombre"
+            >
+              Modificar
+            </button>
+            <button
+            (click)="cancelar()"
+              id="cancelar"
+              class="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+              type="button"
+            >
+              Cancelar
+            </button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

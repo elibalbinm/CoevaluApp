@@ -161,7 +161,7 @@ export class RubricaComponent implements OnInit {
     this.rubricaService.cargarListaCriterios( selectedarray )
       .subscribe( res => {
         this.listaCriteria = [];
-        res['usuarios'].map( usuario => {
+        res['rubricas']['criterios'].map( usuario => {
           this.listaCriteria.push({nombre: `${usuario.nombre}`, uid: `${usuario.uid}`});
         });
       }, (err) => {

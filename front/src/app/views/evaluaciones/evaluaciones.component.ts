@@ -67,6 +67,12 @@ export class EvaluacionesComponent implements OnInit {
       });
   }
 
+  cambiarPagina( pagina: number) {
+    pagina = (pagina < 0 ? 0 : pagina);
+    this.registroactual = ((pagina - 1) * this.registrosporpagina >=0 ? (pagina - 1) * this.registrosporpagina : 0);
+    this.cargarEvaluaciones(this.ultimaBusqueda);
+  }
+
   eliminarEvaluacion(uid:string, nombre:string) {
     // Solo los admin pueden borrar usuarios
     if (this.usuarioService.rol !== 'ROL_ADMIN') {
