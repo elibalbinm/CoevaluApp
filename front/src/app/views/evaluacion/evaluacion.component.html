@@ -79,84 +79,103 @@
           </div>
 
           <!-- Votaciones -->
-          <div *ngIf="!esnuevo()">
+          <div *ngIf="!esnuevo()" formGroupName="votaciones">
             <h6 class="text-blueGray-400 text-sm mt-6 mb-6 font-bold uppercase">
               Votaciones
             </h6>
             <div class="flex flex-wrap">
-
-              <div class="relative w-full mb-3">
-                <label
-                  class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                  htmlFor="grid-password"
-                >
-                  Alumno
-                </label>
-                <input
-                  type="text"
-                  formControlName="alumno_votado"
-                  [ngClass]="{'is-invalid' : campoNoValido('alumno_votado')}"
-                  class="mt-1 block w-full px-3 py-2 bg-warmGray-500 border border-slate-300 rounded-md text-sm
-                  shadow-sm placeholder-slate-400
-                  focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
-                  disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
-                  invalid:border-pink-500 invalid:text-pink-600
-                  focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
-                  aria-label="disabled input"
-                  disabled
-                  />
+              <div class="w-full lg:w-12/12 px-4">
+                <div class="relative w-full mb-3">
+                  <label
+                    class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                    htmlFor="grid-password"
+                  >
+                    Alumno
+                  </label>
+                  <input
+                    type="text"
+                    formControlName="alumno"
+                  [ngClass]="{'is-invalid' : campoNoValido('alumno')}"
+                    class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600
+                    bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear
+                    transition-all duration-150  disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none"
+                    aria-label="disabled input"
+                    disabled
+                    />
+                </div>
               </div>
-
+              </div>
               <h6 class="text-blueGray-400 text-sm mt-6 mb-6 font-bold uppercase">
                 Valores
               </h6>
 
-              <div class="relative w-full mb-3">
-                <label
-                  class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                  htmlFor="grid-password"
-                >
-                  Criterio
-                </label>
-                <select
-                  formControlName="criterio" [ngClass]="{'is-invalid' : campoNoValido('criterio')}"
-                  class="block appearance-none w-full placeholder-blueGray-300 bg-white border rounded text-sm shadow border-gray-200 text-gray-700 py-3 px-4 pr-8 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="criterio">
-                  <option value="" selected>Seleccione un criterio</option>
-                  <option *ngFor="let criterio of criterios" value="{{criterio.uid}}">{{criterio.nombre}}</option>
-                </select>
-              </div>
+              <!-- <div class="w-full lg:w-12/12 px-4" formArrayName="valores">
+                <div class="relative w-full mb-3" *ngFor="let child of datosForm.get('votaciones.valores').value; let i = index">
+                  <label [formGroupName]="i"
+                    class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                    htmlFor="grid-password"
+                  >
+                  {{i+1}}. Criterio
+                  </label>
+                  <select
+                        formControlName="criterio" [ngClass]="{'is-invalid' : campoNoValido('criterio')}"
+                        class="block appearance-none w-full placeholder-blueGray-300 bg-white border rounded text-sm shadow border-gray-200 text-gray-700 py-3 px-4 pr-8 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="criterio">
+                        <option value="" selected>Seleccione un criterio</option>
+                        <option *ngFor="let criterio of criterios" value="{{criterio.uid}}">{{criterio.nombre}}</option>
+                      </select>
+                </div>
+              </div> -->
 
-              <div class="relative w-full mb-3">
-                <label
-                  class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                  htmlFor="grid-password"
-                >
-                  Escala
-                </label>
-                <input
-                  type="text"
-                  formControlName="escala"
-                  [ngClass]="{'is-invalid' : campoNoValido('escala')}"
-                  class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                />
-              </div>
+              <div class="flex flex-wrap" formArrayName="valores">
+                <div class="lg:w-12/12 px-4" *ngFor="let child of datosForm.get('votaciones.valores').value; let i = index">
+                  <div [formGroupName]="i">
+                    <div class="relative w-full mb-3">
+                      <label
+                        class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                        htmlFor="grid-password"
+                      >
+                      {{i+1}}. Criterio
+                      </label>
+                      <select
+                        formControlName="criterio" [ngClass]="{'is-invalid' : campoNoValido('criterio')}"
+                        class="block appearance-none w-full placeholder-blueGray-300 bg-white border rounded text-sm shadow border-gray-200 text-gray-700 py-3 px-4 pr-8 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="criterio">
+                        <option value="" selected>Seleccione un criterio</option>
+                        <option *ngFor="let criterio of criterios" value="{{criterio.uid}}">{{criterio.nombre}}</option>
+                      </select>
+                    </div>
+                    <div class="relative w-full mb-3">
+                      <label
+                        class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                        htmlFor="grid-password"
+                      >
+                        Escala
+                      </label>
+                      <input
+                        type="text"
+                        formControlName="escala"
+                        [ngClass]="{'is-invalid' : campoNoValido('escala')}"
+                        class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                      />
+                    </div>
+                    <div class="relative w-full mb-3">
+                      <label
+                        class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                        htmlFor="grid-password"
+                      >
+                        Valor
+                      </label>
+                      <input
+                        type="text"
+                        formControlName="valor"
+                        [ngClass]="{'is-invalid' : campoNoValido('valor')}"
+                        class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                      />
+                    </div>
 
-              <div class="relative w-full mb-3">
-                <label
-                  class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                  htmlFor="grid-password"
-                >
-                  Valor
-                </label>
-                <input
-                  type="text"
-                  formControlName="valor"
-                  [ngClass]="{'is-invalid' : campoNoValido('valor')}"
-                  class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                />
+                    </div>
+                  </div>
               </div>
-
-            </div>
+            <!-- </div> -->
           </div>
           <!--Votaciones-->
 

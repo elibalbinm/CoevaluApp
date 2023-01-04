@@ -26,14 +26,14 @@ export class EvaluacionComponent implements OnInit {
     uid: [{value: 'nuevo', disabled: true}, Validators.required],
     alumno: ['', Validators.required ],
     votaciones: this.fb.group({
-      usuario: ['', Validators.required],
+      alumno: ['', Validators.required],
       valores: this.fb.array([]) // create empty form array
     }),
     iteracion: ['', Validators.required ],
     criterio: ['', Validators.required ],
     escala: ['', Validators.required ],
     valor: ['', Validators.required ],
-    alumno_votado: ['', Validators.required ],
+    // alumno_votado: ['', Validators.required ],
     fecha: ['', Validators.required ]
   });
 
@@ -59,21 +59,25 @@ export class EvaluacionComponent implements OnInit {
   }
 
   //Funcion para obtener los valores del form y utilizarlo en actualizar Evaluacion
-  patch(votaciones: any) {
-    const alumno = this.datosForm.get('votaciones.usuario');
+  patch(usuario: any, votaciones: any) {
+    // const alumno = this.datosForm.get('votaciones.usuario');
     this.control = <FormArray>this.datosForm.get('votaciones.valores');
+    console.log('Usuarioooooooo: ', usuario);
+    // this.datosForm.get('votaciones.usuario').setValue(usuario._id);
     votaciones.forEach(x => {
       this.control.push(this.patchValues(x.criterio._id, x.escala._id, x.valor))
     });
     console.log(this.control);
+
+    console.log('Votaciones>valores ',this.datosForm.get('votaciones.valores').value);
   }
 
   // Assign the values
   patchValues(criterio, escala, valor) {
     return this.fb.group({
-      criterio: [criterio],
-      escala: [escala],
-      valor: [valor]
+      criterio: criterio,
+      escala: escala,
+      valor: valor
     })
   }
 
@@ -160,13 +164,14 @@ export class EvaluacionComponent implements OnInit {
           this.datosForm.get('iteracion').setValue(res['evaluaciones'].iteracion.iteracion);
           this.datosForm.get('fecha').setValue(moment(res['evaluaciones'].fecha).format('YYYY-MM-DD'));
           //------------------------------------------------------------------------------------------------
-          this.datosForm.get('alumno_votado').setValue(res['evaluaciones'].votaciones[0].usuario.nombre);
+          // this.datosForm.get('alumno_votado').setValue(res['evaluaciones'].votaciones[0].usuario.nombre);
           console.log('ID de Criterio: ',res['evaluaciones'].votaciones[0].valores[0].criterio._id)
           this.datosForm.get('criterio').setValue(res['evaluaciones'].votaciones[0].valores[0].criterio._id);
           this.datosForm.get('escala').setValue(res['evaluaciones'].votaciones[0].valores[0].escala.nivel);
           this.datosForm.get('valor').setValue(res['evaluaciones'].votaciones[0].valores[0].valor);
+          this.datosForm.get('votaciones.alumno').setValue(res['evaluaciones'].votaciones[0].usuario._id);
           //------------------------------------------------------------------------------------------------
-          this.patch(res['evaluaciones'].votaciones[0].valores);
+          this.patch(res['evaluaciones'].votaciones[0].usuario, res['evaluaciones'].votaciones[0].valores);
           //-------------------------------------------------------------------------------------------------
           this.datosForm.markAsPristine();
           this.uid = res['evaluaciones'].uid;
