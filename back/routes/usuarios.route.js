@@ -16,6 +16,12 @@ router.post('/rol/:rol', [
     validarCampos,
 ], listaUsuariosRol);
 
+router.get('/rol/:rol', [
+    validarJWT,
+    check('rol', 'Debe indicar un rol de búsqueda').not().isEmpty().trim(),
+    validarCampos,
+], userCtrl.getStudents);
+
 router.get('/', [
     validarJWT,
     // Campos opcionales, si vienen los validamos

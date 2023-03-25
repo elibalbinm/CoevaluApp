@@ -23,7 +23,7 @@ export class GrupoService {
   }
 
   cargarGrupo( uid: string) {
-    if (uid===undefined) { uid=''}
+    if (uid === undefined) { uid=''}
     return this.http.get(`${environment.base_url}/grupos/?id=${uid}` , this.cabeceras);
   }
 

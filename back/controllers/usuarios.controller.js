@@ -98,7 +98,8 @@ const listaUsuariosRol = async(req, res) => {
     if (!lista) { listaB = []; }
 
     try {
-        const usuarios = await Usuario.find({ _id: { $nin: lista }, rol: rol, activo: true }).collation({ locale: 'es' }).sort({ apellidos: 1, nombre: 1 });
+        const usuarios = await Usuario.find({ _id: { $nin: lista }, 
+                                              rol: rol, activo: true }).collation({ locale: 'es' }).sort({ apellidos: 1, nombre: 1 });
         res.json({
             ok: true,
             msg: 'listaUsuarios',
@@ -111,7 +112,42 @@ const listaUsuariosRol = async(req, res) => {
             error
         });
     }
+}
 
+userCtrl.getStudents = async(req, res) => {
+    const rol = req.params.rol;
+    // const lista = req.body.lista;
+
+    console.log(rol);
+
+    // Solo puede listar usuarios un admin
+    const token = req.header('x-token');
+    if (!(infoToken(token).rol === 'ROL_ADMIN')) {
+        return res.status(400).json({
+            ok: false,
+            msg: 'No tiene permisos para listar usuarios',
+        });
+    }
+
+    listaB = [];
+    // if (!lista) { listaB = []; }
+
+    try {
+        
+        const usuarios = await Promise.all([Usuario.find({ rol: `"${rol}"`, activo: true }).collation({ locale: 'es' })]);
+        console.log(usuarios);
+        res.json({
+            ok: true,
+            msg: 'Lista de estudiantes',
+            usuarios
+        });
+    } catch (error) {
+        return res.status(400).json({
+            ok: false,
+            msg: 'Error al listar usuarios por rol',
+            error
+        });
+    }
 }
 
 userCtrl.getUsers = async(req, res) => {

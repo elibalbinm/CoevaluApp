@@ -19,6 +19,7 @@ export class CardSelectUserComponent implements OnInit, OnChanges {
   // tiene la estructura {_id: string, usuario: string}
   @Input() criterios: {_id: string, criterio: string}[] = [];
   @Input() selected: {_id: string, usuario: string}[] = [];
+  @Input() alumno: {_id: string, usuario: string};
   @Input() rol: string = 'ROL_ALUMNO';
 
   // Emite la lista de string de los usuarios seleccionados
@@ -31,7 +32,7 @@ export class CardSelectUserComponent implements OnInit, OnChanges {
   constructor( private usuarioService: UsuarioService) { }
 
   ngOnInit(): void {
-
+    console.log('Selected onInit: ', this.selected);
   }
 
   ngOnChanges(): void{
@@ -86,7 +87,13 @@ export class CardSelectUserComponent implements OnInit, OnChanges {
     if (pos < 0 || pos > this.listaUsers.length) { return; }
     // Añadimos el elemento a seleccionado
     this.listaSelected.push(this.listaUsers[pos]);
-    this.selected.push({_id:'', usuario:this.listaUsers[pos].uid});
+    console.log('Selected: ',this.selected);
+    if(Array.isArray(this.selected)){
+      this.selected.push({_id:'', usuario:this.listaUsers[pos].uid});
+    }else{
+      console.log('Hola')
+    }
+
     // Eliminamos el elemento de users
     this.listaUsers.splice(pos, 1);
     this.listaSelected = this.ordenarLista(this.listaSelected);
@@ -130,7 +137,9 @@ export class CardSelectUserComponent implements OnInit, OnChanges {
         .subscribe( res => {
           this.listaSelected=[];
           res['usuarios'].map( usuario => {
-            this.listaSelected.push({nombre: `${usuario.apellidos}, ${usuario.nombre}` , uid: `${usuario.uid}`});
+            this.listaSelected.push({nombre: `${usuario.apellidos}, ${usuario.nombre}`,
+                                     uid: `${usuario.uid}`});
+            console.log('ListaSelected: ',this.listaSelected);
           });
         }, (err) => {
         });

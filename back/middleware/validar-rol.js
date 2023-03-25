@@ -1,5 +1,5 @@
 const { response } = require('express');
-const rolesPermitidos = ['ROL_USUARIO','ROL_ADMIN','ROL_CLIENTE'];
+const rolesPermitidos = ['ROL_PROFESOR','ROL_ADMIN','ROL_ALUMNO'];
 
 const validarRol = (req, res = response, next) => {
 
@@ -8,7 +8,7 @@ const validarRol = (req, res = response, next) => {
     if (rol && !rolesPermitidos.includes(rol)) {
         return res.status(404).json({
             ok: false,
-            msg: 'Rol no permitido, permitidos -> ROL_USUARIO || ROL_ADMIN || ROL_CLIENTE'
+            msg: 'Rol no permitido, permitidos -> ROL_PROFESOR || ROL_ADMIN || ROL_ALUMNO'
         });
     }
     next();

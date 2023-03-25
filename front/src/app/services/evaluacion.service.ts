@@ -19,12 +19,15 @@ export class EvaluacionService {
     return this.http.post(`${environment.base_url}/evaluaciones/`, data, this.cabeceras);
   }
 
-  actualizarEvaluacion(uid: string, data) {
-    return this.http.put(`${environment.base_url}/evaluaciones/${uid}`, data, this.cabeceras);
+  // Funcion de actualizarGrupo: lo que hace es guardar el array de guardarVacio que contiene
+  // dimension/criterio y la escala, valor y el alumno al que se vota
+  actualizarVotacion(uid: string, data) {
+    console.log('Entra a actualizarVotacion de Evaluacion Service: ',data);
+    return this.http.put(`${environment.base_url}/evaluaciones/lista/${uid}`, data, this.cabeceras);
   }
 
   cargarEvaluacion( uid: string) {
-    if (uid===undefined) { uid=''}
+    if (uid === undefined) { uid=''}
     return this.http.get(`${environment.base_url}/evaluaciones/?id=${uid}` , this.cabeceras);
   }
 
@@ -37,6 +40,11 @@ export class EvaluacionService {
 
   eliminarEvaluacion(uid: string) {
     return this.http.delete(`${environment.base_url}/evaluaciones/${uid}`, this.cabeceras);
+  }
+
+  actualizarAlumnos(uid:string, plista: string[]) {
+    const data = {lista: plista};
+    return this.http.put(`${environment.base_url}/grupos/lista/${uid}`, data, this.cabeceras);
   }
 
   get cabeceras(): object {

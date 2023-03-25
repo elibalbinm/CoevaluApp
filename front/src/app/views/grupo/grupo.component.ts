@@ -100,6 +100,7 @@ export class GrupoComponent implements OnInit {
           this.uid = res['grupos'].uid;
           this.submited = true;
           this.alumnos = res['grupos'].alumnos;
+          console.log('Alumnos: ',this.alumnos)
         }, (err) => {
           this.router.navigateByUrl('/admin/grupos');
           Swal.fire({icon: 'error', title: 'Oops...', text: 'No se pudo completar la acción, vuelva a intentarlo',});
@@ -114,8 +115,9 @@ export class GrupoComponent implements OnInit {
     }
   }
 
-  guardarLista( evento: string[]) {
-    console.log('guardamos lista',this.uid);
+  guardarLista( evento: string[] ) {
+    console.log('Evento de guardarLista: ', evento)
+    console.log('guardamos lista', this.uid);
     this.grupoService.actualizarLista(this.uid, evento)
       .subscribe( res => {
       },(err)=>{

@@ -7,6 +7,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 
+// Alumno Module
+import { AluModule } from "./views/alumno/alumno.module";
+
 // layouts
 import { AdminComponent } from "./layouts/admin/admin.component";
 import { AuthComponent } from "./layouts/auth/auth.component";
@@ -77,8 +80,6 @@ import { AlumnoComponent } from './layouts/alumno/alumno.component';
 import { ProfesorComponent } from './layouts/profesor/profesor.component';
 import { PanelComponent } from './components/panel/panel.component';
 import { EvaluacionesComponent } from './views/evaluaciones/evaluaciones.component';
-import { EvaluacionComponent } from './views/evaluacion/evaluacion.component';
-
 
 @NgModule({
   declarations: [
@@ -140,11 +141,11 @@ import { EvaluacionComponent } from './views/evaluacion/evaluacion.component';
     IteracionesComponent,
     IteracionComponent,
     EvaluacionesComponent,
-    EvaluacionComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    AluModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule],

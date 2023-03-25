@@ -131,23 +131,24 @@ export class EvaluacionComponent implements OnInit {
           const msgerror = err.error.msg || 'No se pudo completar la acción, vuelva a intentarlo';
           Swal.fire({icon: 'error', title: 'Oops...', text: msgerror,});
         })
-    } else {
-      // ACtualizamos
-      this.evaluacionService.actualizarEvaluacion(this.uid, this.datosForm.value)
-        .subscribe( res => {
-          this.datosForm.markAsPristine();
-          Swal.fire({
-            title: 'Evaluación modificada',
-            text: 'La evaluación se ha modificado correctamente',
-            icon: 'success',
-            confirmButtonText: 'Ok',
-            allowOutsideClick: false
-          });
-        }, (err) => {
-          const msgerror = err.error.msg || 'No se pudo completar la acción, vuelva a intentarlo';
-          Swal.fire({icon: 'error', title: 'Oops...', text: msgerror,});
-        })
     }
+    // else {
+    //   // ACtualizamos
+    //   this.evaluacionService.actualizarEvaluacion(this.uid, this.datosForm.value)
+    //     .subscribe( res => {
+    //       this.datosForm.markAsPristine();
+    //       Swal.fire({
+    //         title: 'Evaluación modificada',
+    //         text: 'La evaluación se ha modificado correctamente',
+    //         icon: 'success',
+    //         confirmButtonText: 'Ok',
+    //         allowOutsideClick: false
+    //       });
+    //     }, (err) => {
+    //       const msgerror = err.error.msg || 'No se pudo completar la acción, vuelva a intentarlo';
+    //       Swal.fire({icon: 'error', title: 'Oops...', text: msgerror,});
+    //     })
+    // }
   }
 
   cargarDatos() {

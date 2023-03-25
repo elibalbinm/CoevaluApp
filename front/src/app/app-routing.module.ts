@@ -33,6 +33,10 @@ import { RubricasComponent } from "./views/rubricas/rubricas.component";
 import { SettingsComponent } from "./views/admin/settings/settings.component";
 import { TablesComponent } from "./views/admin/tables/tables.component";
 
+// alu views
+import { AluModule } from './views/alumno/alumno.module';
+// import { CriteriosComponent } from "./views/criterios/criterios.component";
+
 // auth views
 import { LoginComponent } from "./views/auth/login/login.component";
 import { RegisterComponent } from "./views/auth/register/register.component";
@@ -41,7 +45,6 @@ import { RegisterComponent } from "./views/auth/register/register.component";
 import { IndexComponent } from "./views/index/index.component";
 import { LandingComponent } from "./views/landing/landing.component";
 import { ProfileComponent } from "./views/profile/profile.component";
-
 
 
 const routes: Routes = [
@@ -154,10 +157,10 @@ const routes: Routes = [
     children: [
       { path: "dashboard", component: DashboardComponent, canActivate: [ AuthGuard ], data: {rol: 'ROL_PROFESOR', titulo: 'Home'} },
       { path: "asignaturas", component: AsignaturasComponent, canActivate: [ AuthGuard ], data: {
-        rol: 'ROL_PROFESOR',
-        titulo: 'Asignaturas',
-        breadcrums: [ ],
-      },},
+                                                                                                  rol: 'ROL_PROFESOR',
+                                                                                                  titulo: 'Asignaturas',
+                                                                                                  breadcrums: [ ],
+                                                                                                },},
       { path: "asignaturas/asignatura/:uid", component: AsignaturaComponent, canActivate: [ AuthGuard ], data: {
                                                                                                                 rol: 'ROL_PROFESOR',
                                                                                                                 titulo: 'Asignatura',
@@ -205,7 +208,11 @@ const routes: Routes = [
     component: AlumnoComponent,
     children: [
       { path: "dashboard", component: DashboardComponent, canActivate: [ AuthGuard ], data: {rol: '*', titulo: 'Home'} },
-
+      // { path: "coevaluacion", component: CoevaluacionComponent, canActivate: [ AuthGuard ], data: {
+      //                                                                                         rol: 'ROL_ALUMNO',
+      //                                                                                         titulo: 'Coevaluación',
+      //                                                                                         breadcrums: [ ],
+      //                                                                                       },},
       { path: "settings", component: SettingsComponent },
       { path: "tables", component: TablesComponent },
       { path: "maps", component: MapsComponent },
@@ -220,7 +227,10 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [
+    RouterModule.forRoot(routes),
+    AluModule
+  ],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

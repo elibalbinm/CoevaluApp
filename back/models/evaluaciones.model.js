@@ -3,19 +3,13 @@ const { Schema, model } = require('mongoose');
 const EvaluacionSchema = Schema({
     votaciones: [
         {
-            usuario: {
-                type: Schema.Types.ObjectId,
-                ref: 'Usuario',
-                required: true
-            },
-            valores: [
-                {    
-                    criterio: {
+            // valores: [
+            //     {    
+                    alumno_votado: {
                         type: Schema.Types.ObjectId,
-                        ref: 'Criterio',
+                        ref: 'Usuario',
                         required: true
                     },
-                
                     escala: {
                         type: Schema.Types.ObjectId,
                         ref: 'Escala',
@@ -25,11 +19,16 @@ const EvaluacionSchema = Schema({
                         type: Number,
                         required: true
                     } 
-                }
-            ] 
-
+            //     }
+            // ] 
         }
     ],
+    //Dimension
+    criterio: {
+        type: Schema.Types.ObjectId,
+        ref: 'Criterio',
+        required: true
+    },
     alumno: {
         type: Schema.Types.ObjectId,
         ref: 'Usuario',

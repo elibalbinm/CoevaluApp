@@ -7,7 +7,7 @@
           <!-- <span class="text-sm block my-4 p-3 text-blueGray-700 rounded border border-solid border-blueGray-100">One of three columns</span> -->
           <h5 class="block uppercase text-blueGray-600 text-xs font-bold mb-2">Seleccionados
             <span class="inline-block py-1 px-2 leading-none text-center whitespace-nowrap align-baseline font-bold bg-emerald-600 text-white rounded ml-2">{{listaSelected.length}}</span></h5>
-          <div class="milista">
+          <div>
               <div class="ml-10 mb-10" *ngFor="let user of listaSelected;let idx = index">
                   <i class="fa fa-minus-circle text-red-600 mr-5" (click)="quitar(idx, true)"></i> {{user.nombre}}
               </div>

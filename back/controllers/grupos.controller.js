@@ -289,7 +289,7 @@ groupCtrl.updateList = async(req, res) => {
     if (!(infoToken(token).rol === 'ROL_ADMIN')) {
         return res.json({
             ok: false,
-            msg: 'No tiene permisos para modificar lista de profesores/alumnos de asignatura',
+            msg: 'No tiene permisos para modificar lista de profesores/alumnos del grupo',
         });
     }
 
@@ -298,10 +298,11 @@ groupCtrl.updateList = async(req, res) => {
     try {
         const usuarios = await Usuario.find({ _id: { $in: lista } }, { _id: 0, 'usuario': '$_id' });
         const objeto = { alumnos: usuarios };
+        console.log('Objeto de updateList: ', objeto);
         const grupo = await Grupo.findByIdAndUpdate(id, objeto, { new: true });
         res.json({
             ok: true,
-            msg: `Grupo - Actualizar lista de aluumno`,
+            msg: `Grupo - Actualizar lista de alumno`,
             grupo
         });
     } catch (error) {

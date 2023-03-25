@@ -12,7 +12,7 @@
             <div class="relative w-full px-4 max-w-full flex-grow flex-1 text-right">
               <button
                 *ngIf="!nombre"
-                [routerLink]="['/admin/rúbricas/rúbrica/nuevo']"
+                [routerLink]="['/admin/rubricas/rubrica/nuevo']"
                 class="bg-teal-600 text-white active:bg-indigo-600 text-sm font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                 type="button"
                 (click)="nuevo()"
@@ -26,7 +26,6 @@
           <form [formGroup]="datosForm" (ngSubmit)="enviar()">
             <h6 class="text-blueGray-400 text-sm mt-3 mb-6 font-bold uppercase">
               Datos de la rúbrica
-
             </h6>
             <div class="flex flex-wrap">
               <div class="w-full lg:w-12/12 px-4">

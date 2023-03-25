@@ -52,7 +52,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let evaluacion of listaRegistros" [routerLink]="['/admin/evaluaciones/evaluacion', evaluacion.uid]" class="cursor-pointer">
+        <tr *ngFor="let evaluacion of listaRegistros" [routerLink]="['/admin/evaluaciones/coevaluacion', evaluacion.uid]" class="cursor-pointer">
           <th
 
             class="border-t-0 px-6 cursor-pointer align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4 text-left"
@@ -90,7 +90,7 @@
             >
               <i
                 [routerLink]="['/admin/evaluaciones/evaluacion', evaluacion.uid]"
-                class="lg:text-blueGray-200 text-blueGray-400 fas fa-edit text-lg leading-lg"
+                class="lg:text-blueGray-400 text-blueGray-300 fas fa-edit text-lg leading-lg"
               ></i>
             </button>
             <button
@@ -99,7 +99,7 @@
             >
               <i
                 (click)="eliminarEvaluacion(evaluacion.uid, evaluacion.nombre)"
-                class="lg:text-blueGray-200 text-blueGray-400 fas fa-trash text-lg leading-lg"
+                class="lg:text-blueGray-400 text-blueGray-300 fas fa-trash text-lg leading-lg"
               ></i>
             </button>
           </td>
