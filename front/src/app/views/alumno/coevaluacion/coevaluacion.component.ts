@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Evaluacion } from 'src/app/models/evaluacion.model';
 import { CriterioService } from 'src/app/services/criterio.service';
+import { GrupoService } from 'src/app/services/grupo.service';
 import Swal from 'sweetalert2';
 import { EvaluacionService } from '../../../services/evaluacion.service';
 
@@ -11,6 +14,17 @@ import { EvaluacionService } from '../../../services/evaluacion.service';
 export class CoevaluacionComponent implements OnInit {
 
   public uid: string = 'nuevo';
+  public evaluacion: Evaluacion[] = [];
+  public datosForm = this.fb.group({
+    uid: [{value: 'nuevo', disabled: true}, Validators.required],
+    hito: ['', Validators.required ],
+    iteracion: ['', Validators.required ],
+    curso: ['', Validators.required ],
+    fecha_ini: ['', Validators.required ],
+    fecha_fin: ['', Validators.required ],
+    fecha_ini_coe: ['', Validators.required ],
+    fecha_fin_coe: ['', Validators.required ],
+  });
 
   info = {
     alumnosGrupo: [
@@ -104,10 +118,13 @@ export class CoevaluacionComponent implements OnInit {
       // {idAlumno: '6a', idEscala:'43e'},
     ]}
   ]
-  grupoService: any;
+
+  submited: boolean = false;
 
   constructor(
+    private fb: FormBuilder,
     private evaluacionService: EvaluacionService,
+    private grupoService: GrupoService,
     private route: ActivatedRoute,
     private criterioService: CriterioService,
     private router: Router
@@ -116,6 +133,44 @@ export class CoevaluacionComponent implements OnInit {
   ngOnInit(): void {
     console.log('Iniciando guardar:',this.guardarVacio);
     this.uid = this.route.snapshot.params['uid'];
+    this.cargarDatos();
+  }
+  cargarDatos() {
+    this.submited = false;
+    if (this.uid !== 'nuevo') {
+      this.evaluacionService.cargarEvaluacion(this.uid)
+        .subscribe( res => {
+          if (!res['evaluaciones']) {
+            this.router.navigateByUrl('/admin/iteraciones');
+            return;
+          };
+
+          console.log(res['evaluaciones']);
+          // this.datosForm.get('iteracion').setValue(res['iteraciones'].iteracion);
+          // this.datosForm.get('hito').setValue(res['iteraciones'].hito);
+          // this.datosForm.get('curso').setValue(res['iteraciones'].curso._id);
+          // this.datosForm.get('fecha_ini').setValue(moment(res['iteraciones'].fecha_ini).format('YYYY-MM-DD'));
+          // this.datosForm.get('fecha_fin').setValue(moment(res['iteraciones'].fecha_fin).format('YYYY-MM-DD'));
+          // this.datosForm.get('fecha_ini_coe').setValue(moment(res['iteraciones'].fecha_ini_coe).format('YYYY-MM-DD'));
+          // this.datosForm.get('fecha_fin_coe').setValue(moment(res['iteraciones'].fecha_fin_coe).format('YYYY-MM-DD'));
+          // this.datosForm.markAsPristine();
+          // this.uid = res['iteraciones'].uid;
+          this.submited = true;
+        }, (err) => {
+          this.router.navigateByUrl('/admin/evaluaciones');
+          Swal.fire({icon: 'error', title: 'Oops...', text: 'No se pudo completar la acción, vuelva a intentarlo',});
+          return;
+        });
+    } else {
+      // this.datosForm.get('iteracion').setValue('');
+      // this.datosForm.get('hito').setValue('');
+      // this.datosForm.get('curso').setValue('');
+      // this.datosForm.get('fecha_ini').setValue('');
+      // this.datosForm.get('fecha_fin').setValue('');
+      // this.datosForm.get('fecha_ini_coe').setValue('');
+      // this.datosForm.get('fecha_fin_coe').setValue('');
+      // this.datosForm.markAsPristine();
+    }
   }
 
   seleccionar(dimension:any, posDimension: number, alumno:any, posAlumno: number,  escala:any) {

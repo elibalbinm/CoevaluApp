@@ -51,7 +51,6 @@ export class IteracionComponent implements OnInit {
     }
   }
 
-
   enviar() {
     console.log('Entra')
     this.submited = true;

@@ -42,6 +42,12 @@ export class EvaluacionesComponent implements OnInit {
     this.cargarEvaluaciones(this.ultimaBusqueda);
   }
 
+  // A partir del alumno, se hace un filtro de búsqueda para ver si dispone de más
+  // criterios
+  cargarCriteriosAlumno() {
+
+  }
+
   cargarEvaluaciones(texto: string) {
     this.ultimaBusqueda = texto;
     this.loading = true;
@@ -67,7 +73,7 @@ export class EvaluacionesComponent implements OnInit {
       });
   }
 
-  cambiarPagina( pagina: number) {
+  cambiarPagina( pagina: number ) {
     pagina = (pagina < 0 ? 0 : pagina);
     this.registroactual = ((pagina - 1) * this.registrosporpagina >=0 ? (pagina - 1) * this.registrosporpagina : 0);
     this.cargarEvaluaciones(this.ultimaBusqueda);
@@ -100,5 +106,4 @@ export class EvaluacionesComponent implements OnInit {
           }
       });
   }
-
 }

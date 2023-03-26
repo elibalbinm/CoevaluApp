@@ -36,12 +36,17 @@ evaluationCtrl.getEvaluations = async (req, res = repsonse) => {
           .populate("iteracion")
           .populate("criterio")
           .populate({
-            path: "votaciones",
+            path: "valores",
+            // Get friends of friends - populate the 'friends' array for every friend
+            populate: { path: "criterio", model: Criterio },
+          })
+          .populate({
+            path: "valores.votaciones",
             // Get friends of friends - populate the 'friends' array for every friend
             populate: { path: "alumno_votado", model: Usuario },
           })
           .populate({
-            path: "votaciones",
+            path: "valores.votaciones",
             populate: { path: "escala", model: Escala },
           }),
         Evaluacion.countDocuments(),
@@ -64,14 +69,15 @@ evaluationCtrl.getEvaluations = async (req, res = repsonse) => {
             .skip(desde)
             .limit(registropp)
             .populate({
-              path: "votaciones",
+              path: "valores.votaciones",
               populate: { path: "alumno_votado", model: Usuario },
             })
             .populate({
-              path: "votaciones",
+              path: "valores.votaciones",
               populate: { path: "escala", model: Escala },
             })
-            .populate({ path: "alumno", model: Usuario })
+            .populate({ path: "valores.criterio", model: Criterio })
+            .populate("alumno")
             .populate("iteracion")
             .populate("criterio"),
           Evaluacion.countDocuments(),
@@ -104,7 +110,7 @@ evaluationCtrl.createEvaluation = async (req, res = response) => {
   if (!req.body) return res.sendStatus(400);
   console.log(req.body);
 
-  const { criterio, alumno, iteracion, votaciones } = req.body;
+  const { alumno, iteracion, valores } = req.body;
   // console.log("Alumno: "+alumno)
   // console.log("Iteracion: "+iteracion)
   // console.log("Votaciones: ",votaciones)
@@ -122,13 +128,13 @@ evaluationCtrl.createEvaluation = async (req, res = response) => {
 
   try {
     //Comprobar que existe el criterio
-    const existeCriterio = await Criterio.find().where("_id").in(criterio);
-    if (!existeCriterio) {
-      return res.status(400).json({
-        ok: false,
-        msg: "El criterio asignado a la evaluación no existe",
-      });
-    }
+    // const existeCriterio = await Criterio.find().where("_id").in(criterio);
+    // if (!existeCriterio) {
+    //   return res.status(400).json({
+    //     ok: false,
+    //     msg: "El criterio asignado a la evaluación no existe",
+    //   });
+    // }
 
     //Comprobar que existe el usuario
     const existeAlumno = await Usuario.find().where("_id").in(alumno);
@@ -150,31 +156,48 @@ evaluationCtrl.createEvaluation = async (req, res = response) => {
 
     //Comprobación del array de votaciones
     let listavotacionesusu = [];
-    if (votaciones) {
-      console.log("Votaciones: " + votaciones);
+    if (valores) {
+      console.log("Valores: " + valores);
       let listavotacionesbusqueda = [];
       // Convertimos el array de objetos en un array con los strings de id de usuario
       // Creamos un array de objetos pero solo con aquellos que tienen el campo usuario correcto
-      const listausu = votaciones.map(async (registro) => {
+      const listausu = valores.map(async (registro) => {
         console.log("Registro: " + registro);
-        if (registro.usuario) {
-          console.log("Registro.usuario: " + registro.usuario);
-          listavotacionesbusqueda.push(registro.usuario);
+        if (registro.criterio) {
+          console.log("Registro.criterio: " + registro.criterio);
+          listavotacionesbusqueda.push(registro.criterio);
 
-          console.log("Valores: " + registro.valores);
-          const listaValores = registro.valores;
+          const existeCriterio = await Criterio.findById(
+            registro.criterio
+          );
+          if (!existeCriterio) {
+            return res.status(400).json({
+              ok: false,
+              msg: "El criterio asignado a la evaluación no existe en la BBDD",
+            });
+          }
+
+          console.log("Votaciones: " + registro.votaciones);
+          const listaValores = registro.votaciones;
           const resultado = listaValores.map(async (registro2) => {
-            if (registro2.criterio) {
-              console.log("Criterio: " + registro2.criterio);
+            if (registro2.alumno_votado) {
+              console.log("Alumno a votar: " + registro2.alumno_votado);
               // listavotacionesusu.concat(registro2.criterio);
               // console.log('Despues: Listavotacionesusu: '+JSON.stringify(listavotacionesusu));
-              const existeCriterio = await Criterio.findById(
-                registro2.criterio
-              );
-              if (!existeCriterio) {
+              const existeAlumnoRubrica = await Usuario.find()
+                .where("_id")
+                .in(registro2.alumno_votado);
+              if (!existeAlumnoRubrica) {
                 return res.status(400).json({
                   ok: false,
-                  msg: "El criterio asignado a la evaluación no existe en la BBDD",
+                  msg: "El alumnado asignado a la evaluación no existe en la BBDD",
+                });
+              }
+
+              if (existeAlumno === existeAlumnoRubrica) {
+                return res.status(400).json({
+                  ok: false,
+                  msg: "El alumno asignado en la votación no puede votarse a sí mismo",
                 });
               }
             }
@@ -193,22 +216,8 @@ evaluationCtrl.createEvaluation = async (req, res = response) => {
 
           // console.log('Antes: listavotacionesusu: '+JSON.stringify(listavotacionesusu));
           // console.log('Done')
-          const existeAlumnoRubrica = await Usuario.find()
-            .where("_id")
-            .in(registro.usuario);
-          if (!existeAlumnoRubrica) {
-            return res.status(400).json({
-              ok: false,
-              msg: "El alumno asignado en la votación no existe en la BBDD",
-            });
-          }
-
-          if (existeAlumno === existeAlumnoRubrica) {
-            return res.status(400).json({
-              ok: false,
-              msg: "El alumno asignado en la votación no puede votarse a sí mismo",
-            });
-          }
+         
+          
 
           //Esto dejarlo a lo ultimo, primero hacer las comprobaciones de criterio y escala
           listavotacionesusu.push(registro);
