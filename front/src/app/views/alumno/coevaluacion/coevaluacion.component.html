@@ -21,10 +21,16 @@
       <div class="rounded-t mb-0 px-4 py-3 bg-white border-0">
         <div class="flex flex-wrap items-center">
           <div class="relative w-full px-2 py-4 max-w-full flex-grow flex-1">
-            <h3 *ngIf="nombre" class="font-bold text-lg text-blueGray-700">Nueva evaluación</h3>
-            <h3 *ngIf="!nombre" class="font-bold text-lg text-blueGray-700">Editar evaluación</h3>
+            <h3 *ngIf="nombre" class="font-bold text-lg text-blueGray-700">
+              Nueva evaluación
+            </h3>
+            <h3 *ngIf="!nombre" class="font-bold text-lg text-blueGray-700">
+              Editar evaluación
+            </h3>
           </div>
-          <div class="relative w-full px-4 max-w-full flex-grow flex-1 text-right">
+          <div
+            class="relative w-full px-4 max-w-full flex-grow flex-1 text-right"
+          >
             <button
               *ngIf="!nombre"
               [routerLink]="['/admin/evaluaciones/evaluacion/nuevo']"
@@ -38,23 +44,38 @@
         </div>
       </div>
       <div class="flex-auto px-4 lg:px-10 py-10 pt-0">
-          <h6 class="text-blueGray-400 text-sm mt-3 mb-6 font-bold uppercase">
-            Datos de la evaluación
-          </h6>
-          <div class="flex flex-wrap">
-            <div *ngFor="let dimension of info.listaDimensiones; let i=index">
-              {{dimension.nombre}}
-              <div *ngFor="let alumno of info.alumnosGrupo; let j=index">
-                  {{alumno.nombre}}
-                  <select (change)="seleccionar(dimension.idDimension, i , alumno.idalumno, j,  $event)">
-                      <option [defaultSelected]="true">Seleccione una opcion</option>
-                      <option *ngFor="let escala of info.listaEscalas[i]" [value]="escala.idEscala">{{escala.descripcion}}</option>
-                  </select>
-              </div>
-              <br>
+        <h6 class="text-blueGray-400 text-sm mt-3 mb-6 font-bold uppercase">
+          Datos de la evaluación
+        </h6>
+        <div class="flex flex-wrap">
+          <div *ngFor="let dimension of valores; let i = index">
+            {{ dimension.criterio.nombre }}
+            <div *ngFor="let alumno of info.alumnosGrupo; let j = index">
+              {{ alumno.nombre }}
+              <select
+                (change)="
+                  seleccionar(
+                    dimension.idDimension,
+                    i,
+                    alumno.idalumno,
+                    j,
+                    $event
+                  )
+                "
+              >
+                <option [defaultSelected]="true">Seleccione una opcion</option>
+                <option
+                  *ngFor="let escala of info.listaEscalas[i]"
+                  [value]="escala.idEscala"
+                >
+                  {{ escala.descripcion }}
+                </option>
+              </select>
             </div>
-            <button (click)="enviarDatos()">Enviar</button>
+            <br />
           </div>
+          <button (click)="enviarDatos()">Enviar</button>
+        </div>
       </div>
     </div>
   </div>

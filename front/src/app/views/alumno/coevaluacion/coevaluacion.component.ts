@@ -14,7 +14,9 @@ import { EvaluacionService } from '../../../services/evaluacion.service';
 export class CoevaluacionComponent implements OnInit {
 
   public uid: string = 'nuevo';
-  public evaluacion: Evaluacion[] = [];
+  public valores;
+  public keys;
+  public evaluaciones: Evaluacion[] = [];
   public datosForm = this.fb.group({
     uid: [{value: 'nuevo', disabled: true}, Validators.required],
     hito: ['', Validators.required ],
@@ -135,6 +137,7 @@ export class CoevaluacionComponent implements OnInit {
     this.uid = this.route.snapshot.params['uid'];
     this.cargarDatos();
   }
+
   cargarDatos() {
     this.submited = false;
     if (this.uid !== 'nuevo') {
@@ -145,7 +148,21 @@ export class CoevaluacionComponent implements OnInit {
             return;
           };
 
-          console.log(res['evaluaciones']);
+          console.log(res['evaluaciones'].valores);
+          this.evaluaciones = res['evaluaciones'].valores;
+          console.log('Evaluaciones: ', this.evaluaciones);
+          this.objectKeys(this.evaluaciones);
+          // this.evaluacionService.getValores(this.evaluaciones).subscribe(res => {
+          //   console.log('GetValores: ',res);
+          // });
+
+          this.valores = this.evaluaciones
+            .map(valor => ({
+              ...valor
+          }));
+
+          console.log('Valores: ',this.valores);
+
           // this.datosForm.get('iteracion').setValue(res['iteraciones'].iteracion);
           // this.datosForm.get('hito').setValue(res['iteraciones'].hito);
           // this.datosForm.get('curso').setValue(res['iteraciones'].curso._id);
@@ -172,6 +189,13 @@ export class CoevaluacionComponent implements OnInit {
       // this.datosForm.markAsPristine();
     }
   }
+
+  objectKeys (objeto: any) {
+    this.keys = Object.keys(objeto);
+    console.log(this.keys); // echa un vistazo por consola para que veas lo que hace "Object.keys"
+ }
+
+
 
   seleccionar(dimension:any, posDimension: number, alumno:any, posAlumno: number,  escala:any) {
     this.guardarVacio[posDimension].votaciones[posAlumno].idEscala = escala.target.value;

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,14 @@ export class EvaluacionService {
 
   crearEvaluacion(data) {
     return this.http.post(`${environment.base_url}/evaluaciones/`, data, this.cabeceras);
+  }
+
+  getValores(valores: any): Observable<Array<any>> {
+    return valores
+      .pipe()
+      .map((response: any[]) => {
+        console.log(response);
+      });
   }
 
   // Funcion de actualizarGrupo: lo que hace es guardar el array de guardarVacio que contiene
