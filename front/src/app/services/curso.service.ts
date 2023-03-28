@@ -11,7 +11,7 @@ export class CursoService {
 
   constructor( private http: HttpClient) {  }
 
-  cargarCurso( uid: string): Observable<object> {
+  cargarCurso( uid: string ): Observable<object> {
     if (!uid) { uid = '';}
     return this.http.get(`${environment.base_url}/cursos/?id=${uid}` , this.cabeceras);
   }

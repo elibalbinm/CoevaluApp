@@ -71,6 +71,43 @@ scaleCtrl.getScales = async(req, res = repsonse) => {
     }
 }
 
+scaleCtrl.getScalesByCriteria = async(req, res = repsonse) => {
+    console.log('Entra a getScalesByCriteria')
+    
+    const id = req.body.criterio;
+    console.log('ID: ',id)
+    
+    try {
+        let escalas, total;
+        const existeCriterio = await Criterio.findById(id);
+        if (id && existeCriterio) {
+            [escalas, total] = await Promise.all([
+                Escala.find({$or: [{criterio: id}]}),
+                Escala.countDocuments()
+            ]);
+        } 
+
+        // if(existeCriterio) {
+        //     const escalasCriterio = await Escala.find({$or: [{criterio: id}]});   
+        //     res.status(200).json(escalas);
+        // } 
+
+        res.status(200).json({
+            ok: true,
+            msg: 'Request getScalesByCriteria successful',
+            escalas,
+        });
+
+    } catch (error) {
+        // res.status(404).json({message: err.message});
+        console.log(error);
+        return res.status(404).json({
+            ok: false,
+            msg: 'Error al obtener escalas'
+        });
+    }
+}
+
 scaleCtrl.createScale = async(req, res = response) => {
 
     const { criterio, ...object } = req.body;

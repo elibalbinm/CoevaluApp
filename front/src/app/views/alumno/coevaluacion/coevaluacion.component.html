@@ -50,8 +50,8 @@
         <div class="flex flex-wrap">
           <div *ngFor="let dimension of valores; let i = index">
             {{ dimension.criterio.nombre }}
-            <div *ngFor="let alumno of info.alumnosGrupo; let j = index">
-              {{ alumno.nombre }}
+            <div *ngFor="let alumno of dimension.votaciones; let j = index">
+              {{ alumno.alumno_votado.nombre + ' ' + alumno.alumno_votado.apellidos}}
               <select
                 (change)="
                   seleccionar(

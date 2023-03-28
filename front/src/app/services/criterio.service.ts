@@ -35,11 +35,10 @@ export class CriterioService {
     return this.http.get(`${environment.base_url}/criterios/?desde=${desde}&texto=${textoBusqueda}&hasta=${hasta}` , this.cabeceras);
   }
 
-  cargarEscalas( desde: number, textoBusqueda?: string, hasta?:string ): Observable<object> {
-    if (!desde) { desde = 0; }
-    if (!textoBusqueda) { textoBusqueda = ''; }
-    if (!hasta) { hasta = '10'; }
-    return this.http.get(`${environment.base_url}/escalas/?desde=${desde}&texto=${textoBusqueda}&hasta=${hasta}` , this.cabeceras);
+  cargarEscalasPorCriterio( uid: string ): Observable<object> {
+    if (!uid) { uid = '';}
+    return this.http.post(`${environment.base_url}/escalas/${uid}` , this.cabeceras);
+    console.log('Finaliza')
   }
 
   cargarAlumnos( desde: number, textoBusqueda?: string, hasta?:string ): Observable<object> {
