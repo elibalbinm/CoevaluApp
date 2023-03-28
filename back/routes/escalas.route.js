@@ -10,6 +10,14 @@ const { validarJWT } = require('../middleware/validar-jwt');
 
 const router = Router();
 
+router.get('/:id', [
+    // Campos opcionales que si vienen los validamos desde e id
+    validarJWT,
+    check('id', 'El id del escala debe ser válido').optional().isMongoId(),
+    check('desde', 'El desde debe ser un número').optional().isNumeric(),
+    check('texto', 'El texto debe ser válido').optional().trim(),
+    validarCampos
+], scaleCtrl.getScalesByCriteria);
 router.get('/', [
     validarJWT,
     // Campos opcionales que si vienen los validamos desde e id
@@ -18,14 +26,6 @@ router.get('/', [
     check('texto', 'El texto debe ser válido').optional().trim(),
     validarCampos
 ], scaleCtrl.getScales);
-router.post('/:id', [
-    validarJWT,
-    // Campos opcionales que si vienen los validamos desde e id
-    check('id', 'El id del escala debe ser válido').optional().isMongoId(),
-    check('desde', 'El desde debe ser un número').optional().isNumeric(),
-    check('texto', 'El texto debe ser válido').optional().trim(),
-    validarCampos
-], scaleCtrl.getScalesByCriteria);
 router.post('/', [
     validarJWT,
     check('nivel', 'El argumento nivel es obligatorio').not().isEmpty().trim(),

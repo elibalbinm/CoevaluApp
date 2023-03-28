@@ -37,8 +37,10 @@ export class CriterioService {
 
   cargarEscalasPorCriterio( uid: string ): Observable<object> {
     if (!uid) { uid = '';}
-    return this.http.post(`${environment.base_url}/escalas/${uid}` , this.cabeceras);
-    console.log('Finaliza')
+    console.log('ID: ',uid);
+    console.log(this.cabeceras)
+    return this.http.get(`${environment.base_url}/escalas/${uid}` , this.cabeceras);
+    console.log('Finaliza');
   }
 
   cargarAlumnos( desde: number, textoBusqueda?: string, hasta?:string ): Observable<object> {

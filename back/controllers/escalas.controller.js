@@ -73,11 +73,21 @@ scaleCtrl.getScales = async(req, res = repsonse) => {
 
 scaleCtrl.getScalesByCriteria = async(req, res = repsonse) => {
     console.log('Entra a getScalesByCriteria')
-    
-    const id = req.body.criterio;
+    // console.log(req);
+    const id = req.params.id;
     console.log('ID: ',id)
     
     try {
+
+        const token = req.header('x-token');
+        console.log('Token: ',token);
+        if (!(infoToken(token).rol === 'ROL_ADMIN')) {
+            return res.status(404).json({
+                ok: false,
+                msg: 'No tiene permisos para actualizar cursos',
+            });
+        }
+
         let escalas, total;
         const existeCriterio = await Criterio.findById(id);
         if (id && existeCriterio) {
@@ -86,11 +96,6 @@ scaleCtrl.getScalesByCriteria = async(req, res = repsonse) => {
                 Escala.countDocuments()
             ]);
         } 
-
-        // if(existeCriterio) {
-        //     const escalasCriterio = await Escala.find({$or: [{criterio: id}]});   
-        //     res.status(200).json(escalas);
-        // } 
 
         res.status(200).json({
             ok: true,

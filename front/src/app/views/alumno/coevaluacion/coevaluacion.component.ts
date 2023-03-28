@@ -168,7 +168,7 @@ export class CoevaluacionComponent implements OnInit {
     console.log("Iniciando guardar:", this.guardarVacio);
     this.uid = this.route.snapshot.params["uid"];
     this.cargarDatos();
-    this.cargarEscalas('6315a81675458a8204bcaa8d');
+    this.cargarEscalas('6315adbe1c40cc72b4e9e4b9');
   }
 
   cargarDatos() {
@@ -302,6 +302,8 @@ export class CoevaluacionComponent implements OnInit {
       .subscribe( res => {
         console.log('Res (escalas): ', res);
         this.escalas = res['escalas'];
+    },(err)=>{
+      console.log('Error: ',err);
     });
   }
 }
