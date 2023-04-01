@@ -6,6 +6,7 @@ import { CriterioService } from "src/app/services/criterio.service";
 import { GrupoService } from "src/app/services/grupo.service";
 import Swal from "sweetalert2";
 import { EvaluacionService } from "../../../services/evaluacion.service";
+import { Escala } from "src/app/models/escala.model";
 
 @Component({
   selector: "app-coevaluacion",
@@ -17,6 +18,8 @@ export class CoevaluacionComponent implements OnInit {
   public keys;
   public alumnos;
   public evaluaciones: Evaluacion[] = [];
+  public escalas: Escala[] = [];
+
   public datosForm = this.fb.group({
     uid: [{ value: "nuevo", disabled: true }, Validators.required],
     hito: ["", Validators.required],
@@ -153,7 +156,9 @@ export class CoevaluacionComponent implements OnInit {
   ];
 
   submited: boolean = false;
-  escalas: any;
+  arrayCriterios: any;
+  arrayCriteriosPorEscala: any;
+  // escalas: any;
 
   constructor(
     private fb: FormBuilder,
@@ -168,7 +173,6 @@ export class CoevaluacionComponent implements OnInit {
     console.log("Iniciando guardar:", this.guardarVacio);
     this.uid = this.route.snapshot.params["uid"];
     this.cargarDatos();
-    this.cargarEscalas('6315adbe1c40cc72b4e9e4b9');
   }
 
   cargarDatos() {
@@ -183,15 +187,17 @@ export class CoevaluacionComponent implements OnInit {
 
           console.log(res["evaluaciones"].valores);
           this.evaluaciones = res["evaluaciones"].valores;
-          console.log("Evaluaciones: ", this.evaluaciones);
 
           this.valores = this.evaluaciones.map((valor) => ({
             ...valor,
           }));
 
-
           console.log("Valores: ", this.valores);
+          this.arrayCriterios = this.valores.map(_ => ({
+            id: `${_.criterio._id}`
+          }));
 
+          console.log('Array criteriosssssssss ',this.arrayCriterios)
           // this.datosForm.get('iteracion').setValue(res['iteraciones'].iteracion);
           // this.datosForm.get('hito').setValue(res['iteraciones'].hito);
           // this.datosForm.get('curso').setValue(res['iteraciones'].curso._id);
@@ -201,6 +207,7 @@ export class CoevaluacionComponent implements OnInit {
           // this.datosForm.get('fecha_fin_coe').setValue(moment(res['iteraciones'].fecha_fin_coe).format('YYYY-MM-DD'));
           // this.datosForm.markAsPristine();
           // this.uid = res['iteraciones'].uid;
+          this.cargarEscalas();
           this.submited = true;
         },
         (err) => {
@@ -296,14 +303,36 @@ export class CoevaluacionComponent implements OnInit {
 
   // Funcion que a partir de un criterio dado, busca en la BBDD todos los posibles niveles que dispone
   // y los almacena en un array
-  cargarEscalas(id: any) {
-    console.log('cargarEscalas')
-    this.criterioService.cargarEscalasPorCriterio(id)
-      .subscribe( res => {
-        console.log('Res (escalas): ', res);
-        this.escalas = res['escalas'];
-    },(err)=>{
-      console.log('Error: ',err);
-    });
+  cargarEscalas() {
+    console.log('cargarEscalas');
+    console.log(this.arrayCriterios);
+
+      this.arrayCriterios.map(element => {
+        console.log('Element: ', element);
+
+        this.criterioService.cargarEscalasPorCriterio(element.id)
+          .subscribe( res => {
+            console.log('Res (escalas): ', res);
+
+            const escalasPorCriterio = [...new Array(this.arrayCriterios.length)]
+            .map((_, i) => {
+              return {
+                id: element.id,
+                escalas: res['escalas'],
+              };
+            })
+
+            console.log('>>>>>>>>>>>>>>>>>>>>>>>>',escalasPorCriterio);
+        },(err)=>{
+          console.log('Error: ',err);
+        });
+      });
+    // this.criterioService.cargarEscalasPorCriterio(id)
+    //   .subscribe( res => {
+    //     console.log('Res (escalas): ', res);
+    //     this.escalas = res['escalas'];
+    // },(err)=>{
+    //   console.log('Error: ',err);
+    // });
   }
 }

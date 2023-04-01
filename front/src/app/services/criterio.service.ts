@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment  } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Escala } from '../models/escala.model';
 
 @Injectable({
   providedIn: 'root'
@@ -35,11 +36,11 @@ export class CriterioService {
     return this.http.get(`${environment.base_url}/criterios/?desde=${desde}&texto=${textoBusqueda}&hasta=${hasta}` , this.cabeceras);
   }
 
-  cargarEscalasPorCriterio( uid: string ): Observable<object> {
+  cargarEscalasPorCriterio( uid: string ): Observable<Escala[]> {
     if (!uid) { uid = '';}
     console.log('ID: ',uid);
     console.log(this.cabeceras)
-    return this.http.get(`${environment.base_url}/escalas/${uid}` , this.cabeceras);
+    return this.http.get<Escala[]>(`${environment.base_url}/escalas/${uid}` , this.cabeceras);
     console.log('Finaliza');
   }
 
