@@ -204,7 +204,7 @@ const routes: Routes = [
   },
   // alumno views
   {
-    path: "alu",
+    path: "alumno",
     component: AlumnoComponent,
     children: [
       { path: "dashboard", component: DashboardComponent, canActivate: [ AuthGuard ], data: {rol: '*', titulo: 'Home'} },
