@@ -48,7 +48,7 @@
           Datos de la evaluación
         </h4>
         <div class="flex flex-wrap">
-          <div class="mx-auto" *ngFor="let dimension of valores; let i = index">
+          <div class="mr-auto" *ngFor="let dimension of valores; let i = index">
             <h5 class="pt-2 px-4 pb-4"><b>{{ dimension.criterio.nombre }}</b></h5>
             <div class="flex mb-3 xl:w-96 gap-px space-x-4 items-center" *ngFor="let alumno of dimension.votaciones; let j = index">
               <!-- <p class="pr-12 pt-4"> -->
