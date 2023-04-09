@@ -15,7 +15,7 @@ export class SidebarComponent implements OnInit {
     if(this.usuarioService.uid){
       console.log(this.usuarioService.uid);
 
-      if(this.usuarioService.rol == 'ROL_PROFESOR'){
+      if(this.usuarioService.rol === 'ROL_PROFESOR'){
         this.logueado = "profe";
       }
     }

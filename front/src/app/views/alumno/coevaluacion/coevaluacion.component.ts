@@ -158,6 +158,7 @@ export class CoevaluacionComponent implements OnInit {
   submited: boolean = false;
   arrayCriterios: any;
   arrayCriteriosPorEscala: any;
+  escalasPorCriterio: any;
   // escalas: any;
 
   constructor(
@@ -189,7 +190,7 @@ export class CoevaluacionComponent implements OnInit {
           this.evaluaciones = res["evaluaciones"].valores;
 
           this.valores = this.evaluaciones.map((valor) => ({
-            ...valor,
+            ...valor ?? [],
           }));
 
           console.log("Valores: ", this.valores);
@@ -257,6 +258,26 @@ export class CoevaluacionComponent implements OnInit {
     console.log("GuardarVacio:", this.guardarVacio);
   }
 
+  // seleccionar(
+  //   dimension: any,
+  //   posDimension: number,
+  //   alumno: any,
+  //   posAlumno: number,
+  //   escala: any
+  // ) {
+  //   this.guardarVacio[posDimension].votaciones[posAlumno].idEscala =
+  //     escala.target.value;
+  //   console.log(
+  //     "Alumno:",
+  //     alumno,
+  //     "dimension:",
+  //     dimension,
+  //     " Escala:",
+  //     escala.target.value
+  //   );
+  //   console.log("GuardarVacio:", this.guardarVacio);
+  // }
+
   enviarDatos() {
     console.log("Entro a enviarDatos");
     let completo = true;
@@ -314,7 +335,7 @@ export class CoevaluacionComponent implements OnInit {
           .subscribe( res => {
             console.log('Res (escalas): ', res);
 
-            const escalasPorCriterio = [...new Array(this.arrayCriterios.length)]
+            this.escalasPorCriterio = [...new Array(this.arrayCriterios.length)]
             .map((_, i) => {
               return {
                 id: element.id,
@@ -322,7 +343,7 @@ export class CoevaluacionComponent implements OnInit {
               };
             })
 
-            console.log('>>>>>>>>>>>>>>>>>>>>>>>>',escalasPorCriterio);
+            console.log('>>>>>>>>>>>>>>>>>>>>>>>>', this.escalasPorCriterio);
         },(err)=>{
           console.log('Error: ',err);
         });

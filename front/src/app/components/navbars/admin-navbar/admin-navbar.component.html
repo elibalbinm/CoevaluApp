@@ -9,7 +9,12 @@
     <a
       [routerLink]="['/admin/dashboard']"
       class="text-white text-sm uppercase hidden lg:inline-block font-semibold"
-      >Dashboard</a
+      >COEVALUAPP</a
+    >
+    <a *ngIf="logueado === 'alumno'"
+      [routerLink]="['/alumno/dashboard']"
+      class="text-white text-sm uppercase hidden lg:inline-block font-semibold"
+      >COEVALUAPP</a
     >
     <!-- Form -->
     <!-- <form

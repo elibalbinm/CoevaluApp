@@ -6,7 +6,8 @@
 >
   <div class="items-center flex">
     <span
-      class="w-12 h-12 text-sm text-white bg-blueGray-200 inline-flex items-center justify-center rounded-full"
+      class="w-12 h-12 text-sm text-white bg-blueGray-200 inline-flex items-center
+      justify-center rounded-full"
     >
       <img
         alt="..."
@@ -21,7 +22,7 @@
     class="bg-white text-base z-50 float-left py-2 list-none text-left rounded shadow-lg mt-1 min-w-48"
     [ngClass]="dropdownPopoverShow ? 'block' : 'hidden'"
   >
-      <a
+    <a
       [routerLink]="['/admin/settings']"
       class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
       routerLinkActive
@@ -34,38 +35,17 @@
     >
       <i
         class="fas fa-user-circle mr-2 text-sm"
-        [ngClass]="
-          adminSettings.isActive ? 'opacity-75' : 'text-blueGray-300'
-        "
+        [ngClass]="adminSettings.isActive ? 'opacity-75' : 'text-blueGray-300'"
       ></i>
       Perfil
     </a>
-
-    <!-- <a
-      href="#pablo"
-      class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
-    >
-      Action
-    </a>
-    <a
-      href="#pablo"
-      class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
-    >
-      Another action
-    </a>
-    <a
-      href="#pablo"
-      class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
-    >
-      Something else here
-    </a> -->
     <div class="h-0 my-2 border border-solid border-blueGray-100"></div>
     <a
       (click)="logout()"
       [routerLink]="['/auth/login']"
       class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700 cursor-pointer"
     >
-    Cerrar sesión
+      Cerrar sesión
     </a>
   </div>
 </div>

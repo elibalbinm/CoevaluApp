@@ -44,15 +44,21 @@
         </div>
       </div>
       <div class="flex-auto px-4 lg:px-10 py-10 pt-0">
-        <h6 class="text-blueGray-400 text-sm mt-3 mb-6 font-bold uppercase">
+        <h4 class="text-blueGray-400 text-sm mt-3 mb-3 font-bold uppercase">
           Datos de la evaluación
-        </h6>
+        </h4>
         <div class="flex flex-wrap">
-          <div *ngFor="let dimension of valores; let i = index">
-            {{ dimension.criterio.nombre }}
-            <div *ngFor="let alumno of dimension.votaciones; let j = index">
-              {{ alumno.alumno_votado.nombre + ' ' + alumno.alumno_votado.apellidos}}
-              <select
+          <div class="mx-auto" *ngFor="let dimension of valores; let i = index">
+            <h5 class="pt-2 px-4 pb-4"><b>{{ dimension.criterio.nombre }}</b></h5>
+            <div class="flex mb-3 xl:w-96 gap-px space-x-4" *ngFor="let alumno of dimension.votaciones; let j = index">
+              <!-- <p class="pr-12 pt-4"> -->
+              <p class="flex-auto align-middle">
+                {{ alumno.alumno_votado.nombre + ' ' + alumno.alumno_votado.apellidos}}
+              </p>
+              <!-- <br>
+              {{ alumno.escala.nivel }} -->
+              <select class="flex-auto rounded-full"
+              data-te-select-init
                 (change)="
                   seleccionar(
                     dimension.idDimension,
@@ -63,12 +69,10 @@
                   )
                 "
               >
-                <option [defaultSelected]="true">Seleccione una opcion</option>
-                <option
-                  *ngFor="let escala of info.listaEscalas[i]"
-                  [value]="escala.idEscala"
-                >
-                  {{ escala.descripcion }}
+                <option *ngFor="let escala of escalasPorCriterio[i]?.escalas"
+                [defaultSelected]="alumno.escala.nivel === escala.nivel"
+                [value]="dimension?.votaciones[j]?.escala?.nivel">
+                  {{ escala.nivel }}
                 </option>
               </select>
             </div>

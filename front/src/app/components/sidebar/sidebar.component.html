@@ -70,10 +70,10 @@
       </form>
 
       <!-- Divider -->
-      <hr *ngIf="logueado == 'admin'" class="my-4 md:min-w-full" />
+      <hr *ngIf="logueado === 'admin'" class="my-4 md:min-w-full" />
       <!-- Heading -->
       <h6
-        *ngIf="logueado == 'admin'"
+        *ngIf="logueado === 'admin'"
         class="md:min-w-full text-blueGray-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline"
       >
         ADMINISTRADOR/A
@@ -262,10 +262,10 @@
 
 
       <!-- Divider -->
-      <hr *ngIf="logueado == 'profe'" class="my-4 md:min-w-full" />
+      <hr *ngIf="logueado === 'profe'" class="my-4 md:min-w-full" />
       <!-- Heading -->
       <h6
-      *ngIf="logueado == 'profe'"
+      *ngIf="logueado === 'profe'"
         class="md:min-w-full text-blueGray-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline"
       >
         PROFESOR
