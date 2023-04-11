@@ -185,15 +185,15 @@ export class CoevaluacionComponent implements OnInit {
             this.router.navigateByUrl("/admin/iteraciones");
             return;
           }
-
-          console.log(res["evaluaciones"].valores);
+          console.log('Valor resultado:', res);
+          console.log('Valor obtenidos:',res["evaluaciones"].valores);
           this.evaluaciones = res["evaluaciones"].valores;
-
+          console.log('Valor Evaluaciones:',this.evaluaciones);
           this.valores = this.evaluaciones.map((valor) => ({
             ...valor ?? [],
           }));
 
-          console.log("Valores: ", this.valores);
+          console.log("Valor Valores: ", this.valores);
           this.arrayCriterios = this.valores.map(_ => ({
             id: `${_.criterio._id}`
           }));
@@ -327,21 +327,39 @@ export class CoevaluacionComponent implements OnInit {
   cargarEscalas() {
     console.log('cargarEscalas');
     console.log(this.arrayCriterios);
+    this.escalasPorCriterio = []; 
 
       this.arrayCriterios.map(element => {
         console.log('Element: ', element);
 
         this.criterioService.cargarEscalasPorCriterio(element.id)
           .subscribe( res => {
-            console.log('Res (escalas): ', res);
+            console.log('Res (escalas): ', res, ' Element: ',element);
 
-            this.escalasPorCriterio = [...new Array(this.arrayCriterios.length)]
+            const temp = {
+              id:element.id,
+              escalas: res["escalas"]
+            };
+            console.log('Objeto creado temp:',temp);
+            this.escalasPorCriterio.push(temp);
+
+            /*
+            let temp = [...new Array(this.arrayCriterios.length)]
             .map((_, i) => {
               return {
                 id: element.id,
                 escalas: res['escalas'],
               };
-            })
+            })*/
+
+
+            /*this.escalasPorCriterio = [...new Array(this.arrayCriterios.length)]
+            .map((_, i) => {
+              return {
+                id: element.id,
+                escalas: res['escalas'],
+              };
+            })*/
 
             console.log('>>>>>>>>>>>>>>>>>>>>>>>>', this.escalasPorCriterio);
         },(err)=>{
