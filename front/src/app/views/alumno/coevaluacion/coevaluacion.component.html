@@ -1,18 +1,3 @@
-<!-- <div class="flex-auto px-4 lg:px-10 py-10 pt-0">
-    <div *ngFor="let dimension of info.listaDimensiones; let i=index">
-      {{dimension.nombre}}
-      <div *ngFor="let alumno of info.alumnosGrupo; let j=index">
-          {{alumno.nombre}}
-          <select (change)="seleccionar(dimension.idDimension, i , alumno.idalumno, j,  $event)">
-              <option [defaultSelected]="true">Seleccione una opcion</option>
-              <option *ngFor="let escala of info.listaEscalas[i]" [value]="escala.idEscala">{{escala.descripcion}}</option>
-          </select>
-      </div>
-      <br>
-    </div>
-    <button (click)="enviarDatos()">Enviar</button>
-</div> -->
-
 <div class="flex flex-wrap mt-4">
   <div class="w-full xl:w-12/12 mb-12 xl:mb-0 px-4">
     <div
@@ -47,7 +32,7 @@
         <h4 class="text-blueGray-400 text-sm mt-3 mb-3 font-bold uppercase">
           Datos de la evaluación
         </h4>
-        <div class="flex flex-wrap">
+        <div class="flex flex-wrap gap-8">
           <div class="mr-auto" *ngFor="let dimension of evaluaciones; let i = index">
             <h5 class="pt-2 px-4 pb-4"><b>{{ dimension.criterio.nombre }}</b></h5>
             <div class="flex mb-3 xl:w-96 gap-px space-x-4 items-center" *ngFor="let alumno of dimension.votaciones; let j = index">
@@ -79,17 +64,16 @@
             </div>
             <br />
           </div>
-          <div class="text-center flex-auto p-5 lg:p-8">
-            <button
-          (click)="enviarDatos()"
-            class="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-            type="submit"
-            *ngIf="!nombre"
-          >Modificar</button>
-          </div>
           <!-- <button (click)="enviarDatos()">Enviar</button> -->
         </div>
-
+        <div class="text-center flex-auto p-5 lg:p-8">
+          <button
+        (click)="enviarDatos()"
+          class="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+          type="submit"
+          *ngIf="!nombre"
+        >Modificar</button>
+        </div>
       </div>
     </div>
   </div>

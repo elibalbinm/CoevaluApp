@@ -185,29 +185,19 @@ export class CoevaluacionComponent implements OnInit {
             this.router.navigateByUrl("/admin/iteraciones");
             return;
           }
-          console.log('Valor resultado:', res);
-          console.log('Valor obtenidos:',res["evaluaciones"].valores);
-          this.evaluaciones = res["evaluaciones"].valores;
-          console.log('Valor Evaluaciones:',this.evaluaciones);
-          this.valores = this.evaluaciones.map((valor) => ({
-            ...valor ?? [],
-          }));
 
-          console.log("Valor Valores: ", this.valores);
-          this.arrayCriterios = this.valores.map(_ => ({
+          this.evaluaciones = res["evaluaciones"].valores;
+
+          // this.valores = this.evaluaciones.map((valor) => ({
+          //   ...valor ?? [],
+          // }));
+
+          this.arrayCriterios = res["evaluaciones"].valores.map(_ => ({
             id: `${_.criterio._id}`
           }));
 
           console.log('Array criteriosssssssss ',this.arrayCriterios)
-          // this.datosForm.get('iteracion').setValue(res['iteraciones'].iteracion);
-          // this.datosForm.get('hito').setValue(res['iteraciones'].hito);
-          // this.datosForm.get('curso').setValue(res['iteraciones'].curso._id);
-          // this.datosForm.get('fecha_ini').setValue(moment(res['iteraciones'].fecha_ini).format('YYYY-MM-DD'));
-          // this.datosForm.get('fecha_fin').setValue(moment(res['iteraciones'].fecha_fin).format('YYYY-MM-DD'));
-          // this.datosForm.get('fecha_ini_coe').setValue(moment(res['iteraciones'].fecha_ini_coe).format('YYYY-MM-DD'));
-          // this.datosForm.get('fecha_fin_coe').setValue(moment(res['iteraciones'].fecha_fin_coe).format('YYYY-MM-DD'));
-          // this.datosForm.markAsPristine();
-          // this.uid = res['iteraciones'].uid;
+
           this.cargarEscalas();
           this.submited = true;
         },
@@ -222,14 +212,7 @@ export class CoevaluacionComponent implements OnInit {
         }
       );
     } else {
-      // this.datosForm.get('iteracion').setValue('');
-      // this.datosForm.get('hito').setValue('');
-      // this.datosForm.get('curso').setValue('');
-      // this.datosForm.get('fecha_ini').setValue('');
-      // this.datosForm.get('fecha_fin').setValue('');
-      // this.datosForm.get('fecha_ini_coe').setValue('');
-      // this.datosForm.get('fecha_fin_coe').setValue('');
-      // this.datosForm.markAsPristine();
+
     }
   }
 
@@ -257,26 +240,6 @@ export class CoevaluacionComponent implements OnInit {
     );
     console.log("GuardarVacio:", this.guardarVacio);
   }
-
-  // seleccionar(
-  //   dimension: any,
-  //   posDimension: number,
-  //   alumno: any,
-  //   posAlumno: number,
-  //   escala: any
-  // ) {
-  //   this.guardarVacio[posDimension].votaciones[posAlumno].idEscala =
-  //     escala.target.value;
-  //   console.log(
-  //     "Alumno:",
-  //     alumno,
-  //     "dimension:",
-  //     dimension,
-  //     " Escala:",
-  //     escala.target.value
-  //   );
-  //   console.log("GuardarVacio:", this.guardarVacio);
-  // }
 
   enviarDatos() {
     console.log("Entro a enviarDatos");
@@ -327,7 +290,7 @@ export class CoevaluacionComponent implements OnInit {
   cargarEscalas() {
     console.log('cargarEscalas');
     console.log(this.arrayCriterios);
-    this.escalasPorCriterio = []; 
+    this.escalasPorCriterio = [];
 
       this.arrayCriterios.map(element => {
         console.log('Element: ', element);
@@ -337,7 +300,7 @@ export class CoevaluacionComponent implements OnInit {
             console.log('Res (escalas): ', res, ' Element: ',element);
 
             const temp = {
-              id:element.id,
+              id: element.id,
               escalas: res["escalas"]
             };
             console.log('Objeto creado temp:',temp);

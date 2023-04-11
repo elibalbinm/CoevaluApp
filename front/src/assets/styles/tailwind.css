@@ -1101,6 +1101,10 @@ select {
   }
 }
 
+.gap-8{
+  gap: 8px;
+}
+
 .gap-px{
   gap: 5px;
 }
