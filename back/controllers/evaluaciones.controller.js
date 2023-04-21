@@ -158,18 +158,18 @@ evaluationCtrl.createEvaluation = async (req, res = response) => {
     let listavotacionesusu = [];
     if (valores) {
       console.log("Valores: " + valores);
-      let listavotacionesbusqueda = [];
+      
       // Convertimos el array de objetos en un array con los strings de id de usuario
       // Creamos un array de objetos pero solo con aquellos que tienen el campo usuario correcto
       const listausu = valores.map(async (registro) => {
         console.log("Registro: " + registro);
         if (registro.criterio) {
           console.log("Registro.criterio: " + registro.criterio);
-          listavotacionesbusqueda.push(registro.criterio);
-
+          
           const existeCriterio = await Criterio.findById(
             registro.criterio
           );
+
           if (!existeCriterio) {
             return res.status(400).json({
               ok: false,
@@ -251,6 +251,7 @@ evaluationCtrl.createEvaluation = async (req, res = response) => {
 };
 
 evaluationCtrl.updateEvaluation = async (req, res) => {
+  
   const { alumno, iteracion, votaciones } = req.body;
   const uid = req.params.id;
 
@@ -309,11 +310,14 @@ evaluationCtrl.updateEvaluation = async (req, res) => {
 };
 
 evaluationCtrl.updateList = async (req, res) => {
-  // const id = req.params.id;
-  const id = "63a9b3625620056830728c31";
-  console.log("ID: ", id);
+  const { alumno, iteracion, valores } = req.body;
+  console.log('>>>>>>>>>>>>>>>>>>>>>>>>', req.body);
+  const id = req.params.id;
+  console.log("ID Evaluaciones: ", id);
   const lista = await req.body;
   console.log("Lista: ", lista);
+
+  if (!req.body) return res.sendStatus(400);
 
   // TO-DO: recorrer el array de req.body con un map o algo e ir almacenando los valores
   // de cda uno de ellos o ver como hacer para que se pueda almacenar req.body
@@ -343,24 +347,79 @@ evaluationCtrl.updateList = async (req, res) => {
     console.log("Entramos dentro");
 
     const evaluacion = await Evaluacion.findById(id);
-    console.log("Evaluacion: ", evaluacion);
-    const valorPrueba = {
-      criterio: "6315a81675458a8204bcaa8d",
-      escala: "6315c78d1d17db1bd02f654c",
-      valor: "4",
-    };
-    const objeto = { valores: valorPrueba };
+    const listadoAlumnos = [];
+    console.log("Evaluacion: ", evaluacion.valores);
 
-    evaluacion.votaciones[0].valores.push(valorPrueba);
+    // Recorremos array de Lista para comprobar que los criterios, escalas y alumnos existen
+    const votaciones = lista.map(async (_) => {
+      console.log('Entra al mapeado de Lista')
+      if(_.criterio) {
+        const existeCriterio = await Criterio.findById(_.criterio);
+
+        if (!existeCriterio) {
+          return res.status(400).json({
+            ok: false,
+            msg: "El criterio asignado a la evaluación no existe en la BBDD.",
+          });
+        }
+      }
+      // console.log('Listado de votacionesssssssssssssssssssss ', _.votaciones);
+      _.votaciones.forEach(async x => {
+        if(x.alumno_votado) {
+          console.log(x.idAlumno);
+          const existeAlumno = await Usuario.find().where("_id").in(x.alumno_votado);
+          console.log(existeAlumno);
+
+          if(!existeAlumno) {
+            return res.status(400).json({
+              ok: false,
+              msg: "El alumnado asignado a la evaluación no existe en la BBDD",
+            });
+          }
+        }
+
+        if(x.escala) {
+          const existeEscala = await Escala.findById(x.escala);
+          if (!existeEscala) {
+            return res.status(400).json({
+              ok: false,
+              msg: "La escala asignada a la evaluación no existe en la BBDD",
+            });
+          }
+        }
+      });
+    });
+    
+    // Recorremos array de Valores del modelo de Evaluación
+    // const valores = evaluacion.valores.map(async (_) => {
+      
+
+    //   const listadoVotaciones = _.votaciones;
+    //   const votaciones = listadoVotaciones.map(async (value) => {
+    //     if(value.idAlumno !== null || value.idAlumno !== 'undefined'){
+    //       const existeAlumnoRubrica = await Usuario.find().where("_id").in(value.idAlumno);
+    //     }
+    //   })
+    // })
+
     console.log("Evaluacion con nuevo elemento: ", evaluacion);
 
-    const resultado = await Evaluacion.findByIdAndUpdate(id, evaluacion, {
-      new: true,
-    });
-    res.json({
-      ok: true,
-      msg: `Evaluación - Actualizar lista de aluumno`,
-      evaluacion,
+    // const resultado = await Evaluacion.findByIdAndUpdate(id, evaluacion, {
+    //   new: true,
+    // });
+
+    const resultado = await Evaluacion.findByIdAndUpdate(id, {"valores": lista}, function(err,result) {
+      if(err){
+        res.send(err)
+      }
+      else{
+          // res.send(result)
+          res.json({
+            ok: true,
+            msg: `Evaluación - Actualizar lista de aluumno`,
+            result,
+          });
+      }
     });
   } catch (error) {
     console.log("Error: ", error);

@@ -42,13 +42,15 @@
               </p>
               <!-- <br>
               {{ alumno.escala.nivel }} -->
-              <select class="flex-auto rounded-full"
+              <select
+              class="flex-auto rounded-full"
+
               data-te-select-init
                 (change)="
                   seleccionar(
-                    dimension.idDimension,
+                    dimension._id,
                     i,
-                    alumno.idalumno,
+                    alumno.alumno_votado._id,
                     j,
                     $event
                   )
@@ -57,7 +59,7 @@
                 <option value="nada">NADA</option>
                 <option *ngFor="let escala of escalasPorCriterio[i]?.escalas"
                 [defaultSelected]="alumno.escala.nivel === escala.nivel"
-                [value]="dimension?.votaciones[j]?.escala?.nivel">
+                [value]="escala.uid">
                   {{ escala.nivel }}
                 </option>
               </select>

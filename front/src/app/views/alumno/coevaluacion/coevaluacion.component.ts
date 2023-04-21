@@ -85,26 +85,6 @@ export class CoevaluacionComponent implements OnInit {
     ],
   };
 
-  arrayVotaciones = [...new Array(this.info.alumnosGrupo.length)].map(
-    (_, i) => {
-      const obj = {
-        idAlumno: this.info.alumnosGrupo[i].idalumno,
-        idEscala: "",
-        valor: "-1",
-      };
-      return obj;
-    }
-  );
-
-  guardarVacio = [...new Array(this.info.listaDimensiones.length)].map(
-    (_, i) => {
-      return {
-        dimension: this.info.listaDimensiones[i].idDimension,
-        votaciones: JSON.parse(JSON.stringify(this.arrayVotaciones)),
-      };
-    }
-  );
-
   // const someNumbers = [...new Array(3)].map((_,i) => i * 10);
   // console.log(someNumbers); // [0,10,20];
 
@@ -155,10 +135,14 @@ export class CoevaluacionComponent implements OnInit {
     },
   ];
 
+  escalaId: any;
   submited: boolean = false;
   arrayCriterios: any;
   arrayCriteriosPorEscala: any;
+  arrayAlumnos: any;
   escalasPorCriterio: any;
+  arrayVotaciones: { alumno_votado: string; escala: string; valor: string; }[];
+  guardarVacio: { criterio: string; votaciones: any; }[];
   // escalas: any;
 
   constructor(
@@ -170,9 +154,7 @@ export class CoevaluacionComponent implements OnInit {
     private router: Router
   ) {}
 
-  ngOnInit(): void {
-    console.log("Iniciando guardar:", this.guardarVacio);
-    this.uid = this.route.snapshot.params["uid"];
+  ngOnInit(): void {this.uid = this.route.snapshot.params["uid"];
     this.cargarDatos();
   }
 
@@ -181,24 +163,40 @@ export class CoevaluacionComponent implements OnInit {
     if (this.uid !== "nuevo") {
       this.evaluacionService.cargarEvaluacion(this.uid).subscribe(
         (res) => {
+          console.log(res);
           if (!res["evaluaciones"]) {
             this.router.navigateByUrl("/admin/iteraciones");
             return;
           }
 
           this.evaluaciones = res["evaluaciones"].valores;
-
-          // this.valores = this.evaluaciones.map((valor) => ({
-          //   ...valor ?? [],
-          // }));
+          console.log('Evaluaciones (valores): ',this.evaluaciones)
 
           this.arrayCriterios = res["evaluaciones"].valores.map(_ => ({
             id: `${_.criterio._id}`
           }));
 
+          res["evaluaciones"].valores.map((item, index) => {
+            this.arrayAlumnos = [];
+            console.log('>>>>>>>>>>>>>>>>>>>>>>>>>> ',item.votaciones.alumno_votado),
+            item.votaciones.map(_ => {
+
+              console.log('+`+++++++++++++++++++++',_.alumno_votado)
+
+               const x = {
+                id: _.alumno_votado._id,
+                nombre: _.alumno_votado.nombre + ' ' + _.alumno_votado.apellidos
+              };
+
+              this.arrayAlumnos.push(x);
+            })
+          });
+          console.log('++++++++++++++++++++++++++++++', this.arrayAlumnos);
           console.log('Array criteriosssssssss ',this.arrayCriterios)
 
           this.cargarEscalas();
+          this.inicializarArrays();
+          console.log("Iniciando guardar:", this.guardarVacio);
           this.submited = true;
         },
         (err) => {
@@ -216,6 +214,28 @@ export class CoevaluacionComponent implements OnInit {
     }
   }
 
+  inicializarArrays() {
+    this.arrayVotaciones = [...new Array(this.arrayAlumnos.length)].map(
+      (_, i) => {
+        const obj = {
+          alumno_votado: this.arrayAlumnos[i].id,
+          escala: "",
+          valor: "-1",
+        };
+        return obj;
+      }
+    );
+
+    this.guardarVacio = [...new Array(this.arrayCriterios.length)].map(
+      (_, i) => {
+        return {
+          criterio: this.arrayCriterios[i].id,
+          votaciones: JSON.parse(JSON.stringify(this.arrayVotaciones)),
+        };
+      }
+    );
+  }
+
   objectKeys(objeto: any) {
     this.keys = Object.keys(objeto);
     console.log(this.keys); // echa un vistazo por consola para que veas lo que hace "Object.keys"
@@ -228,7 +248,7 @@ export class CoevaluacionComponent implements OnInit {
     posAlumno: number,
     escala: any
   ) {
-    this.guardarVacio[posDimension].votaciones[posAlumno].idEscala =
+    this.guardarVacio[posDimension].votaciones[posAlumno].escala =
       escala.target.value;
     console.log(
       "Alumno:",
@@ -248,14 +268,14 @@ export class CoevaluacionComponent implements OnInit {
     this.guardarVacio.forEach((element) => {
       element.votaciones.forEach((votacion: any) => {
         console.log("guardarVacio: ", this.guardarVacio);
-        if (votacion.idEscala === "") {
+        if (votacion.escala === "") {
           completo = false;
         }
       });
     });
 
-    if (!completo) console.log("No puedes enviar, faltan datos");
-    else {
+    // if (!completo) console.log("No puedes enviar, faltan datos");
+    // else {
       this.evaluacionService
         .actualizarVotacion(this.uid, this.guardarVacio)
         .subscribe(
@@ -271,18 +291,12 @@ export class CoevaluacionComponent implements OnInit {
             return;
           }
         );
-    }
+    // }
   }
 
   // Evento de Grupo Component
   guardarLista(evento: string[]) {
     console.log("Evento de guardarLista: ", evento);
-    // this.grupoService.actualizarLista(this.uid, evento)
-    //   .subscribe( res => {
-    //   },(err)=>{
-    //     Swal.fire({icon: 'error', title: 'Oops...', text: 'Ocurrió un error, inténtelo más tarde',});
-    //     return;
-    //   });
   }
 
   // Funcion que a partir de un criterio dado, busca en la BBDD todos los posibles niveles que dispone
@@ -292,49 +306,42 @@ export class CoevaluacionComponent implements OnInit {
     console.log(this.arrayCriterios);
     this.escalasPorCriterio = [];
 
-      this.arrayCriterios.map(element => {
-        console.log('Element: ', element);
+    this.arrayCriterios.map(element => {
+      console.log('Element: ', element);
 
-        this.criterioService.cargarEscalasPorCriterio(element.id)
-          .subscribe( res => {
-            console.log('Res (escalas): ', res, ' Element: ',element);
+      this.criterioService.cargarEscalasPorCriterio(element.id)
+        .subscribe( res => {
+          console.log('Res (escalas): ', res, ' Element: ',element);
 
-            const temp = {
+          const temp = {
+            id: element.id,
+            escalas: res["escalas"]
+          };
+          console.log('Objeto creado temp:',temp);
+          this.escalasPorCriterio.push(temp);
+
+          /*
+          let temp = [...new Array(this.arrayCriterios.length)]
+          .map((_, i) => {
+            return {
               id: element.id,
-              escalas: res["escalas"]
+              escalas: res['escalas'],
             };
-            console.log('Objeto creado temp:',temp);
-            this.escalasPorCriterio.push(temp);
-
-            /*
-            let temp = [...new Array(this.arrayCriterios.length)]
-            .map((_, i) => {
-              return {
-                id: element.id,
-                escalas: res['escalas'],
-              };
-            })*/
+          })*/
 
 
-            /*this.escalasPorCriterio = [...new Array(this.arrayCriterios.length)]
-            .map((_, i) => {
-              return {
-                id: element.id,
-                escalas: res['escalas'],
-              };
-            })*/
+          /*this.escalasPorCriterio = [...new Array(this.arrayCriterios.length)]
+          .map((_, i) => {
+            return {
+              id: element.id,
+              escalas: res['escalas'],
+            };
+          })*/
 
-            console.log('>>>>>>>>>>>>>>>>>>>>>>>>', this.escalasPorCriterio);
-        },(err)=>{
-          console.log('Error: ',err);
-        });
+          // console.log('>>>>>>>>>>>>>>>>>>>>>>>>', this.escalasPorCriterio);
+      },(err)=>{
+        console.log('Error: ',err);
       });
-    // this.criterioService.cargarEscalasPorCriterio(id)
-    //   .subscribe( res => {
-    //     console.log('Res (escalas): ', res);
-    //     this.escalas = res['escalas'];
-    // },(err)=>{
-    //   console.log('Error: ',err);
-    // });
+    });
   }
 }
