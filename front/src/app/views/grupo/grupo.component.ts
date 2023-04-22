@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { CursoService } from 'src/app/services/curso.service';
 import { GrupoService } from 'src/app/services/grupo.service';

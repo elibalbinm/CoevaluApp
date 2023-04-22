@@ -20,7 +20,7 @@ export class EscalaService {
     return this.http.post(`${environment.base_url}/escalas/`, data, this.cabeceras);
   }
 
-  actualizarCriterio(uid: string, data) {
+  actualizarEscala(uid: string, data) {
     return this.http.put(`${environment.base_url}/escalas/${uid}`, data, this.cabeceras);
   }
 

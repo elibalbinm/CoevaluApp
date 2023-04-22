@@ -71,5 +71,4 @@ export class EscalasComponent implements OnInit {
         this.loading = false;
       });
   }
-
 }

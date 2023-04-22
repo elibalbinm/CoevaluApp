@@ -46,6 +46,7 @@ import { IndexComponent } from "./views/index/index.component";
 import { LandingComponent } from "./views/landing/landing.component";
 import { ProfileComponent } from "./views/profile/profile.component";
 import { EscalasComponent } from "./views/escalas/escalas.component";
+import { EscalaComponent } from "./views/escala/escala.component";
 
 
 const routes: Routes = [
@@ -109,7 +110,7 @@ const routes: Routes = [
                                                                                           titulo: 'Escalas',
                                                                                           breadcrums: [ ],
                                                                                         },},
-      { path: "escalas/escala/:uid", component: EvaluacionComponent, canActivate: [ AuthGuard ], data: {
+      { path: "escalas/escala/:uid", component: EscalaComponent, canActivate: [ AuthGuard ], data: {
                                                                                                           rol: 'ROL_ADMIN',
                                                                                                           titulo: 'Escala',
                                                                                                           breadcrums: [ {titulo: 'Escalas', url: '/admin/escalas'} ],
