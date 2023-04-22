@@ -80,12 +80,13 @@
               </td>
               <td
                 [routerLink]="['/admin/escalas/escala', escala.uid]"
-                class="border-t-0 px-6 cursor-pointer align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4"
+                class=" break-words flex border-t-0 px-6 cursor-pointer align-top border-l-0 border-r-0 text-sm p-4"
               >
+              {{ escala.descripcion }}
                 <!-- <span *ngFor="let criterio of escala.criterios; let i=index"
             > {{criterio.criterio.nombre}}<span *ngIf="i<escala.criterios.length-1">, </span>
             </span> -->
-                {{ escala.descripcion }}
+
               </td>
               <td
                 [routerLink]="['/admin/escalas/escala', escala.uid]"
