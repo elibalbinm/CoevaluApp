@@ -7,33 +7,33 @@ import { Escala } from '../models/escala.model';
 @Injectable({
   providedIn: 'root'
 })
-export class CriterioService {
+export class EscalaService {
 
   constructor(private http: HttpClient) { }
 
   actualizarLista(uid:string, plista: string[]) {
     const data = {lista: plista};
-    return this.http.put(`${environment.base_url}/criterios/lista/${uid}`, data, this.cabeceras);
+    return this.http.put(`${environment.base_url}/escalas/lista/${uid}`, data, this.cabeceras);
   }
 
-  crearCriterio(data) {
-    return this.http.post(`${environment.base_url}/criterios/`, data, this.cabeceras);
+  crearEscala(data) {
+    return this.http.post(`${environment.base_url}/escalas/`, data, this.cabeceras);
   }
 
   actualizarCriterio(uid: string, data) {
-    return this.http.put(`${environment.base_url}/criterios/${uid}`, data, this.cabeceras);
+    return this.http.put(`${environment.base_url}/escalas/${uid}`, data, this.cabeceras);
   }
 
-  cargarCriterio( uid: string ) {
+  cargarEscala( uid: string ) {
     if (uid === undefined) { uid=''}
-    return this.http.get(`${environment.base_url}/criterios/?id=${uid}` , this.cabeceras);
+    return this.http.get(`${environment.base_url}/escalas/?id=${uid}` , this.cabeceras);
   }
 
-  cargarCriterios( desde: number, textoBusqueda?: string, hasta?:string ): Observable<object> {
+  cargarEscalas( desde: number, textoBusqueda?: string, hasta?:string ): Observable<object> {
     if (!desde) { desde = 0; }
     if (!textoBusqueda) { textoBusqueda = ''; }
     if (!hasta) { hasta = '10'; }
-    return this.http.get(`${environment.base_url}/criterios/?desde=${desde}&texto=${textoBusqueda}&hasta=${hasta}` , this.cabeceras);
+    return this.http.get(`${environment.base_url}/escalas/?desde=${desde}&texto=${textoBusqueda}&hasta=${hasta}` , this.cabeceras);
   }
 
   cargarEscalasPorCriterio( uid: string ): Observable<Escala[]> {
@@ -41,13 +41,6 @@ export class CriterioService {
     console.log('ID: ',uid);
     console.log(this.cabeceras)
     return this.http.get<Escala[]>(`${environment.base_url}/escalas/${uid}` , this.cabeceras);
-  }
-
-  cargarAlumnos( desde: number, textoBusqueda?: string, hasta?:string ): Observable<object> {
-    if (!desde) { desde = 0; }
-    if (!textoBusqueda) { textoBusqueda = ''; }
-    if (!hasta) { hasta = '10'; }
-    return this.http.get(`${environment.base_url}/usuarios/?desde=${desde}&texto=${textoBusqueda}&hasta=${hasta}` , this.cabeceras);
   }
 
   listaAsignaturas(desde: number, texto: string, curso: string) {
@@ -61,11 +54,11 @@ export class CriterioService {
     } else {
       curso = `&curso=${curso}`;
     }
-    return this.http.get(`${environment.base_url}/criterios/?desde=${desde}${texto}${curso}` , this.cabeceras);
+    return this.http.get(`${environment.base_url}/escalas/?desde=${desde}${texto}${curso}` , this.cabeceras);
   }
 
-  eliminarCriterio(uid: string) {
-    return this.http.delete(`${environment.base_url}/criterios/${uid}`, this.cabeceras);
+  eliminarEscala(uid: string) {
+    return this.http.delete(`${environment.base_url}/escalas/${uid}`, this.cabeceras);
   }
 
   get cabeceras(): object {

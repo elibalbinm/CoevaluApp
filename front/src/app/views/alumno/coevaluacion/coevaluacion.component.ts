@@ -3,23 +3,22 @@ import { FormBuilder, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Evaluacion } from "src/app/models/evaluacion.model";
 import { CriterioService } from "src/app/services/criterio.service";
-import { GrupoService } from "src/app/services/grupo.service";
-import Swal from "sweetalert2";
 import { EvaluacionService } from "../../../services/evaluacion.service";
 import { Escala } from "src/app/models/escala.model";
+import Swal from "sweetalert2";
 
 @Component({
   selector: "app-coevaluacion",
   templateUrl: "./coevaluacion.component.html",
 })
 export class CoevaluacionComponent implements OnInit {
+  public nombre = false;
   public uid: string = "nuevo";
   public valores;
   public keys;
   public alumnos;
   public evaluaciones: Evaluacion[] = [];
   public escalas: Escala[] = [];
-
   public datosForm = this.fb.group({
     uid: [{ value: "nuevo", disabled: true }, Validators.required],
     hito: ["", Validators.required],
@@ -30,110 +29,6 @@ export class CoevaluacionComponent implements OnInit {
     fecha_ini_coe: ["", Validators.required],
     fecha_fin_coe: ["", Validators.required],
   });
-
-  info = {
-    alumnosGrupo: [
-      { idalumno: "1a", nombre: "Pepito" },
-      { idalumno: "2a", nombre: "Maria" },
-      { idalumno: "3a", nombre: "Juan" },
-      { idalumno: "4a", nombre: "Pepito" },
-      { idalumno: "5a", nombre: "Maria" },
-      // {idalumno:'6a', nombre: 'Juan'},
-    ],
-    listaDimensiones: [
-      { idDimension: "1d", nombre: "Roles y liderazto" },
-      { idDimension: "2d", nombre: "Tiempo" },
-      { idDimension: "3d", nombre: "Eficiencia" },
-      { idDimension: "4d", nombre: "Tontuna" },
-    ],
-    listaEscalas: [
-      [
-        { idEscala: "11e", idDimension: "1d", descripcion: "Lo hace genial" },
-        { idEscala: "12e", idDimension: "1d", descripcion: "Mas o menos" },
-        { idEscala: "13e", idDimension: "1d", descripcion: "Fatal" },
-        {
-          idEscala: "14e",
-          idDimension: "1d",
-          descripcion: "Medio se puede esperar algo",
-        },
-      ],
-      [
-        { idEscala: "21e", idDimension: "2d", descripcion: "Lo hace genial" },
-        { idEscala: "22e", idDimension: "2d", descripcion: "Mas o menos" },
-        { idEscala: "23e", idDimension: "2d", descripcion: "Fatal" },
-        {
-          idEscala: "24e",
-          idDimension: "2d",
-          descripcion: "Medio se puede esperar algo",
-        },
-      ],
-      [
-        { idEscala: "31e", idDimension: "3d", descripcion: "Lo hace genial" },
-        { idEscala: "32e", idDimension: "3d", descripcion: "Mas o menos" },
-        { idEscala: "33e", idDimension: "3d", descripcion: "Fatal" },
-      ],
-      [
-        { idEscala: "41e", idDimension: "4d", descripcion: "Lo hace genial" },
-        { idEscala: "42e", idDimension: "4d", descripcion: "Mas o menos" },
-        { idEscala: "43e", idDimension: "4d", descripcion: "Fatal" },
-        {
-          idEscala: "44e",
-          idDimension: "4d",
-          descripcion: "Medio se puede esperar algo",
-        },
-      ],
-    ],
-  };
-
-  // const someNumbers = [...new Array(3)].map((_,i) => i * 10);
-  // console.log(someNumbers); // [0,10,20];
-
-  guardar = [
-    {
-      dimension: "1d",
-      votaciones: [
-        { idAlumno: "1a", idEscala: "12e" },
-        { idAlumno: "2a", idEscala: "11e" },
-        { idAlumno: "3a", idEscala: "13e" },
-        { idAlumno: "4a", idEscala: "12e" },
-        { idAlumno: "5a", idEscala: "12e" },
-        // {idAlumno: '6a', idEscala:'13e'},
-      ],
-    },
-    {
-      dimension: "2d",
-      votaciones: [
-        { idAlumno: "1a", idEscala: "22e" },
-        { idAlumno: "2a", idEscala: "21e" },
-        { idAlumno: "3a", idEscala: "23e" },
-        { idAlumno: "4a", idEscala: "22e" },
-        { idAlumno: "5a", idEscala: "22e" },
-        // {idAlumno: '6a', idEscala:'23e'},
-      ],
-    },
-    {
-      dimension: "3d",
-      votaciones: [
-        { idAlumno: "1a", idEscala: "32e" },
-        { idAlumno: "2a", idEscala: "31e" },
-        { idAlumno: "3a", idEscala: "33e" },
-        { idAlumno: "4a", idEscala: "32e" },
-        { idAlumno: "5a", idEscala: "32e" },
-        // {idAlumno: '6a', idEscala:'33e'},
-      ],
-    },
-    {
-      dimension: "4d",
-      votaciones: [
-        { idAlumno: "1a", idEscala: "42e" },
-        { idAlumno: "2a", idEscala: "41e" },
-        { idAlumno: "3a", idEscala: "43e" },
-        { idAlumno: "4a", idEscala: "42e" },
-        { idAlumno: "5a", idEscala: "42e" },
-        // {idAlumno: '6a', idEscala:'43e'},
-      ],
-    },
-  ];
 
   escalaId: any;
   submited: boolean = false;
@@ -148,14 +43,21 @@ export class CoevaluacionComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private evaluacionService: EvaluacionService,
-    private grupoService: GrupoService,
     private route: ActivatedRoute,
     private criterioService: CriterioService,
     private router: Router
   ) {}
 
-  ngOnInit(): void {this.uid = this.route.snapshot.params["uid"];
+  ngOnInit(): void {
+    this.uid = this.route.snapshot.params["uid"];
     this.cargarDatos();
+    if(this.uid === 'nuevo')
+      this.nombre = true;
+  }
+
+  nuevo() {
+    this.uid = 'nuevo';
+    this.submited = false;
   }
 
   cargarDatos() {
@@ -274,8 +176,8 @@ export class CoevaluacionComponent implements OnInit {
       });
     });
 
-    // if (!completo) console.log("No puedes enviar, faltan datos");
-    // else {
+    if (!completo) console.log("No puedes modificar, faltan datos");
+    else {
       this.evaluacionService
         .actualizarVotacion(this.uid, this.guardarVacio)
         .subscribe(
@@ -291,12 +193,7 @@ export class CoevaluacionComponent implements OnInit {
             return;
           }
         );
-    // }
-  }
-
-  // Evento de Grupo Component
-  guardarLista(evento: string[]) {
-    console.log("Evento de guardarLista: ", evento);
+    }
   }
 
   // Funcion que a partir de un criterio dado, busca en la BBDD todos los posibles niveles que dispone
@@ -319,26 +216,6 @@ export class CoevaluacionComponent implements OnInit {
           };
           console.log('Objeto creado temp:',temp);
           this.escalasPorCriterio.push(temp);
-
-          /*
-          let temp = [...new Array(this.arrayCriterios.length)]
-          .map((_, i) => {
-            return {
-              id: element.id,
-              escalas: res['escalas'],
-            };
-          })*/
-
-
-          /*this.escalasPorCriterio = [...new Array(this.arrayCriterios.length)]
-          .map((_, i) => {
-            return {
-              id: element.id,
-              escalas: res['escalas'],
-            };
-          })*/
-
-          // console.log('>>>>>>>>>>>>>>>>>>>>>>>>', this.escalasPorCriterio);
       },(err)=>{
         console.log('Error: ',err);
       });

@@ -45,6 +45,7 @@ import { RegisterComponent } from "./views/auth/register/register.component";
 import { IndexComponent } from "./views/index/index.component";
 import { LandingComponent } from "./views/landing/landing.component";
 import { ProfileComponent } from "./views/profile/profile.component";
+import { EscalasComponent } from "./views/escalas/escalas.component";
 
 
 const routes: Routes = [
@@ -103,6 +104,16 @@ const routes: Routes = [
                                                                                                                 titulo: 'Evaluacion',
                                                                                                                 breadcrums: [ {titulo: 'Evaluaciones', url: '/admin/evaluaciones'} ],
                                                                                                               },},
+      { path: "escalas", component: EscalasComponent, canActivate: [ AuthGuard ], data: {
+                                                                                          rol: 'ROL_ADMIN',
+                                                                                          titulo: 'Escalas',
+                                                                                          breadcrums: [ ],
+                                                                                        },},
+      { path: "escalas/escala/:uid", component: EvaluacionComponent, canActivate: [ AuthGuard ], data: {
+                                                                                                          rol: 'ROL_ADMIN',
+                                                                                                          titulo: 'Escala',
+                                                                                                          breadcrums: [ {titulo: 'Escalas', url: '/admin/escalas'} ],
+                                                                                                        },},
       { path: "iteraciones", component: IteracionesComponent, canActivate: [ AuthGuard ], data: {
                                                                                                   rol: 'ROL_ADMIN',
                                                                                                   titulo: 'Iteraciones',
