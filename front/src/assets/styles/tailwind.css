@@ -3602,6 +3602,10 @@ select {
   width: 4rem;
 }
 
+.w-96 {
+  width: 24rem;
+}
+
 .w-auto {
   width: auto;
 }
