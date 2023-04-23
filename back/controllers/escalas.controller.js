@@ -13,16 +13,19 @@ const sleep = (ms) => {
   });
 };
 
-scaleCtrl.getScales = async (req, res = repsonse) => {
+scaleCtrl.getScales = async (req, res = response) => {
   // Paginación
   const desde = Number(req.query.desde) || 0;
-  const hasta = req.query.hasta || "";
+  const hasta = req.query.hasta || '';
   let registropp = Number(process.env.DOCSPERPAGE);
   const id = req.query.id;
   const texto = req.query.texto;
-  let textoBusqueda = "";
+  let textoBusqueda = '';
+
+  console.log('Texto: ',texto);
+
   if (texto) {
-    textoBusqueda = new RegExp(texto, "i");
+    textoBusqueda = new RegExp(texto, 'i');
     //console.log('texto', texto, ' textoBusqueda', textoBusqueda);
   }
   if (hasta === "todos") {
@@ -41,18 +44,31 @@ scaleCtrl.getScales = async (req, res = repsonse) => {
         Escala.countDocuments(),
       ]);
     } else {
+      let query = {};
       if (texto) {
-        [escalas, total] = await Promise.all([
-          Escala.find({
-            $or: [{ nombre: textoBusqueda }, { descripcion: textoBusqueda }],
-          })
+        console.log('Entraaaaaaaaaaaaaa', textoBusqueda)
+        query = { 
+          // 'criterio.nombre': textoBusqueda,
+          $or: [{ nivel: textoBusqueda }, { descripcion: textoBusqueda }, ],
+        };
+        
+        [escalas, total] = await Promise.all(
+          [
+          Escala.find(query)
             .skip(desde)
-            .limit(registropp),
-          Escala.countDocuments({
-            $or: [{ nombre: textoBusqueda }, { descripcion: textoBusqueda }],
-          }),
-        ]);
+            .limit(registropp).collation({ locale: 'es' })
+            .populate({
+              path: "criterio",
+              populate: { path: "criterio.nombre" },
+            }),
+          Escala.countDocuments(query),
+        ]
+        );
+       
       } else {
+        console.log('Entra al else xd')
+        console.log(escalas);
+        console.log(total);
         [escalas, total] = await Promise.all([
           Escala.find({}).skip(desde).limit(registropp).populate("criterio"),
           Escala.countDocuments(),

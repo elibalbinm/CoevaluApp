@@ -10,11 +10,15 @@
           </div>
           <div class="align-middle px-2 py-4 relative text-gray-600">
             <input
+              #txtBuscar
+              (keyup)="cargarEscalas(txtBuscar.value)"
               type="search"
               name="search"
               placeholder="Buscar"
-              class="block w-96 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            /><button type="submit" class="absolute right-0 top-0 mt-6 mr-4">
+              class="block w-96 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500
+              focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            /><button type="submit" class="absolute right-0 top-0 mt-6 mr-4"
+            (click)="txtBuscar.value =''; cargarEscalas(txtBuscar.value)">
               <i class="fas fa-search"></i>
             </button>
           </div>
