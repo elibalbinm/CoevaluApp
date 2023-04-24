@@ -20,7 +20,8 @@ export class GruposComponent implements OnInit, OnDestroy {
   public registrosporpagina: number = environment.registros_por_pagina;
   // Control del loading
   public loading = false;
-
+  // Ultima búsqueda
+  public ultimaBusqueda = '';
   public listaRegistros: Grupo[] = [];
 
   public cursos: Curso[] = [];
@@ -38,18 +39,18 @@ export class GruposComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.cargarCursos();
-    this.cargarGrupos();
+    this.cargarGrupos(this.ultimaBusqueda);
     this.subs$ = this.buscarForm.valueChanges
       .subscribe( event => {
-        this.cargarGrupos();
+        this.cargarGrupos(this.ultimaBusqueda);
       });
   }
 
-  cargarGrupos() {
+  cargarGrupos(texto:string) {
+    this.ultimaBusqueda = texto;
     this.loading = true;
     const curso = this.buscarForm.get('curso').value;
-    const texto = this.buscarForm.get('texto').value || '';
-    this.grupoService.listaAsignaturas( this.registroactual, texto, curso)
+    this.grupoService.listaAsignaturas(this.registroactual, texto, curso)
       .subscribe( res => {
         console.log(res);
         this.listaRegistros = res['grupos'];
@@ -79,7 +80,7 @@ export class GruposComponent implements OnInit, OnDestroy {
           if (result.value) {
             this.grupoService.eliminarGrupo(uid)
               .subscribe( resp => {
-                this.cargarGrupos();
+                this.cargarGrupos(this.ultimaBusqueda);
               }
               ,(err) => {
                 Swal.fire({icon: 'error', title: 'Oops...', text: 'No se pudo completar la acción, vuelva a intentarlo',});
@@ -98,13 +99,13 @@ export class GruposComponent implements OnInit, OnDestroy {
 
   borrar() {
     this.buscarForm.reset();
-    this.cargarGrupos();
+    this.cargarGrupos(this.ultimaBusqueda);
   }
 
   cambiarPagina( pagina: number) {
     pagina = (pagina < 0 ? 0 : pagina);
     this.registroactual = ((pagina - 1) * this.registrosporpagina >=0 ? (pagina - 1) * this.registrosporpagina : 0);
-    this.cargarGrupos();
+    this.cargarGrupos(this.ultimaBusqueda);
   }
 
   ngOnDestroy() {

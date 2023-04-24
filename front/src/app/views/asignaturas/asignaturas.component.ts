@@ -42,23 +42,19 @@ export class AsignaturasComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.cargarCursos();
-    this.cargarAsignaturas();
-    this.subs$ = this.buscarForm.valueChanges
-      .subscribe( event => {
-        this.cargarAsignaturas();
-      });
+    this.cargarAsignaturas(this.ultimaBusqueda);
   }
 
   borrar() {
     this.buscarForm.reset();
-    this.cargarAsignaturas();
+    this.cargarAsignaturas(this.ultimaBusqueda);
   }
 
-  cargarAsignaturas() {
+  cargarAsignaturas(texto: string) {
     this.loading = true;
-    const curso = this.buscarForm.get('curso').value;
-    const texto = this.buscarForm.get('texto').value || '';
-    this.asigaturaService.listaAsignaturas( this.registroactual, texto, curso)
+    this.ultimaBusqueda = texto;
+    this.loading = true;
+    this.asigaturaService.listaAsignaturas(this.registroactual, texto)
       .subscribe( res => {
         this.listaRegistros = res['asignaturas'];
         this.totalregistros = res['page'].total;
@@ -94,7 +90,7 @@ export class AsignaturasComponent implements OnInit, OnDestroy {
           if (result.value) {
             this.asigaturaService.eliminarAsignatura(uid)
               .subscribe( resp => {
-                this.cargarAsignaturas();
+                this.cargarAsignaturas(this.ultimaBusqueda);
               }
               ,(err) =>{
                 Swal.fire({icon: 'error', title: 'Oops...', text: 'No se pudo completar la acción, vuelva a intentarlo',});
@@ -104,10 +100,10 @@ export class AsignaturasComponent implements OnInit, OnDestroy {
 
   }
 
-  cambiarPagina( pagina: number) {
+  cambiarPagina( pagina: number ) {
     pagina = (pagina < 0 ? 0 : pagina);
     this.registroactual = ((pagina - 1) * this.registrosporpagina >=0 ? (pagina - 1) * this.registrosporpagina : 0);
-    this.cargarAsignaturas();
+    this.cargarAsignaturas(this.ultimaBusqueda);
   }
 
   ngOnDestroy() {

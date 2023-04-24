@@ -2845,6 +2845,16 @@ select {
   padding-bottom: 6rem;
 }
 
+.py-28 {
+  padding-top: 7rem; /* 112px */
+  padding-bottom: 7rem; /* 112px */
+}
+
+.py-32 {
+  padding-top: 8rem; /* 128px */
+  padding-bottom: 8rem; /* 128px */
+}
+
 .py-40 {
   padding-top: 10rem;
   padding-bottom: 10rem;
@@ -2929,6 +2939,10 @@ select {
 
 .pb-20 {
   padding-bottom: 5rem;
+}
+
+.pb-28 {
+  padding-bottom: 7rem; /* 112px */
 }
 
 .pt-24 {

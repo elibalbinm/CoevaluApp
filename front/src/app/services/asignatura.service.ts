@@ -16,18 +16,19 @@ export class AsignaturaService {
   constructor( private http: HttpClient,
                private usuarioService: UsuarioService) { }
 
-  listaAsignaturas(desde: number, texto: string, curso: string) {
+  listaAsignaturas(desde: number, texto?: string, hasta?: string) {
+    if (!desde) { desde = 0; }
     if (!texto) {
       texto = '';
     } else {
       texto = `&texto=${texto}`;
     }
-    if (!curso) {
-      curso = '';
+    if (!hasta) {
+      hasta = '';
     } else {
-      curso = `&curso=${curso}`;
+      hasta = `&hasta=${hasta}`;
     }
-    return this.http.get(`${environment.base_url}/asignaturas/?desde=${desde}${texto}${curso}` , this.cabeceras);
+    return this.http.get(`${environment.base_url}/asignaturas/?desde=${desde}${texto}${hasta}` , this.cabeceras);
   }
 
   cargarAsignatura(uid: string) {

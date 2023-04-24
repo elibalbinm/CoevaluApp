@@ -1,23 +1,41 @@
 <div class="justify-center text-center mb-24">
   <div class="flex flex-wrap justify-center items-center">
-    <div class="w-full xl:w-6/12 px-4">
-      <app-card-line-chart *ngIf="logueado == 'admin'"></app-card-line-chart>
-      <app-panel coleccion="Asignaturas" *ngIf="logueado == 'profe'"></app-panel>
+    <div class="w-full lg:w-6/12 xl:w-3/12 px-4">
+      <app-panel coleccion="Usuarios" *ngIf="logueado == 'admin'"></app-panel> </div>
+    <div class="w-full lg:w-6/12 xl:w-3/12 px-4">
+      <app-panel coleccion="Asignaturas" *ngIf="logueado === 'profe' || logueado === 'admin'"></app-panel>
     </div>
-    <div class="w-full xl:w-6/12 px-4">
-      <app-card-bar-chart *ngIf="logueado == 'admin'"></app-card-bar-chart>
+    <div class="w-full lg:w-6/12 xl:w-3/12 px-4">
+      <app-panel coleccion="Cursos" *ngIf="logueado == 'admin'"></app-panel>
+      <app-panel coleccion="Criterios" *ngIf="logueado == 'profe'"></app-panel>
+    </div>
+    <div class="w-full lg:w-6/12 xl:w-3/12 px-4">
+      <app-panel coleccion="Grupos" *ngIf="logueado == 'admin'"></app-panel>
       <app-panel coleccion="Criterios" *ngIf="logueado == 'profe'"></app-panel>
     </div>
   </div>
   <div class="flex flex-wrap justify-center items-center">
-    <div class="w-full xl:w-6/12 px-4">
+
+    <div class="w-full lg:w-6/12 xl:w-3/12 px-4">
+      <app-panel coleccion="Rúbricas" *ngIf="logueado == 'admin'"></app-panel> </div>
+    <div class="w-full lg:w-6/12 xl:w-3/12 px-4">
+      <app-panel coleccion="Iteraciones" *ngIf="logueado === 'profe' || logueado === 'admin'"></app-panel>
+    </div>
+    <div class="w-full lg:w-6/12 xl:w-3/12 px-4">
+      <app-panel coleccion="Criterios" *ngIf="logueado === 'profe' || logueado === 'admin'"></app-panel>
+    </div>
+    <div class="w-full lg:w-6/12 xl:w-3/12 px-4">
+      <app-panel coleccion="Evaluaciones" *ngIf="logueado === 'profe' || logueado === 'admin'"></app-panel>
+    </div>
+
+    <!-- <div class="w-full xl:w-6/12 px-4">
       <app-card-line-chart *ngIf="logueado == 'admin'"></app-card-line-chart>
       <app-panel coleccion="Grupos" *ngIf="logueado == 'profe'"></app-panel>
     </div>
     <div class="w-full xl:w-6/12 px-4">
       <app-card-bar-chart *ngIf="logueado == 'admin'"></app-card-bar-chart>
       <app-panel coleccion="Rúbricas" *ngIf="logueado == 'profe'"></app-panel>
-    </div>
+    </div> -->
   </div>
 </div>
 
