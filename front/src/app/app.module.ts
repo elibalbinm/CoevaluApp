@@ -1,5 +1,8 @@
 import { BrowserModule } from "@angular/platform-browser";
-import { NgModule } from "@angular/core";
+import { LOCALE_ID, NgModule } from "@angular/core";
+import localeEs from "@angular/common/locales/es";
+import { registerLocaleData } from "@angular/common";
+registerLocaleData(localeEs, "es");
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
@@ -80,6 +83,7 @@ import { AlumnoComponent } from './layouts/alumno/alumno.component';
 import { ProfesorComponent } from './layouts/profesor/profesor.component';
 import { PanelComponent } from './components/panel/panel.component';
 import { EvaluacionesComponent } from './views/evaluaciones/evaluaciones.component';
+import { EvaluacionComponent } from './views/evaluacion/evaluacion.component';
 
 @NgModule({
   declarations: [
@@ -101,7 +105,7 @@ import { EvaluacionesComponent } from './views/evaluaciones/evaluaciones.compone
     CardSettingsComponent,
     CardSocialTrafficComponent,
     CardStatsComponent,
-    CardTableComponent,
+    // CardTableComponent,
     HeaderStatsComponent,
     MapExampleComponent,
     AuthNavbarComponent,
@@ -141,15 +145,20 @@ import { EvaluacionesComponent } from './views/evaluaciones/evaluaciones.compone
     IteracionesComponent,
     IteracionComponent,
     EvaluacionesComponent,
+    EvaluacionComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    AluModule,
+    // AluModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule],
-  providers: [],
+    HttpClientModule
+  ],
+  exports: [
+    // CardTableComponent
+  ],
+  providers: [{ provide: LOCALE_ID, useValue: "es" }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -1290,6 +1290,11 @@ select {
   background-color: rgba(2, 132, 199, var(--tw-bg-opacity));
 }
 
+.bg-buttons {
+  --tw-bg-opacity: 1;
+  background-color: rgba(243, 245, 250, var(--tw-bg-opacity));
+}
+
 .bg-teal-200 {
   --tw-bg-opacity: 1;
   background-color: rgba(153, 246, 228, var(--tw-bg-opacity));
@@ -1335,6 +1340,11 @@ select {
   background-color: rgba(249, 115, 22, var(--tw-bg-opacity));
 }
 
+.bg-elements {
+  --tw-bg-opacity: 1;
+  background-color: rgba(56, 113, 130, var(--tw-bg-opacity));
+}
+
 .bg-teal-600 {
   --tw-bg-opacity: 1;
   background-color: rgba(56, 113, 130, var(--tw-bg-opacity));
@@ -1343,6 +1353,21 @@ select {
 .bg-teal-700 {
   --tw-bg-opacity: 1;
   background-color: rgba(15, 118, 110, var(--tw-bg-opacity));
+}
+
+.bg-header {
+  --tw-bg-opacity: 1;
+  background-color: rgba(2, 35, 88, var(--tw-bg-opacity));
+}
+
+.bg-section {
+  --tw-bg-opacity: 1;
+  background-color: rgba(132, 172, 217, var(--tw-bg-opacity));
+}
+
+.bg-elements {
+  --tw-bg-opacity: 1;
+  background-color: rgba(2, 35, 88, 0.87);
 }
 
 .bg-red-200 {
@@ -2073,6 +2098,10 @@ select {
 
 .clear-none {
   clear: none;
+}
+
+.font-black {
+  font-weight: 900;
 }
 
 .font-light {
@@ -2909,6 +2938,10 @@ select {
   padding-left: 1rem;
 }
 
+.pr-6 {
+  padding-right: 1.5rem;
+}
+
 .pt-6 {
   padding-top: 1.5rem;
 }
@@ -3308,6 +3341,11 @@ select {
   color: rgba(56, 113, 130, var(--tw-text-opacity));
 }
 
+.text-elements {
+  --tw-text-opacity: 1;
+  color: rgba(2, 35, 88, var(--tw-text-opacity));
+}
+
 .text-emerald-500 {
   --tw-text-opacity: 1;
   color: rgba(16, 185, 129, var(--tw-text-opacity));
@@ -3634,6 +3672,10 @@ select {
 
 .w-16 {
   width: 4rem;
+}
+
+.w-48 {
+  width: 12rem;
 }
 
 .w-96 {

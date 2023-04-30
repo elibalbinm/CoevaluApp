@@ -47,6 +47,8 @@ import { LandingComponent } from "./views/landing/landing.component";
 import { ProfileComponent } from "./views/profile/profile.component";
 import { EscalasComponent } from "./views/escalas/escalas.component";
 import { EscalaComponent } from "./views/escala/escala.component";
+import { CommonModule } from "@angular/common";
+import { FormsModule } from "@angular/forms";
 
 
 const routes: Routes = [
@@ -240,6 +242,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [
+    RouterModule,
     RouterModule.forRoot(routes),
     AluModule
   ],

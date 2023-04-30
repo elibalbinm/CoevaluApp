@@ -3,42 +3,42 @@
     <ul class="flex pl-0 place-content-end rounded list-none flex-wrap">
       <li>
         <a [ngClass]="{'disabled' : paginaActual<=1}" (click)="cambiaPagina(1)"
-          class="cursor-pointer first:ml-0 text-sm font-bold flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-red-500 bg-white text-teal-600">
+          class="cursor-pointer first:ml-0 text-sm font-bold flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-red-500 bg-white text-elements">
           <i class="fas fa-chevron-left -ml-px"></i>
           <i class="fas fa-chevron-left -ml-px"></i>
         </a>
       </li>
       <li>
         <a [ngClass]="{'disabled' : paginaActual<=1}" (click)="cambiaPagina(paginaActual - 1)"
-          class="cursor-pointer first:ml-0 text-sm font-bold flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-red-500 bg-white text-teal-600">
+          class="cursor-pointer first:ml-0 text-sm font-bold flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-red-500 bg-white text-elements">
           <i class="fas fa-chevron-left -ml-px"></i>
         </a>
       </li>
       <li *ngFor="let numeropagina of listaPaginas" (click)="cambiaPagina(numeropagina)">
-        <a [ngClass]="{'bg-teal-600 text-white': numeropagina === paginaActual, 'bg-white text-teal-600': numeropagina !== paginaActual}"
+        <a [ngClass]="{'bg-elements text-white': numeropagina === paginaActual, 'bg-white text-elements': numeropagina !== paginaActual}"
           class="cursor-pointer first:ml-0 text-sm font-bold flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-red-500">
           {{numeropagina}}
         </a>
       </li>
       <!-- <li [ngClass]="{'disabled' : paginaActual>=ultimaPagina}" (click)="cambiaPagina(paginaActual + 1)">
-        <a class="cursor-pointer first:ml-0 text-sm font-bold flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-red-500 bg-white text-teal-600">
+        <a class="cursor-pointer first:ml-0 text-sm font-bold flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-red-500 bg-white text-elements">
           2
         </a>
       </li>
       <li [ngClass]="{'disabled' : paginaActual>=ultimaPagina}" (click)="cambiaPagina(ultimaPagina)">
-        <a class="cursor-pointer first:ml-0 text-sm font-bold flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-red-500 bg-white text-teal-600">
+        <a class="cursor-pointer first:ml-0 text-sm font-bold flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-red-500 bg-white text-elements">
           3
         </a>
       </li> -->
       <li>
         <a [ngClass]="{'disabled' : paginaActual>=ultimaPagina}" (click)="cambiaPagina(paginaActual + 1)"
-          class="cursor-pointer first:ml-0 text-sm font-bold flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-red-500 bg-white text-teal-600">
+          class="cursor-pointer first:ml-0 text-sm font-bold flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-red-500 bg-white text-elements">
           <i class="fas fa-chevron-right -mr-px"></i>
         </a>
       </li>
       <li>
         <a [ngClass]="{'disabled' : paginaActual>=ultimaPagina}" (click)="cambiaPagina(ultimaPagina)"
-          class="cursor-pointer first:ml-0 text-sm font-bold flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-red-500 bg-white text-teal-600">
+          class="cursor-pointer first:ml-0 text-sm font-bold flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-red-500 bg-white text-elements">
           <i class="fas fa-chevron-right -mr-px"></i>
           <i class="fas fa-chevron-right -mr-px"></i>
         </a>

@@ -2,255 +2,161 @@
   class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded"
   [ngClass]="color === 'light' ? 'bg-white' : 'bg-red-900 text-white'"
 >
-  <div class="rounded-t mb-0 px-4 py-3 border-0">
-    <div class="flex flex-wrap items-center">
-      <div class="relative w-full px-4 max-w-full flex-grow flex-1">
-        <h3
-          class="font-semibold text-lg"
-          [ngClass]="color === 'light' ? 'text-blueGray-700' : 'text-white'"
-        >
-          Card Tables
-        </h3>
-      </div>
-    </div>
-  </div>
-  <div class="block w-full overflow-x-auto">
+  <div class="overflow-x-auto">
     <!-- Projects table -->
     <table class="items-center w-full bg-transparent border-collapse">
       <thead>
         <tr>
           <th
-            class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+            class="px-6 w-48 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
             [ngClass]="
               color === 'light'
-                ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
+                ? ' text-blueGray-500 border-blueGray-100'
                 : 'bg-red-800 text-red-300 border-red-700'
             "
           >
-            Project
+            Estado
           </th>
           <th
-            class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+            class="px-6 w-96 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
             [ngClass]="
               color === 'light'
-                ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
+                ? 'text-blueGray-500 border-blueGray-100'
                 : 'bg-red-800 text-red-300 border-red-700'
             "
           >
-            Budget
+            Nº Iteración
           </th>
           <th
-            class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+            class="px-6 align-middle border border-solid py-3 w-10 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
             [ngClass]="
               color === 'light'
-                ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
+                ? ' text-blueGray-500 border-blueGray-100'
                 : 'bg-red-800 text-red-300 border-red-700'
             "
           >
-            Status
+            Fecha de entrega
           </th>
           <th
-            class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+            class="px-6 align-middle border border-solid py-3 w-12 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap
+            font-semibold text-left"
             [ngClass]="
               color === 'light'
-                ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
+                ? ' text-blueGray-500 border-blueGray-100'
                 : 'bg-red-800 text-red-300 border-red-700'
             "
           >
-            Users
+            Acción
           </th>
-          <th
-            class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
-            [ngClass]="
-              color === 'light'
-                ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
-                : 'bg-red-800 text-red-300 border-red-700'
-            "
-          >
-            Completion
-          </th>
-          <th
-            class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
-            [ngClass]="
-              color === 'light'
-                ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
-                : 'bg-red-800 text-red-300 border-red-700'
-            "
-          ></th>
+
         </tr>
       </thead>
       <tbody>
-        <tr>
+        <tr *ngFor="let iteracion of iteraciones">
           <th
             class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center"
           >
-            <img
-              src="assets/img/bootstrap.jpg"
-              class="h-12 w-12 bg-white rounded-full border"
+            <div class="flex p-2 rounded-full items-center bg-buttons">
+              <img
+              src="assets/img/file-circle-check-solid.svg"
+              class="h-10 w-10 bg-white rounded-full border"
               alt="..."
             />
             <span
-              class="ml-3 font-bold"
+              class="mx-3 font-bold"
               [ngClass]="color === 'light' ? 'text-blueGray-600' : 'text-white'"
             >
-              Argon Design System
+              Cerrada
             </span>
+            </div>
           </th>
           <td
-            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
+            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-lg font-bold whitespace-nowrap p-4"
           >
-            $2,500 USD
+            Iteración {{iteracion.iteracion}}
+          </td>
+          <td
+            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-lg font-bold whitespace-nowrap p-4"
+          >
+            <!-- <i class="fas fa-circle text-orange-500 mr-2"></i> pending -->
+            {{iteracion.fecha_ini_coe | date : 'd'}} - {{iteracion.fecha_fin_coe | date : 'dd MMMM yyyy '}}
           </td>
           <td
             class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
           >
-            <i class="fas fa-circle text-orange-500 mr-2"></i> pending
-          </td>
-          <td
-            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
-          >
-            <div class="flex">
-              <img
-                src="assets/img/team-1-800x800.jpg"
-                alt="..."
-                class="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow"
-              />
-              <img
-                src="assets/img/team-2-800x800.jpg"
-                alt="..."
-                class="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
-              />
-              <img
-                src="assets/img/team-3-800x800.jpg"
-                alt="..."
-                class="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
-              />
-              <img
-                src="assets/img/team-4-470x470.png"
-                alt="..."
-                class="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
-              />
-            </div>
-          </td>
-          <td
-            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
-          >
-            <div class="flex items-center">
-              <span class="mr-2">60%</span>
-              <div class="relative w-full">
-                <div
-                  class="overflow-hidden h-2 text-xs flex rounded bg-red-200"
-                >
-                  <div
-                    style="width: 60%"
-                    class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-red-500"
-                  ></div>
-                </div>
-              </div>
-            </div>
-          </td>
-          <td
-            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-right"
-          >
-            <app-table-dropdown></app-table-dropdown>
+            <button
+              [routerLink]="['/admin/evaluaciones/evaluacion/nuevo']"
+              class="bg-header text-white active:bg-indigo-600 text-sm font-bold uppercase p-3
+              outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+              type="button"
+            >
+            Ver resultados
+            </button>
           </td>
         </tr>
-        <tr>
+        <!-- <tr>
           <th
             class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center"
           >
-            <img
-              src="assets/img/angular.jpg"
-              class="h-12 w-12 bg-white rounded-full border"
+            <div class="flex p-2 rounded-full items-center bg-buttons">
+              <img
+              src="assets/img/file-circle-check-solid.svg"
+              class="h-10 w-10 bg-white rounded-full border"
               alt="..."
             />
             <span
-              class="ml-3 font-bold"
+              class="mx-3 font-bold"
               [ngClass]="color === 'light' ? 'text-blueGray-600' : 'text-white'"
             >
-              Angular Now UI Kit PRO
+              Cerrada
             </span>
+            </div>
           </th>
           <td
             class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
           >
-            $1,800 USD
+            Iteración {{iteracion.iteraciones}}
           </td>
           <td
             class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
           >
             <i class="fas fa-circle text-emerald-500 mr-2"></i>
             completed
-          </td>
-          <td
+          </td><td
             class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
           >
-            <div class="flex">
-              <img
-                src="assets/img/team-1-800x800.jpg"
-                alt="..."
-                class="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow"
-              />
-              <img
-                src="assets/img/team-2-800x800.jpg"
-                alt="..."
-                class="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
-              />
-              <img
-                src="assets/img/team-3-800x800.jpg"
-                alt="..."
-                class="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
-              />
-              <img
-                src="assets/img/team-4-470x470.png"
-                alt="..."
-                class="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
-              />
-            </div>
-          </td>
-          <td
-            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
-          >
-            <div class="flex items-center">
-              <span class="mr-2">100%</span>
-              <div class="relative w-full">
-                <div
-                  class="overflow-hidden h-2 text-xs flex rounded bg-emerald-200"
-                >
-                  <div
-                    style="width: 100%"
-                    class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-emerald-500"
-                  ></div>
-                </div>
-              </div>
-            </div>
-          </td>
-          <td
-            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-right"
-          >
-            <app-table-dropdown></app-table-dropdown>
+            <button
+              [routerLink]="['/admin/evaluaciones/evaluacion/nuevo']"
+              class="bg-header text-white active:bg-indigo-600 text-sm font-bold uppercase
+              p-3 outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+              type="button"
+            >
+              Ver resultados
+            </button>
           </td>
         </tr>
         <tr>
           <th
             class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center"
           >
-            <img
-              src="assets/img/sketch.jpg"
-              class="h-12 w-12 bg-white rounded-full border"
+            <div class="flex p-2 rounded-full items-center bg-buttons">
+              <img
+              src="assets/img/file-circle-check-solid.svg"
+              class="h-10 w-10 bg-white rounded-full border"
               alt="..."
             />
             <span
-              class="ml-3 font-bold"
+              class="mx-3 font-bold"
               [ngClass]="color === 'light' ? 'text-blueGray-600' : 'text-white'"
             >
-              Black Dashboard Sketch
+              Cerrada
             </span>
+            </div>
           </th>
           <td
             class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
           >
-            $3,150 USD
+          Iteración {{iteracion.iteraciones}}
           </td>
           <td
             class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
@@ -260,72 +166,37 @@
           <td
             class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
           >
-            <div class="flex">
-              <img
-                src="assets/img/team-1-800x800.jpg"
-                alt="..."
-                class="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow"
-              />
-              <img
-                src="assets/img/team-2-800x800.jpg"
-                alt="..."
-                class="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
-              />
-              <img
-                src="assets/img/team-3-800x800.jpg"
-                alt="..."
-                class="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
-              />
-              <img
-                src="assets/img/team-4-470x470.png"
-                alt="..."
-                class="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
-              />
-            </div>
-          </td>
-          <td
-            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
-          >
-            <div class="flex items-center">
-              <span class="mr-2">73%</span>
-              <div class="relative w-full">
-                <div
-                  class="overflow-hidden h-2 text-xs flex rounded bg-red-200"
-                >
-                  <div
-                    style="width: 73%"
-                    class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-red-500"
-                  ></div>
-                </div>
-              </div>
-            </div>
-          </td>
-          <td
-            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-right"
-          >
-            <app-table-dropdown></app-table-dropdown>
+            <button
+              [routerLink]="['/admin/evaluaciones/evaluacion/nuevo']"
+              class="bg-header text-white active:bg-indigo-600 text-sm font-bold uppercase p-3 outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+              type="button"
+            >
+            Ver resultados
+            </button>
           </td>
         </tr>
         <tr>
           <th
             class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center"
           >
-            <img
-              src="assets/img/react.jpg"
-              class="h-12 w-12 bg-white rounded-full border"
+            <div class="flex p-2 rounded-full items-center bg-buttons">
+              <img
+              src="assets/img/file-circle-check-solid.svg"
+              class="h-10 w-10 bg-white rounded-full border"
               alt="..."
             />
             <span
-              class="ml-3 font-bold"
+              class="mx-3 font-bold"
               [ngClass]="color === 'light' ? 'text-blueGray-600' : 'text-white'"
             >
-              React Material Dashboard
+              Cerrada
             </span>
+            </div>
           </th>
           <td
             class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
           >
-            $4,400 USD
+          Iteración {{iteracion.iteraciones}}
           </td>
           <td
             class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
@@ -335,72 +206,37 @@
           <td
             class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
           >
-            <div class="flex">
-              <img
-                src="assets/img/team-1-800x800.jpg"
-                alt="..."
-                class="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow"
-              />
-              <img
-                src="assets/img/team-2-800x800.jpg"
-                alt="..."
-                class="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
-              />
-              <img
-                src="assets/img/team-3-800x800.jpg"
-                alt="..."
-                class="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
-              />
-              <img
-                src="assets/img/team-4-470x470.png"
-                alt="..."
-                class="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
-              />
-            </div>
-          </td>
-          <td
-            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
-          >
-            <div class="flex items-center">
-              <span class="mr-2">90%</span>
-              <div class="relative w-full">
-                <div
-                  class="overflow-hidden h-2 text-xs flex rounded bg-teal-200"
-                >
-                  <div
-                    style="width: 90%"
-                    class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-teal-500"
-                  ></div>
-                </div>
-              </div>
-            </div>
-          </td>
-          <td
-            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-right"
-          >
-            <app-table-dropdown></app-table-dropdown>
+            <button
+              [routerLink]="['/admin/evaluaciones/evaluacion/nuevo']"
+              class="bg-header text-white active:bg-indigo-600 text-sm font-bold uppercase p-3 outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+              type="button"
+            >
+            Ver resultados
+            </button>
           </td>
         </tr>
         <tr>
           <th
             class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center"
           >
-            <img
-              src="assets/img/vue.jpg"
-              class="h-12 w-12 bg-white rounded-full border"
+            <div class="flex p-2 rounded-full items-center bg-buttons">
+              <img
+              src="assets/img/file-circle-check-solid.svg"
+              class="h-10 w-10 bg-white rounded-full border"
               alt="..."
             />
             <span
-              class="ml-3 font-bold"
+              class="mx-3 font-bold"
               [ngClass]="color === 'light' ? 'text-blueGray-600' : 'text-white'"
             >
-              React Material Dashboard
+              Cerrada
             </span>
+            </div>
           </th>
           <td
             class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
           >
-            $2,200 USD
+          Iteración {{iteracion.iteraciones}}
           </td>
           <td
             class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
@@ -411,52 +247,16 @@
           <td
             class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
           >
-            <div class="flex">
-              <img
-                src="assets/img/team-1-800x800.jpg"
-                alt="..."
-                class="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow"
-              />
-              <img
-                src="assets/img/team-2-800x800.jpg"
-                alt="..."
-                class="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
-              />
-              <img
-                src="assets/img/team-3-800x800.jpg"
-                alt="..."
-                class="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
-              />
-              <img
-                src="assets/img/team-4-470x470.png"
-                alt="..."
-                class="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
-              />
-            </div>
+            <button
+              [routerLink]="['/admin/evaluaciones/evaluacion/nuevo']"
+              class="bg-header text-white active:bg-indigo-600 text-sm font-bold uppercase
+              p-3 outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+              type="button"
+            >
+            Ver resultados
+            </button>
           </td>
-          <td
-            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
-          >
-            <div class="flex items-center">
-              <span class="mr-2">100%</span>
-              <div class="relative w-full">
-                <div
-                  class="overflow-hidden h-2 text-xs flex rounded bg-emerald-200"
-                >
-                  <div
-                    style="width: 100%"
-                    class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-emerald-500"
-                  ></div>
-                </div>
-              </div>
-            </div>
-          </td>
-          <td
-            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-right"
-          >
-            <app-table-dropdown></app-table-dropdown>
-          </td>
-        </tr>
+        </tr> -->
       </tbody>
     </table>
   </div>
