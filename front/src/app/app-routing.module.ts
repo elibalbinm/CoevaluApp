@@ -49,6 +49,7 @@ import { EscalasComponent } from "./views/escalas/escalas.component";
 import { EscalaComponent } from "./views/escala/escala.component";
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
+import { AlumnoRoutingModule } from "./views/alumno/alumno.routing";
 
 
 const routes: Routes = [
@@ -217,22 +218,22 @@ const routes: Routes = [
     ],
   },
   // alumno views
-  {
-    path: "alumno",
-    component: AlumnoComponent,
-    children: [
-      { path: "dashboard", component: DashboardComponent, canActivate: [ AuthGuard ], data: {rol: '*', titulo: 'Home'} },
-      // { path: "coevaluacion", component: CoevaluacionComponent, canActivate: [ AuthGuard ], data: {
-      //                                                                                         rol: 'ROL_ALUMNO',
-      //                                                                                         titulo: 'Coevaluación',
-      //                                                                                         breadcrums: [ ],
-      //                                                                                       },},
-      { path: "settings", component: SettingsComponent },
-      { path: "tables", component: TablesComponent },
-      { path: "maps", component: MapsComponent },
-      { path: "", redirectTo: "dashboard", pathMatch: "full" },
-    ],
-  },
+  // {
+  //   path: "alumno",
+  //   component: AlumnoComponent,
+  //   children: [
+  //     { path: "dashboard", component: DashboardComponent, canActivate: [ AuthGuard ], data: {rol: '*', titulo: 'Home'} },
+  //     // { path: "coevaluacion", component: CoevaluacionComponent, canActivate: [ AuthGuard ], data: {
+  //     //                                                                                         rol: 'ROL_ALUMNO',
+  //     //                                                                                         titulo: 'Coevaluación',
+  //     //                                                                                         breadcrums: [ ],
+  //     //                                                                                       },},
+  //     { path: "settings", component: SettingsComponent },
+  //     { path: "tables", component: TablesComponent },
+  //     { path: "maps", component: MapsComponent },
+  //     { path: "", redirectTo: "dashboard", pathMatch: "full" },
+  //   ],
+  // },
   // no layout views
   { path: "profile", component: ProfileComponent },
   //{ path: "landing", component: LandingComponent },
@@ -242,10 +243,11 @@ const routes: Routes = [
 
 @NgModule({
   imports: [
-    RouterModule,
     RouterModule.forRoot(routes),
-    AluModule
+    AlumnoRoutingModule
   ],
-  exports: [RouterModule],
+  exports: [
+    RouterModule
+  ],
 })
 export class AppRoutingModule {}

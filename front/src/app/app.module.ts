@@ -54,7 +54,6 @@ import { CardProfileComponent } from "./components/cards/card-profile/card-profi
 import { CardSettingsComponent } from "./components/cards/card-settings/card-settings.component";
 import { CardSocialTrafficComponent } from "./components/cards/card-social-traffic/card-social-traffic.component";
 import { CardStatsComponent } from "./components/cards/card-stats/card-stats.component";
-import { CardTableComponent } from "./components/cards/card-table/card-table.component";
 import { CardUsersComponent } from './components/cards/card-users/card-users.component';
 
 import { FooterAdminComponent } from "./components/footers/footer-admin/footer-admin.component";
@@ -79,7 +78,6 @@ import { CriteriosComponent } from './views/criterios/criterios.component';
 import { CriterioComponent } from './views/criterio/criterio.component';
 import { EscalasComponent } from './views/escalas/escalas.component';
 import { EscalaComponent } from './views/escala/escala.component';
-import { AlumnoComponent } from './layouts/alumno/alumno.component';
 import { ProfesorComponent } from './layouts/profesor/profesor.component';
 import { PanelComponent } from './components/panel/panel.component';
 import { EvaluacionesComponent } from './views/evaluaciones/evaluaciones.component';
@@ -105,7 +103,6 @@ import { EvaluacionComponent } from './views/evaluacion/evaluacion.component';
     CardSettingsComponent,
     CardSocialTrafficComponent,
     CardStatsComponent,
-    // CardTableComponent,
     HeaderStatsComponent,
     MapExampleComponent,
     AuthNavbarComponent,
@@ -139,7 +136,6 @@ import { EvaluacionComponent } from './views/evaluacion/evaluacion.component';
     CriterioComponent,
     EscalasComponent,
     EscalaComponent,
-    AlumnoComponent,
     ProfesorComponent,
     PanelComponent,
     IteracionesComponent,
@@ -150,13 +146,12 @@ import { EvaluacionComponent } from './views/evaluacion/evaluacion.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    // AluModule,
+    AluModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule
   ],
   exports: [
-    // CardTableComponent
   ],
   providers: [{ provide: LOCALE_ID, useValue: "es" }],
   bootstrap: [AppComponent],
