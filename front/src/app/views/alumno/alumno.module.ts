@@ -6,17 +6,23 @@ import { CardTableComponent } from 'src/app/components/cards/card-table/card-tab
 import { CoevaluacionComponent } from '../alumno/coevaluacion/coevaluacion.component';
 import { AlumnoComponent } from './alumno.component';
 import { SharedModule } from 'src/app/components/shared.module';
+import { NotasComponent } from './notas/notas.component';
+import { HeaderPanelComponent } from 'src/app/components/headers/header-panel/header-panel.component';
 
 @NgModule({
   declarations: [
     AlumnoComponent,
     CoevaluacionComponent,
     CardTableComponent,
+    HeaderPanelComponent,
+    NotasComponent
   ],
   exports: [
     AlumnoComponent,
     CoevaluacionComponent,
     CardTableComponent,
+    HeaderPanelComponent,
+    NotasComponent
   ],
   imports: [
     CommonModule,

@@ -1,0 +1,45 @@
+<div
+  class="flex flex-wrap justify-center items-center text-center w-full px-2 py-4 max-w-full"
+>
+  <!-- Curso -->
+  <div class="flex flex-row justify-center pt-4 min-w-screen">
+    <div class="flex-none p-2">
+      <div class="flex justify-center">
+        <div class="xl:w-96">
+          <select
+            id="countries"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-full focus:ring-blue-500 focus:border-blue-500 block w-full px-6 py-3"
+          >
+            <option selected>Cursos</option>
+            <option value="US">United States</option>
+            <option value="CA">Canada</option>
+            <option value="FR">France</option>
+            <option value="DE">Germany</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button
+    [routerLink]="['/alumno/dashboardAlu']"
+    class="bg-header rounded-full text-white active:bg-indigo-600 text-sm font-bold uppercase px-6 py-3 outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+    type="button"
+  >
+    Dashboard
+  </button>
+  <button
+    [routerLink]="['/alumno/coevaluacion']"
+    class="bg-header rounded-full text-white active:bg-indigo-600 text-sm font-bold uppercase px-6 py-3 outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+    type="button"
+  >
+    Coevaluación
+  </button>
+  <button
+    [routerLink]="['/alumno/notas']"
+    class="bg-header rounded-full text-white active:bg-indigo-600 text-sm font-bold uppercase px-6 py-3 outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+    type="button"
+  >
+    Notas
+  </button>
+  <!-- </div> -->
+</div>

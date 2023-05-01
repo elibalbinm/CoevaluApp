@@ -1,10 +1,11 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { AlumnoComponent } from './alumno.component';
-import { DashboardComponent } from '../admin/dashboard/dashboard.component';
-import { CoevaluacionComponent } from './coevaluacion/coevaluacion.component';
-import { AuthGuard } from 'src/app/guards/auth.guards';
-import { DashboardAluComponent } from './dashboard/dashboardAlu.component';
+import { NgModule } from "@angular/core";
+import { Routes, RouterModule } from "@angular/router";
+import { AlumnoComponent } from "./alumno.component";
+import { DashboardComponent } from "../admin/dashboard/dashboard.component";
+import { CoevaluacionComponent } from "./coevaluacion/coevaluacion.component";
+import { AuthGuard } from "src/app/guards/auth.guards";
+import { DashboardAluComponent } from "./dashboard/dashboardAlu.component";
+import { NotasComponent } from "./notas/notas.component";
 
 /*
   /perfil                               [*]
@@ -18,23 +19,41 @@ import { DashboardAluComponent } from './dashboard/dashboardAlu.component';
 
 const routes: Routes = [
   {
-    path: 'alumno',
+    path: "alumno",
     component: AlumnoComponent,
     children: [
-      { path: 'dashboard', component: DashboardAluComponent, canActivate: [ AuthGuard ], data: {rol: '*', titulo: 'Dashboard'} },
-      { path: 'coevaluacion', component: CoevaluacionComponent, canActivate: [ AuthGuard ], data: {
-                                                                                              rol: '*',
-                                                                                              titulo: 'Coevaluación',
-                                                                                              breadcrums: [ ],
-                                                                                            },},
+      {
+        path: "dashboard",
+        component: DashboardAluComponent,
+        canActivate: [AuthGuard],
+        data: { rol: "*", titulo: "Dashboard" },
+      },
+      {
+        path: "coevaluacion",
+        component: CoevaluacionComponent,
+        canActivate: [AuthGuard],
+        data: {
+          rol: "*",
+          titulo: "Coevaluación",
+          breadcrums: [],
+        },
+      },
+      {
+        path: "notas",
+        component: NotasComponent,
+        canActivate: [AuthGuard],
+        data: {
+          rol: "*",
+          titulo: "Coevaluación",
+          breadcrums: [],
+        },
+      },
     ],
   },
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forChild(routes),
-  ],
-  exports: [RouterModule]
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
 })
-export class AlumnoRoutingModule { }
+export class AlumnoRoutingModule {}
