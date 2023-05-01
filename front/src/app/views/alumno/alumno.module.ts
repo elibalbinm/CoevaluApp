@@ -9,10 +9,12 @@ import { SharedModule } from 'src/app/components/shared.module';
 import { NotasComponent } from './notas/notas.component';
 import { HeaderPanelComponent } from 'src/app/components/headers/header-panel/header-panel.component';
 import { DashboardAluComponent } from './dashboard/dashboardAlu.component';
+import { CardIteracionComponent } from 'src/app/components/cards/card-iteraciones/card-iteraciones.component';
 
 @NgModule({
   declarations: [
     AlumnoComponent,
+    CardIteracionComponent,
     DashboardAluComponent,
     CoevaluacionComponent,
     CardTableComponent,
@@ -21,6 +23,7 @@ import { DashboardAluComponent } from './dashboard/dashboardAlu.component';
   ],
   exports: [
     AlumnoComponent,
+    CardIteracionComponent,
     DashboardAluComponent,
     CoevaluacionComponent,
     CardTableComponent,

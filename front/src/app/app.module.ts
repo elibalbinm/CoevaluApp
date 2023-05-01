@@ -92,7 +92,7 @@ import { SharedModule } from "./components/shared.module";
     PagesDropdownComponent,
     TableDropdownComponent,
     NotificationDropdownComponent,
-    UserDropdownComponent,
+    // UserDropdownComponent,
     // SidebarComponent,
     FooterComponent,
     FooterSmallComponent,

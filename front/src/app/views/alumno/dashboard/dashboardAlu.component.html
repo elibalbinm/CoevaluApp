@@ -6,15 +6,15 @@
     class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded"
     [ngClass]="color === 'light' ? 'bg-white' : 'bg-red-900 text-white'"
   >
-  <section class="relative mx-auto py-8 bg-white">
+    <section class="relative mx-auto py-8 bg-white">
       <div
         class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 rounded-lg"
       >
         <div class="px-6">
           <div class="flex flex-wrap justify-center">
-            <div class="w-full lg:w-3/12 px-4 lg:order-2 flex justify-center">
-
-            </div>
+            <div
+              class="w-full lg:w-3/12 px-4 lg:order-2 flex justify-center"
+            ></div>
             <div
               class="w-full lg:w-4/12 px-4 lg:order-3 lg:text-right lg:self-center"
             >
@@ -31,38 +31,114 @@
               <div class="flex py-4 lg:pt-4 pt-8">
                 <div class="xl:w-96">
                   <select
-                    class="bg-gray-50 border border-gray-300 text-gray-900
-                    text-sm rounded-full focus:ring-blue-500 focus:border-blue-500 block w-full px-8 py-3">
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-full focus:ring-blue-500 focus:border-blue-500 block w-full px-8 py-3"
+                  >
                     <option value="">Seleccione una iteración</option>
-                    <option *ngFor="let iteracion of iteraciones" value="{{iteracion.uid}}">
-                        Iteración {{iteracion.iteracion}}
+                    <option
+                      *ngFor="let iteracion of iteraciones"
+                      value="{{ iteracion.uid }}"
+                    >
+                      Iteración {{ iteracion.iteracion }}
                     </option>
                   </select>
                 </div>
               </div>
             </div>
           </div>
-          <div class="text-center mt-12">
-            <h3
-              class="text-4xl font-semibold leading-normal mb-2 text-blueGray-700"
-            >
-              Jenna Stones
-            </h3>
-            <div
-              class="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase"
-            >
-              <i
-                class="fas fa-map-marker-alt mr-2 text-lg text-blueGray-400"
-              ></i>
-              Los Angeles, California
-            </div>
-            <div class="mb-2 text-blueGray-600 mt-10">
-              <i class="fas fa-briefcase mr-2 text-lg text-blueGray-400"></i>
-              Solution Manager - Creative Tim Officer
-            </div>
-            <div class="mb-2 text-blueGray-600">
-              <i class="fas fa-university mr-2 text-lg text-blueGray-400"></i>
-              University of Computer Science
+          <div class="mx-auto overflow-hidden pb-20">
+            <div class="flex flex-wrap items-center">
+              <div class="w-full md:w-6/12 px-12 md:px-4 ml-auto mr-auto mt-20">
+                <app-card-iteraciones></app-card-iteraciones>
+                <!-- <div
+                  class="text-blueGray-500 p-3 text-center inline-flex items-center justify-center w-16 h-16 mb-6 shadow-lg rounded-full bg-white"
+                >
+                  <i class="fas fa-sitemap text-xl"></i>
+                </div>
+                <h3 class="text-3xl mb-2 font-semibold leading-normal">
+                  CSS Components
+                </h3>
+                <p
+                  class="text-lg font-light leading-relaxed mt-4 mb-4 text-blueGray-600"
+                >
+                  Every element that you need in a product comes built in as a
+                  component. All components fit perfectly with each other and
+                  can have different colours.
+                </p>
+                <div class="block pb-6">
+                  <span
+                    class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blueGray-500 bg-white uppercase last:mr-0 mr-2 mt-2"
+                  >
+                    Buttons </span
+                  ><span
+                    class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blueGray-500 bg-white uppercase last:mr-0 mr-2 mt-2"
+                  >
+                    Inputs </span
+                  ><span
+                    class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blueGray-500 bg-white uppercase last:mr-0 mr-2 mt-2"
+                  >
+                    Labels </span
+                  ><span
+                    class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blueGray-500 bg-white uppercase last:mr-0 mr-2 mt-2"
+                  >
+                    Menus </span
+                  ><span
+                    class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blueGray-500 bg-white uppercase last:mr-0 mr-2 mt-2"
+                  >
+                    Navbars </span
+                  ><span
+                    class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blueGray-500 bg-white uppercase last:mr-0 mr-2 mt-2"
+                  >
+                    Pagination </span
+                  ><span
+                    class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blueGray-500 bg-white uppercase last:mr-0 mr-2 mt-2"
+                  >
+                    Progressbars </span
+                  ><span
+                    class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blueGray-500 bg-white uppercase last:mr-0 mr-2 mt-2"
+                  >
+                    Typography
+                  </span>
+                </div>
+                <a
+                  href="https://www.creative-tim.com/learning-lab/tailwind/angular/alerts/notus?ref=na-index-page"
+                  target="_blank"
+                  class="font-bold text-blueGray-700 hover:text-blueGray-500 ease-linear transition-all duration-150"
+                >
+                  View All
+                  <i class="fa fa-angle-double-right ml-1 leading-relaxed"></i
+                ></a> -->
+              </div>
+              <div class="w-full md:w-5/12 px-4 mr-auto ml-auto mt-32">
+                <div
+                  class="relative flex flex-col min-w-0 w-full mb-6 mt-48 md:mt-0"
+                >
+                  <img
+                    alt="..."
+                    src="assets/img/component-btn.png"
+                    class="w-full align-middle rounded absolute shadow-lg max-w-100-px left-145-px -top-29-px z-3"
+                  /><img
+                    alt="..."
+                    src="assets/img/component-profile-card.png"
+                    class="w-full align-middle rounded-lg absolute shadow-lg max-w-210-px left-260-px -top-160-px"
+                  /><img
+                    alt="..."
+                    src="assets/img/component-info-card.png"
+                    class="w-full align-middle rounded-lg absolute shadow-lg max-w-180-px left-40-px -top-225-px z-2"
+                  /><img
+                    alt="..."
+                    src="assets/img/component-info-2.png"
+                    class="w-full align-middle rounded-lg absolute shadow-2xl max-w-200-px -left-50-px top-25-px"
+                  /><img
+                    alt="..."
+                    src="assets/img/component-menu.png"
+                    class="w-full align-middle rounded absolute shadow-lg max-w-580-px -left-20-px top-210-px"
+                  /><img
+                    alt="..."
+                    src="assets/img/component-btn-pink.png"
+                    class="w-full align-middle rounded absolute shadow-xl max-w-120-px left-195-px top-95-px"
+                  />
+                </div>
+              </div>
             </div>
           </div>
           <div class="mt-10 py-10 border-t border-blueGray-200 text-center">
@@ -83,6 +159,6 @@
           </div>
         </div>
       </div>
-  </section>
+    </section>
   </div>
 </div>
