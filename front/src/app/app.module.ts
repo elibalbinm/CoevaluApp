@@ -8,10 +8,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from "./app-routing.module";
-import { AppComponent } from "./app.component";
-
-// Alumno Module
 import { AluModule } from "./views/alumno/alumno.module";
+import { AppComponent } from "./app.component";
 
 // layouts
 import { AdminComponent } from "./layouts/admin/admin.component";
@@ -82,7 +80,8 @@ import { ProfesorComponent } from './layouts/profesor/profesor.component';
 import { PanelComponent } from './components/panel/panel.component';
 import { EvaluacionesComponent } from './views/evaluaciones/evaluaciones.component';
 import { EvaluacionComponent } from './views/evaluacion/evaluacion.component';
-
+import { AlumnoRoutingModule } from "./views/alumno/alumno.routing";
+import { SharedModule } from "./components/shared.module";
 @NgModule({
   declarations: [
     AppComponent,
@@ -94,19 +93,19 @@ import { EvaluacionComponent } from './views/evaluacion/evaluacion.component';
     TableDropdownComponent,
     NotificationDropdownComponent,
     UserDropdownComponent,
-    SidebarComponent,
+    // SidebarComponent,
     FooterComponent,
     FooterSmallComponent,
-    FooterAdminComponent,
+    // FooterAdminComponent,
     CardPageVisitsComponent,
     CardProfileComponent,
     CardSettingsComponent,
     CardSocialTrafficComponent,
     CardStatsComponent,
-    HeaderStatsComponent,
+    // HeaderStatsComponent,
     MapExampleComponent,
     AuthNavbarComponent,
-    AdminNavbarComponent,
+    // AdminNavbarComponent,
     IndexNavbarComponent,
     AdminComponent,
     AuthComponent,
@@ -146,12 +145,12 @@ import { EvaluacionComponent } from './views/evaluacion/evaluacion.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    AlumnoRoutingModule,
     AluModule,
+    SharedModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule
-  ],
-  exports: [
   ],
   providers: [{ provide: LOCALE_ID, useValue: "es" }],
   bootstrap: [AppComponent],

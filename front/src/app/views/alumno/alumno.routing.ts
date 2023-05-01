@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AlumnoComponent } from 'src/app/layouts/alumno/alumno.component';
+import { AlumnoComponent } from './alumno.component';
 import { DashboardComponent } from '../admin/dashboard/dashboard.component';
 import { CoevaluacionComponent } from './coevaluacion/coevaluacion.component';
 import { AuthGuard } from 'src/app/guards/auth.guards';
+import { DashboardAluComponent } from './dashboard/dashboardAlu.component';
 
 /*
   /perfil                               [*]
@@ -15,13 +16,13 @@ import { AuthGuard } from 'src/app/guards/auth.guards';
 
 */
 
-export const routes: Routes = [
+const routes: Routes = [
   {
-    path: "alumno",
+    path: 'alumno',
     component: AlumnoComponent,
     children: [
-      { path: "dashboard", component: DashboardComponent, canActivate: [ AuthGuard ], data: {rol: '*', titulo: 'Home'} },
-      { path: "coevaluacion", component: CoevaluacionComponent, canActivate: [ AuthGuard ], data: {
+      { path: 'dashboard', component: DashboardAluComponent, canActivate: [ AuthGuard ], data: {rol: '*', titulo: 'Dashboard'} },
+      { path: 'coevaluacion', component: CoevaluacionComponent, canActivate: [ AuthGuard ], data: {
                                                                                               rol: '*',
                                                                                               titulo: 'Coevaluación',
                                                                                               breadcrums: [ ],

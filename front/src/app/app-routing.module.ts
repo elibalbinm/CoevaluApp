@@ -8,7 +8,6 @@ import { NoauthGuard } from '../../src/app/guards/noauth.guard';
 // layouts
 import { AdminComponent } from "./layouts/admin/admin.component";
 import { ProfesorComponent } from "./layouts/profesor/profesor.component";
-import { AlumnoComponent } from "./layouts/alumno/alumno.component";
 import { AuthComponent } from "./layouts/auth/auth.component";
 
 // admin views
@@ -50,6 +49,7 @@ import { EscalaComponent } from "./views/escala/escala.component";
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { AlumnoRoutingModule } from "./views/alumno/alumno.routing";
+import { CoevaluacionComponent } from './views/alumno/coevaluacion/coevaluacion.component';
 
 
 const routes: Routes = [
@@ -78,6 +78,11 @@ const routes: Routes = [
                                                                                                                 titulo: 'Cursos',
                                                                                                                 breadcrums: [ ],
                                                                                                               },},
+      { path: "coevaluacion", component: CoevaluacionComponent, canActivate: [ AuthGuard ], data: {
+        rol: 'ROL_ADMIN',
+        titulo: 'Coevaluacion',
+        breadcrums: [ ],
+      },},
       { path: "criterios", component: CriteriosComponent, canActivate: [ AuthGuard ], data: {
                                                                                         rol: 'ROL_ADMIN',
                                                                                         titulo: 'Criterios',
