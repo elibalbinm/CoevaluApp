@@ -8,10 +8,12 @@ import { AlumnoComponent } from './alumno.component';
 import { SharedModule } from 'src/app/components/shared.module';
 import { NotasComponent } from './notas/notas.component';
 import { HeaderPanelComponent } from 'src/app/components/headers/header-panel/header-panel.component';
+import { DashboardAluComponent } from './dashboard/dashboardAlu.component';
 
 @NgModule({
   declarations: [
     AlumnoComponent,
+    DashboardAluComponent,
     CoevaluacionComponent,
     CardTableComponent,
     HeaderPanelComponent,
@@ -19,6 +21,7 @@ import { HeaderPanelComponent } from 'src/app/components/headers/header-panel/he
   ],
   exports: [
     AlumnoComponent,
+    DashboardAluComponent,
     CoevaluacionComponent,
     CardTableComponent,
     HeaderPanelComponent,
