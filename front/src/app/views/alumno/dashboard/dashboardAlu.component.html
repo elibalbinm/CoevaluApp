@@ -6,7 +6,7 @@
     class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded"
     [ngClass]="color === 'light' ? 'bg-white' : 'bg-red-900 text-white'"
   >
-  <section class="relative mx-auto py-16 bg-white">
+  <section class="relative mx-auto py-8 bg-white">
       <div
         class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 rounded-lg"
       >
@@ -33,9 +33,9 @@
                   <select
                     class="bg-gray-50 border border-gray-300 text-gray-900
                     text-sm rounded-full focus:ring-blue-500 focus:border-blue-500 block w-full px-8 py-3">
-                    <option value="">Seleccione un curso</option>
-                    <option>
-                        Hola
+                    <option value="">Seleccione una iteración</option>
+                    <option *ngFor="let iteracion of iteraciones" value="{{iteracion.uid}}">
+                        Iteración {{iteracion.iteracion}}
                     </option>
                   </select>
                 </div>
