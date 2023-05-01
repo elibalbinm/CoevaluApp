@@ -7,6 +7,18 @@
       <div class="flex justify-center">
         <div class="xl:w-96">
           <select
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-full focus:ring-blue-500 focus:border-blue-500 block w-full px-6 py-3">
+            <option value="">Seleccione un curso</option>
+            <!-- <option *ngFor="let escala of escalasPorCriterio[i]?.escalas"
+                [defaultSelected]="alumno.escala.nivel === escala.nivel"
+                [value]="escala.uid">
+                  {{ escala.nivel }}
+                </option> -->
+            <option *ngFor="let curso of cursos" value="{{curso.uid}}">
+                {{curso.nombrecorto}}
+            </option>
+          </select>
+          <!-- <select
             id="countries"
             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-full focus:ring-blue-500 focus:border-blue-500 block w-full px-6 py-3"
           >
@@ -15,7 +27,7 @@
             <option value="CA">Canada</option>
             <option value="FR">France</option>
             <option value="DE">Germany</option>
-          </select>
+          </select> -->
         </div>
       </div>
     </div>
