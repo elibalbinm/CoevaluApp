@@ -68,6 +68,40 @@ iterationCtrl.getIterations = async(req, res = response) => {
     }
 }
 
+iterationCtrl.getIteration = async(req, res = response ) => {
+    const uid = req.params.id;
+    const token = req.header('x-token');
+
+    if (!((infoToken(token).rol === 'ROL_ADMIN') || 
+          infoToken(token).rol === 'ROL_ALUMNO') ||
+          infoToken(token).rol === 'ROL_PROFESOR') {
+        return res.status(400).json({
+            ok: false,
+            msg: 'No tiene permisos obtener la iteración',
+        });
+    }
+    try {
+        const iteracion = await Iteracion.findById(uid);
+        if (!iteracion) {
+            return res.status(400).json({
+                ok: false,
+                msg: 'La iteración no existe',
+            });
+        }
+        res.json({
+            ok: true,
+            msg: 'Iteración cargada',
+            iteracion
+        });
+    } catch (error) {
+        // console.log(error);
+        return res.status(400).json({
+            ok: false,
+            msg: 'Error cargando información de la iteración',
+        });
+    }
+}
+
 iterationCtrl.createIteration = async(req, res = response) => {
 
     const { curso, rubrica } = req.body;

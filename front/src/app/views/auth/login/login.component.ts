@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
       return;
     }
     this.waiting = true;
-    this.usuarioService.login( this.loginForm.value)
+    this.usuarioService.login( this.loginForm.value )
       .subscribe( res => {
         if (this.loginForm.get('remember').value) {
           localStorage.setItem('email', this.loginForm.get('email').value);
@@ -45,10 +45,10 @@ export class LoginComponent implements OnInit {
             this.router.navigateByUrl('/admin/dashboard');
             break;
           case 'ROL_ALUMNO':
-            this.router.navigateByUrl('/alu/dashboard');
+            this.router.navigateByUrl('/alumno/dashboard');
             break;
           case 'ROL_PROFESOR':
-            this.router.navigateByUrl('/prof/dashboard');
+            this.router.navigateByUrl('/profesor/dashboard');
             break;
         }
 

@@ -11,9 +11,9 @@ export class IteracionService {
 
   constructor( private http: HttpClient) {  }
 
-  cargarIteracion( uid: string): Observable<object> {
+  cargarIteracion( uid: string ): Observable<object> {
     if (!uid) { uid = '';}
-    return this.http.get(`${environment.base_url}/iteraciones/?id=${uid}` , this.cabeceras);
+    return this.http.get(`${environment.base_url}/iteraciones/${uid}` , this.cabeceras);
   }
 
   cargarIteraciones( desde: number, textoBusqueda?: string, hasta?:string ): Observable<object> {

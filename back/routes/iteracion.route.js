@@ -18,6 +18,13 @@ router.get('/', [
     check('texto', 'El texto debe ser válido').optional().trim(),
     validarCampos
 ], iterationCtrl.getIterations);
+
+router.get('/:id', [
+    check('id', 'El identificador no es válido').isMongoId(),
+    validarCampos,
+    validarJWT
+], iterationCtrl.getIteration);
+
 router.post('/', [
     validarJWT,
     check('curso', 'El id del curso debe ser válido').isMongoId(),

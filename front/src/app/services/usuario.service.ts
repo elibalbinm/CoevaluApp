@@ -6,6 +6,7 @@ import { tap, map, catchError } from 'rxjs/operators';
 import { of, Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { Usuario } from '../models/usuario.model';
+import { EvaluacionService } from './evaluacion.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,8 @@ export class UsuarioService {
 
   private usuario: Usuario;
 
-  constructor( private http: HttpClient,
+  constructor( private evaluacionService: EvaluacionService,
+               private http: HttpClient,
                private router: Router ) { }
 
   login( formData: loginForm ) {
@@ -23,6 +25,9 @@ export class UsuarioService {
       .pipe(
         tap( (res : any) => {
           localStorage.setItem('token', res['token']);
+
+          // this.evaluacionService.
+          // localStorage.setItem('evaluaciones', )
           const {uid, rol} = res;
           this.usuario = new Usuario(uid, rol);
         })

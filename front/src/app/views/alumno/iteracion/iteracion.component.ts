@@ -10,8 +10,12 @@ import Swal from "sweetalert2";
   templateUrl: "./iteracion.component.html",
 })
 export class IteracionAluComponent implements OnInit {
-  iteraciones: [];
+  iteracion: [];
   criterios: [];
+
+  id: string = '';
+  numIteracion: string = '';
+
 
   @Input()
   get color(): string {
@@ -28,6 +32,21 @@ export class IteracionAluComponent implements OnInit {
                private router: Router ) {}
 
   ngOnInit(): void {
-    console.log(this.route.snapshot.params['iteracion']);
+    console.log(this.route.snapshot.params['uid']);
+    this.id = this.route.snapshot.params['uid'];
+    this.cargarIteracion();
+  }
+
+  cargarIteracion() {
+    this.iteracionService.cargarIteracion(this.id)
+    .subscribe(res => {
+      if (!res['iteracion']) {
+        this.router.navigateByUrl('/alumno/coevaluacion/');
+        return;
+      };
+
+      this.iteracion = res['iteracion'];
+      this.numIteracion = res['iteracion'].iteracion;
+    })
   }
 }
