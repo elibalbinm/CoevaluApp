@@ -71,7 +71,8 @@
             </div>
           </th>
           <td
-            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-lg font-bold whitespace-nowrap p-4"
+            [routerLink]="['/alumno/coevaluacion/iteracion', iteracion.iteracion]"
+            class="border-t-0 px-6 cursor-pointer align-middle border-l-0 border-r-0 text-lg font-bold whitespace-nowrap p-4"
           >
             Iteración {{iteracion.iteracion}}
           </td>
@@ -85,7 +86,7 @@
             class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
           >
             <button
-              [routerLink]="['/admin/evaluaciones/evaluacion/nuevo']"
+              [routerLink]="['/alumno/coevaluacion/iteracion']"
               class="bg-header text-white active:bg-indigo-600 text-sm font-bold uppercase p-3
               outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
               type="button"
@@ -94,169 +95,6 @@
             </button>
           </td>
         </tr>
-        <!-- <tr>
-          <th
-            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center"
-          >
-            <div class="flex p-2 rounded-full items-center bg-buttons">
-              <img
-              src="assets/img/file-circle-check-solid.svg"
-              class="h-10 w-10 bg-white rounded-full border"
-              alt="..."
-            />
-            <span
-              class="mx-3 font-bold"
-              [ngClass]="color === 'light' ? 'text-blueGray-600' : 'text-white'"
-            >
-              Cerrada
-            </span>
-            </div>
-          </th>
-          <td
-            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
-          >
-            Iteración {{iteracion.iteraciones}}
-          </td>
-          <td
-            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
-          >
-            <i class="fas fa-circle text-emerald-500 mr-2"></i>
-            completed
-          </td><td
-            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
-          >
-            <button
-              [routerLink]="['/admin/evaluaciones/evaluacion/nuevo']"
-              class="bg-header text-white active:bg-indigo-600 text-sm font-bold uppercase
-              p-3 outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-              type="button"
-            >
-              Ver resultados
-            </button>
-          </td>
-        </tr>
-        <tr>
-          <th
-            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center"
-          >
-            <div class="flex p-2 rounded-full items-center bg-buttons">
-              <img
-              src="assets/img/file-circle-check-solid.svg"
-              class="h-10 w-10 bg-white rounded-full border"
-              alt="..."
-            />
-            <span
-              class="mx-3 font-bold"
-              [ngClass]="color === 'light' ? 'text-blueGray-600' : 'text-white'"
-            >
-              Cerrada
-            </span>
-            </div>
-          </th>
-          <td
-            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
-          >
-          Iteración {{iteracion.iteraciones}}
-          </td>
-          <td
-            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
-          >
-            <i class="fas fa-circle text-red-500 mr-2"></i> delayed
-          </td>
-          <td
-            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
-          >
-            <button
-              [routerLink]="['/admin/evaluaciones/evaluacion/nuevo']"
-              class="bg-header text-white active:bg-indigo-600 text-sm font-bold uppercase p-3 outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-              type="button"
-            >
-            Ver resultados
-            </button>
-          </td>
-        </tr>
-        <tr>
-          <th
-            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center"
-          >
-            <div class="flex p-2 rounded-full items-center bg-buttons">
-              <img
-              src="assets/img/file-circle-check-solid.svg"
-              class="h-10 w-10 bg-white rounded-full border"
-              alt="..."
-            />
-            <span
-              class="mx-3 font-bold"
-              [ngClass]="color === 'light' ? 'text-blueGray-600' : 'text-white'"
-            >
-              Cerrada
-            </span>
-            </div>
-          </th>
-          <td
-            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
-          >
-          Iteración {{iteracion.iteraciones}}
-          </td>
-          <td
-            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
-          >
-            <i class="fas fa-circle text-teal-500 mr-2"></i> on schedule
-          </td>
-          <td
-            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
-          >
-            <button
-              [routerLink]="['/admin/evaluaciones/evaluacion/nuevo']"
-              class="bg-header text-white active:bg-indigo-600 text-sm font-bold uppercase p-3 outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-              type="button"
-            >
-            Ver resultados
-            </button>
-          </td>
-        </tr>
-        <tr>
-          <th
-            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center"
-          >
-            <div class="flex p-2 rounded-full items-center bg-buttons">
-              <img
-              src="assets/img/file-circle-check-solid.svg"
-              class="h-10 w-10 bg-white rounded-full border"
-              alt="..."
-            />
-            <span
-              class="mx-3 font-bold"
-              [ngClass]="color === 'light' ? 'text-blueGray-600' : 'text-white'"
-            >
-              Cerrada
-            </span>
-            </div>
-          </th>
-          <td
-            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
-          >
-          Iteración {{iteracion.iteraciones}}
-          </td>
-          <td
-            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
-          >
-            <i class="fas fa-circle text-emerald-500 mr-2"></i>
-            completed
-          </td>
-          <td
-            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
-          >
-            <button
-              [routerLink]="['/admin/evaluaciones/evaluacion/nuevo']"
-              class="bg-header text-white active:bg-indigo-600 text-sm font-bold uppercase
-              p-3 outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-              type="button"
-            >
-            Ver resultados
-            </button>
-          </td>
-        </tr> -->
       </tbody>
     </table>
   </div>

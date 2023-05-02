@@ -1,11 +1,11 @@
-import { NgModule } from "@angular/core";
-import { Routes, RouterModule } from "@angular/router";
-import { AlumnoComponent } from "./alumno.component";
-import { DashboardComponent } from "../admin/dashboard/dashboard.component";
-import { CoevaluacionComponent } from "./coevaluacion/coevaluacion.component";
-import { AuthGuard } from "src/app/guards/auth.guards";
-import { DashboardAluComponent } from "./dashboard/dashboardAlu.component";
-import { NotasComponent } from "./notas/notas.component";
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+import { AlumnoComponent } from './alumno.component';
+import { CoevaluacionComponent } from './coevaluacion/coevaluacion.component';
+import { AuthGuard } from 'src/app/guards/auth.guards';
+import { DashboardAluComponent } from './dashboard/dashboardAlu.component';
+import { NotasComponent } from './notas/notas.component';
+import { IteracionAluComponent } from './iteracion/iteracion.component';
 
 /*
   /perfil                               [*]
@@ -19,32 +19,42 @@ import { NotasComponent } from "./notas/notas.component";
 
 const routes: Routes = [
   {
-    path: "alumno",
+    path: 'alumno',
     component: AlumnoComponent,
     children: [
       {
-        path: "dashboard",
+        path: 'dashboard',
         component: DashboardAluComponent,
         canActivate: [AuthGuard],
-        data: { rol: "*", titulo: "Dashboard" },
+        data: { rol: '*', titulo: 'Dashboard' },
       },
       {
-        path: "coevaluacion",
+        path: 'coevaluacion',
         component: CoevaluacionComponent,
         canActivate: [AuthGuard],
         data: {
-          rol: "*",
-          titulo: "Coevaluación",
+          rol: '*',
+          titulo: 'Coevaluación',
           breadcrums: [],
         },
       },
       {
-        path: "notas",
+        path: 'coevaluacion/iteracion/:uid',
+        component: IteracionAluComponent,
+        canActivate: [AuthGuard],
+        data: {
+          rol: '*',
+          titulo: 'Iteración',
+          breadcrums: [ {titulo: 'Iteración', url: '/alumno/coevaluacion'} ],
+        },
+      },
+      {
+        path: 'notas',
         component: NotasComponent,
         canActivate: [AuthGuard],
         data: {
-          rol: "*",
-          titulo: "Coevaluación",
+          rol: '*',
+          titulo: 'Notas',
           breadcrums: [],
         },
       },

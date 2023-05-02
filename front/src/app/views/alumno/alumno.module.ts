@@ -10,6 +10,7 @@ import { NotasComponent } from './notas/notas.component';
 import { HeaderPanelComponent } from 'src/app/components/headers/header-panel/header-panel.component';
 import { DashboardAluComponent } from './dashboard/dashboardAlu.component';
 import { CardIteracionComponent } from 'src/app/components/cards/card-iteraciones/card-iteraciones.component';
+import { IteracionAluComponent } from './iteracion/iteracion.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { CardIteracionComponent } from 'src/app/components/cards/card-iteracione
     CoevaluacionComponent,
     CardTableComponent,
     HeaderPanelComponent,
+    IteracionAluComponent,
     NotasComponent
   ],
   exports: [
@@ -28,6 +30,7 @@ import { CardIteracionComponent } from 'src/app/components/cards/card-iteracione
     CoevaluacionComponent,
     CardTableComponent,
     HeaderPanelComponent,
+    IteracionAluComponent,
     NotasComponent
   ],
   imports: [
