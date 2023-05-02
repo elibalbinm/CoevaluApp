@@ -73,4 +73,14 @@ router.delete('/:id', [
     validarCampos,
 ], evaluationCtrl.deleteEvaluation);
 
+// Nos devuelve la evaluación en concreto correspondiente con la del campo 'alumno' de esa 
+router.get('/alumno/:id', [
+    // Campos opcionales que si vienen los validamos desde e id
+    validarJWT,
+    check('id', 'El id del escala debe ser válido').optional().isMongoId(),
+    check('desde', 'El desde debe ser un número').optional().isNumeric(),
+    check('texto', 'El texto debe ser válido').optional().trim(),
+    validarCampos
+], evaluationCtrl.getEvaluationsByStudent);
+
 module.exports = router;

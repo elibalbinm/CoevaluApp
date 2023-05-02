@@ -8,6 +8,46 @@ const Escala = require("../models/escalas.model");
 
 const evaluationCtrl = {};
 
+evaluationCtrl.getEvaluationsByStudent = async (req, res = response) => {
+  const id = req.params.id;
+  console.log("ID: ", id);
+
+  try {
+    const token = req.header("x-token");
+    console.log("Token: ", token);
+
+    if (!(infoToken(token).rol === "ROL_ADMIN")) {
+      return res.status(404).json({
+        ok: false,
+        msg: "No tiene permisos para obtener datos de Evaluaciones",
+      });
+    }
+
+    let evaluaciones, total;
+    const existeAlumno = await Usuario.findById(id);
+
+    if (id && existeAlumno) {
+      [evaluaciones, total] = await Promise.all([
+        Evaluacion.find({ $or: [{ alumno: id }] }).populate("iteracion"),
+        Evaluacion.countDocuments(),
+      ]);
+    }
+
+    res.status(200).json({
+      ok: true,
+      msg: "Request getEvaluationsByStudent successful",
+      evaluaciones,
+    });
+  } catch (error) {
+    // res.status(404).json({message: err.message});
+    console.log(error);
+    return res.status(404).json({
+      ok: false,
+      msg: "Error al obtener evaluaciones por id del alumno",
+    });
+  }
+}
+
 evaluationCtrl.getEvaluations = async (req, res = repsonse) => {
   // Paginación
   const desde = Number(req.query.desde) || 0;

@@ -28,6 +28,11 @@ export class EvaluacionService {
       });
   }
 
+  getEvaluationByStudent( uid: string ) {
+    if (uid === undefined) { uid=''}
+    return this.http.get(`${environment.base_url}/evaluaciones/alumno/${uid}` , this.cabeceras);
+  }
+
   // Funcion de actualizarGrupo: lo que hace es guardar el array de guardarVacio que contiene
   // dimension/criterio y la escala, valor y el alumno al que se vota
   actualizarVotacion(uid: string, data) {
