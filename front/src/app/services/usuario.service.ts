@@ -25,10 +25,12 @@ export class UsuarioService {
       .pipe(
         tap( (res : any) => {
           localStorage.setItem('token', res['token']);
-
-          // this.evaluacionService.
-          // localStorage.setItem('evaluaciones', )
           const {uid, rol} = res;
+          console.log('ID: '+uid);
+          this.evaluacionService.getEvaluationByStudent(uid).subscribe((res) => {
+            if(res) localStorage.setItem('evaluaciones', JSON.parse(JSON.stringify(res['evaluaciones'])));
+          });
+
           this.usuario = new Usuario(uid, rol);
         })
       );
