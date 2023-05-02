@@ -1720,6 +1720,10 @@ select {
   border-left-width: 0px;
 }
 
+.border-b-1 {
+  border-bottom-width: 1px;
+}
+
 .border-b-2 {
   border-bottom-width: 2px;
 }
@@ -2820,6 +2824,11 @@ select {
 .px-3 {
   padding-left: 0.75rem;
   padding-right: 0.75rem;
+}
+
+.py-3\.5 {
+  padding-top: 0.85rem;
+  padding-bottom: 0.78rem;
 }
 
 .py-4 {

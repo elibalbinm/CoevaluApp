@@ -5,92 +5,43 @@
   <div class="overflow-x-auto">
     <!-- Projects table -->
     <table class="items-center w-full bg-transparent border-collapse">
-      <thead class="float-left">
+      <thead class="block float-left">
         <tr>
           <th
-            class="px-6 w-48 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+            class="px-6 w-42 align-middle border border-solid block
+            py-3.5 text-xs uppercase border-l-0 whitespace-nowrap font-bold text-left"
             [ngClass]="
               color === 'light'
                 ? ' text-blueGray-500 border-blueGray-100'
                 : 'bg-red-800 text-red-300 border-red-700'
             "
           >
-            Estado
+            Dimensiones
           </th>
-          <th
-            class="px-6 w-96 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+          <th *ngFor="let criterio of criterios; let i = index"
+            class="px-6 w-42 align-middle border border-solid block
+            py-3 text-xs uppercase border-l-0 whitespace-nowrap font-semibold text-left"
             [ngClass]="
               color === 'light'
                 ? 'text-blueGray-500 border-blueGray-100'
                 : 'bg-red-800 text-red-300 border-red-700'
             "
           >
-            Nº Iteración
+            {{ criterio.nombre }}
           </th>
-          <th
-            class="px-6 align-middle border border-solid py-3 w-10 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
-            [ngClass]="
-              color === 'light'
-                ? ' text-blueGray-500 border-blueGray-100'
-                : 'bg-red-800 text-red-300 border-red-700'
-            "
-          >
-            Fecha de entrega
-          </th>
-          <th
-            class="px-6 align-middle border border-solid py-3 w-12 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap
-            font-semibold text-left"
-            [ngClass]="
-              color === 'light'
-                ? ' text-blueGray-500 border-blueGray-100'
-                : 'bg-red-800 text-red-300 border-red-700'
-            "
-          >
-            Acción
-          </th>
-
         </tr>
       </thead>
-      <tbody class="float-right">
+      <tbody class="flex">
         <tr *ngFor="let iteracion of iteraciones">
-          <th
-            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center"
-          >
-            <div class="flex p-2 rounded-full items-center bg-buttons">
-              <img
-              src="assets/img/file-circle-check-solid.svg"
-              class="h-10 w-10 bg-white rounded-full border"
-              alt="..."
-            />
-            <span
-              class="mx-3 font-bold"
-              [ngClass]="color === 'light' ? 'text-blueGray-600' : 'text-white'"
-            >
-              Cerrada
-            </span>
-            </div>
-          </th>
           <td
-            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-lg font-bold whitespace-nowrap p-4"
+            class="border-t px-6 align-middle border-l block border-r border-b text-lg font-bold whitespace-nowrap py-2"
+            [ngClass]="
+              color === 'light'
+                ? 'text-blueGray-500 border-blueGray-100'
+                : 'bg-red-800 text-red-300 border-red-700'
+            "
           >
-            Iteración {{iteracion.iteracion}}
-          </td>
-          <td
-            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-lg font-bold whitespace-nowrap p-4"
-          >
-            <!-- <i class="fas fa-circle text-orange-500 mr-2"></i> pending -->
-            {{iteracion.fecha_ini_coe | date : 'd'}} - {{iteracion.fecha_fin_coe | date : 'dd MMMM yyyy '}}
-          </td>
-          <td
-            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
-          >
-            <button
-              class="bg-header text-white active:bg-indigo-600 text-sm font-bold uppercase p-3
-              outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-              type="button"
-            >
-            Ver resultados
-            </button>
+            {{iteracion.iteracion}}
           </td>
         </tr>
       </tbody>
