@@ -30,6 +30,12 @@ router.get('/', [
     validarCampos,
 ], evaluationCtrl.getEvaluations);
 
+// router.get('/:id', [
+//     check('id', 'El identificador no es válido').isMongoId(),
+//     validarCampos,
+//     validarJWT
+// ], evaluationCtrl.getEvaluation);
+
 router.post('/', [
     validarJWT, 
 

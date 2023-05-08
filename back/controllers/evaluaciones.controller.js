@@ -16,7 +16,9 @@ evaluationCtrl.getEvaluationsByStudent = async (req, res = response) => {
     const token = req.header("x-token");
     console.log("Token: ", token);
 
-    if (!(infoToken(token).rol === "ROL_ADMIN")) {
+    if (!(infoToken(token).rol === "ROL_ADMIN" ||
+          infoToken(token).rol === "ROL_ALUMNO" ||
+          infoToken(token).rol === "ROL_PROFESOR")) {
       return res.status(404).json({
         ok: false,
         msg: "No tiene permisos para obtener datos de Evaluaciones",
@@ -28,7 +30,19 @@ evaluationCtrl.getEvaluationsByStudent = async (req, res = response) => {
 
     if (id && existeAlumno) {
       [evaluaciones, total] = await Promise.all([
-        Evaluacion.find({ $or: [{ alumno: id }] }).populate("iteracion"),
+        Evaluacion.find({ $or: [{ alumno: id }] })
+        .populate({
+          path: "valores.votaciones",
+          populate: { path: "alumno_votado", model: Usuario },
+        })
+        .populate({
+          path: "valores.votaciones",
+          populate: { path: "escala", model: Escala },
+        })
+        .populate({ path: "valores.criterio", model: Criterio })
+        .populate("alumno")
+        .populate("iteracion")
+        .populate("criterio"),
         Evaluacion.countDocuments(),
       ]);
     }
@@ -162,7 +176,7 @@ evaluationCtrl.createEvaluation = async (req, res = response) => {
   if (!(infoToken(token).rol === "ROL_ADMIN")) {
     return res.status(400).json({
       ok: false,
-      msg: "No tiene permisos para crear evaluacioness",
+      msg: "No tiene permisos para crear evaluaciones",
     });
   }
 

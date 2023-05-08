@@ -5,5 +5,62 @@
   >
     Iteración  {{ numIteracion }}
   </h1>
-  <!-- <app-card-table></app-card-table> -->
+  <div class="flex-auto px-4 lg:px-10 py-10 pt-0">
+    <h4 class="text-blueGray-400 text-sm mt-3 mb-3 font-bold uppercase">
+      Datos de la evaluación
+    </h4>
+    <div class="flex flex-wrap gap-8">
+      <div class="mr-auto" *ngFor="let dimension of evaluaciones; let i = index">
+        <h5 class="pt-2 px-4 pb-4"><b>{{ dimension.criterio.nombre }}</b></h5>
+        <div class="flex mb-3 xl:w-96 gap-px space-x-4 items-center"
+          *ngFor="let alumno of dimension.votaciones; let j = index">
+          <!-- <p class="pr-12 pt-4"> -->
+          <p class="flex-auto">
+            {{ alumno.alumno_votado.nombre + ' ' + alumno.alumno_votado.apellidos}}
+          </p>
+          <!-- <br>
+          {{ alumno.escala.nivel }} -->
+          <select
+          class="flex-auto rounded-full"
+
+          data-te-select-init
+            (change)="
+              seleccionar(
+                dimension._id,
+                i,
+                alumno.alumno_votado._id,
+                j,
+                $event
+              )
+            "
+          >
+            <option value="nada">NADA</option>
+            <option *ngFor="let escala of escalasPorCriterio[i]?.escalas"
+            [defaultSelected]="alumno.escala.nivel === escala.nivel"
+            [value]="escala.uid">
+              {{ escala.nivel }}
+            </option>
+          </select>
+        </div>
+        <br />
+      </div>
+      <!-- <button (click)="enviarDatos()">Enviar</button> -->
+    </div>
+    <div class="text-center flex-auto p-5 lg:p-8">
+      <button
+    (click)="enviarDatos()"
+      class="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+      type="submit"
+      *ngIf="!nombre"
+    >Modificar</button>
+    <button
+    (click)="cancelar()"
+      id="cancelar"
+      class="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+      type="button"
+    >
+      Cancelar
+    </button>
+    </div>
+  </div>
 </div>

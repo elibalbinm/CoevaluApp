@@ -1,34 +1,33 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
-import { Evaluacion } from "src/app/models/evaluacion.model";
-import { CriterioService } from "src/app/services/criterio.service";
+import { FormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Evaluacion } from 'src/app/models/evaluacion.model';
+import { CriterioService } from 'src/app/services/criterio.service';
 import { EvaluacionService } from 'src/app/services/evaluacion.service';
-import { Escala } from "src/app/models/escala.model";
-import Swal from "sweetalert2";
+import { Escala } from 'src/app/models/escala.model';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-evaluacion',
-  templateUrl: './evaluacion.component.html'
+  templateUrl: './evaluacion.component.html',
 })
 export class EvaluacionComponent implements OnInit {
-
   public nombre = false;
-  public uid: string = "nuevo";
+  public uid: string = 'nuevo';
   public valores;
   public keys;
   public alumnos;
   public evaluaciones: Evaluacion[] = [];
   public escalas: Escala[] = [];
   public datosForm = this.fb.group({
-    uid: [{ value: "nuevo", disabled: true }, Validators.required],
-    hito: ["", Validators.required],
-    iteracion: ["", Validators.required],
-    curso: ["", Validators.required],
-    fecha_ini: ["", Validators.required],
-    fecha_fin: ["", Validators.required],
-    fecha_ini_coe: ["", Validators.required],
-    fecha_fin_coe: ["", Validators.required],
+    uid: [{ value: 'nuevo', disabled: true }, Validators.required],
+    hito: ['', Validators.required],
+    iteracion: ['', Validators.required],
+    curso: ['', Validators.required],
+    fecha_ini: ['', Validators.required],
+    fecha_fin: ['', Validators.required],
+    fecha_ini_coe: ['', Validators.required],
+    fecha_fin_coe: ['', Validators.required],
   });
 
   escalaId: any;
@@ -37,8 +36,8 @@ export class EvaluacionComponent implements OnInit {
   arrayCriteriosPorEscala: any;
   arrayAlumnos: any;
   escalasPorCriterio: any;
-  arrayVotaciones: { alumno_votado: string; escala: string; valor: string; }[];
-  guardarVacio: { criterio: string; votaciones: any; }[];
+  arrayVotaciones: { alumno_votado: string; escala: string; valor: string }[];
+  guardarVacio: { criterio: string; votaciones: any }[];
   // escalas: any;
 
   constructor(
@@ -50,10 +49,9 @@ export class EvaluacionComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.uid = this.route.snapshot.params["uid"];
+    this.uid = this.route.snapshot.params['uid'];
     this.cargarDatos();
-    if(this.uid === 'nuevo')
-      this.nombre = true;
+    if (this.uid === 'nuevo') this.nombre = true;
   }
 
   nuevo() {
@@ -67,57 +65,59 @@ export class EvaluacionComponent implements OnInit {
 
   cargarDatos() {
     this.submited = false;
-    if (this.uid !== "nuevo") {
+    if (this.uid !== 'nuevo') {
       this.evaluacionService.cargarEvaluacion(this.uid).subscribe(
         (res) => {
           console.log(res);
-          if (!res["evaluaciones"]) {
-            this.router.navigateByUrl("/admin/iteraciones");
+          if (!res['evaluaciones']) {
+            this.router.navigateByUrl('/admin/iteraciones');
             return;
           }
 
-          this.evaluaciones = res["evaluaciones"].valores;
-          console.log('Evaluaciones (valores): ',this.evaluaciones)
+          this.evaluaciones = res['evaluaciones'].valores;
+          console.log('Evaluaciones (valores): ', this.evaluaciones);
 
-          this.arrayCriterios = res["evaluaciones"].valores.map(_ => ({
-            id: `${_.criterio._id}`
+          this.arrayCriterios = res['evaluaciones'].valores.map((_) => ({
+            id: `${_.criterio._id}`,
           }));
 
-          res["evaluaciones"].valores.map((item, index) => {
+          res['evaluaciones'].valores.map((item, index) => {
             this.arrayAlumnos = [];
-            console.log('>>>>>>>>>>>>>>>>>>>>>>>>>> ',item.votaciones.alumno_votado),
-            item.votaciones.map(_ => {
+            console.log(
+              '>>>>>>>>>>>>>>>>>>>>>>>>>> ',
+              item.votaciones.alumno_votado
+            ),
+              item.votaciones.map((_) => {
+                console.log('+`+++++++++++++++++++++', _.alumno_votado);
 
-              console.log('+`+++++++++++++++++++++',_.alumno_votado)
+                const x = {
+                  id: _.alumno_votado._id,
+                  nombre:
+                    _.alumno_votado.nombre + ' ' + _.alumno_votado.apellidos,
+                };
 
-               const x = {
-                id: _.alumno_votado._id,
-                nombre: _.alumno_votado.nombre + ' ' + _.alumno_votado.apellidos
-              };
-
-              this.arrayAlumnos.push(x);
-            })
+                this.arrayAlumnos.push(x);
+              });
           });
           console.log('++++++++++++++++++++++++++++++', this.arrayAlumnos);
-          console.log('Array criteriosssssssss ',this.arrayCriterios)
+          console.log('Array criteriosssssssss ', this.arrayCriterios);
 
           this.cargarEscalas();
           this.inicializarArrays();
-          console.log("Iniciando guardar:", this.guardarVacio);
+          console.log('Iniciando guardar:', this.guardarVacio);
           this.submited = true;
         },
         (err) => {
-          this.router.navigateByUrl("/admin/evaluaciones");
+          this.router.navigateByUrl('/admin/evaluaciones');
           Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: "No se pudo completar la acción, vuelva a intentarlo",
+            icon: 'error',
+            title: 'Oops...',
+            text: 'No se pudo completar la acción, vuelva a intentarlo',
           });
           return;
         }
       );
     } else {
-
     }
   }
 
@@ -126,8 +126,8 @@ export class EvaluacionComponent implements OnInit {
       (_, i) => {
         const obj = {
           alumno_votado: this.arrayAlumnos[i].id,
-          escala: "",
-          valor: "-1",
+          escala: '',
+          valor: '-1',
         };
         return obj;
       }
@@ -145,7 +145,7 @@ export class EvaluacionComponent implements OnInit {
 
   objectKeys(objeto: any) {
     this.keys = Object.keys(objeto);
-    console.log(this.keys); // echa un vistazo por consola para que veas lo que hace "Object.keys"
+    console.log(this.keys); // echa un vistazo por consola para que veas lo que hace 'Object.keys'
   }
 
   seleccionar(
@@ -158,42 +158,42 @@ export class EvaluacionComponent implements OnInit {
     this.guardarVacio[posDimension].votaciones[posAlumno].escala =
       escala.target.value;
     console.log(
-      "Alumno:",
+      'Alumno:',
       alumno,
-      "dimension:",
+      'dimension:',
       dimension,
-      " Escala:",
+      ' Escala:',
       escala.target.value
     );
-    console.log("GuardarVacio:", this.guardarVacio);
+    console.log('GuardarVacio:', this.guardarVacio);
   }
 
   enviarDatos() {
-    console.log("Entro a enviarDatos");
+    console.log('Entro a enviarDatos');
     let completo = true;
 
     this.guardarVacio.forEach((element) => {
       element.votaciones.forEach((votacion: any) => {
-        console.log("guardarVacio: ", this.guardarVacio);
-        if (votacion.escala === "") {
+        console.log('guardarVacio: ', this.guardarVacio);
+        if (votacion.escala === '') {
           completo = false;
         }
       });
     });
 
-    if (!completo) console.log("No puedes modificar, faltan datos");
+    if (!completo) console.log('No puedes modificar, faltan datos');
     else {
       this.evaluacionService
         .actualizarVotacion(this.uid, this.guardarVacio)
         .subscribe(
           (res) => {
-            console.log("Se ha suscrito correctamente: ", res);
+            console.log('Se ha suscrito correctamente: ', res);
           },
           (err) => {
             Swal.fire({
-              icon: "error",
-              title: "Oops...",
-              text: "Ocurrió un error, inténtelo más tarde",
+              icon: 'error',
+              title: 'Oops...',
+              text: 'Ocurrió un error, inténtelo más tarde',
             });
             return;
           }
@@ -208,24 +208,24 @@ export class EvaluacionComponent implements OnInit {
     console.log(this.arrayCriterios);
     this.escalasPorCriterio = [];
 
-    this.arrayCriterios.map(element => {
+    this.arrayCriterios.map((element) => {
       console.log('Element: ', element);
 
-      this.criterioService.cargarEscalasPorCriterio(element.id)
-        .subscribe( res => {
-          console.log('Res (escalas): ', res, ' Element: ',element);
+      this.criterioService.cargarEscalasPorCriterio(element.id).subscribe(
+        (res) => {
+          console.log('Res (escalas): ', res, ' Element: ', element);
 
           const temp = {
             id: element.id,
-            escalas: res["escalas"]
+            escalas: res['escalas'],
           };
-          console.log('Objeto creado temp:',temp);
+          console.log('Objeto creado temp:', temp);
           this.escalasPorCriterio.push(temp);
-      },(err)=>{
-        console.log('Error: ',err);
-      });
+        },
+        (err) => {
+          console.log('Error: ', err);
+        }
+      );
     });
   }
-
-
 }

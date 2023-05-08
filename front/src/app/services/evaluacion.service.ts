@@ -28,7 +28,7 @@ export class EvaluacionService {
       });
   }
 
-  getEvaluationByStudent( uid: string ) {
+  getEvaluationByStudent( uid: any ) {
     if (uid === undefined) { uid=''}
     return this.http.get(`${environment.base_url}/evaluaciones/alumno/${uid}` , this.cabeceras);
   }

@@ -103,10 +103,12 @@ scaleCtrl.getScalesByCriteria = async (req, res = repsonse) => {
   try {
     const token = req.header("x-token");
     console.log("Token: ", token);
-    if (!(infoToken(token).rol === "ROL_ADMIN")) {
+    if (!(infoToken(token).rol === "ROL_ADMIN" ||
+          infoToken(token).rol === "ROL_ALUMNO" ||
+          infoToken(token).rol === "ROL_PROFESOR")) {
       return res.status(404).json({
         ok: false,
-        msg: "No tiene permisos para actualizar cursos",
+        msg: "No tiene permisos para actualizar escalas",
       });
     }
 

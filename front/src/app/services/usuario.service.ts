@@ -26,14 +26,28 @@ export class UsuarioService {
         tap( (res : any) => {
           localStorage.setItem('token', res['token']);
           const {uid, rol} = res;
-          console.log('ID: '+uid);
-          this.evaluacionService.getEvaluationByStudent(uid).subscribe((res) => {
-            if(res) localStorage.setItem('evaluaciones', JSON.parse(JSON.stringify(res['evaluaciones'])));
-          });
-
+          localStorage.setItem('uid', uid);
           this.usuario = new Usuario(uid, rol);
         })
       );
+  }
+
+  setEvaluacionLocalStorage ( uid: string ) {
+    if (uid === undefined) { uid = ''}
+    return this.http.get(`${environment.base_url}/evaluaciones/alumno/${uid}` , this.cabeceras)
+    .subscribe(res => {
+        console.log('idEval',res['evaluaciones'][0].uid);
+        localStorage.setItem('idEval', res['evaluaciones'][0].uid);
+    })
+  }
+
+  getEvaluationByStudent( uid: string ) {
+    if (uid === undefined) { uid = ''}
+    return this.http.get(`${environment.base_url}/evaluaciones/alumno/${uid}` , this.cabeceras)
+    .subscribe(res => {
+      console.log('>>>>>>>>>>>>>>>>>>>>',res);
+        return res['evaluaciones'][0];
+    });
   }
 
   cambiarPassword( uid: string, data) {
