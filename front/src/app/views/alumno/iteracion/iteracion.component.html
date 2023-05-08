@@ -46,21 +46,22 @@
       </div>
       <!-- <button (click)="enviarDatos()">Enviar</button> -->
     </div>
-    <div class="text-center flex-auto p-5 lg:p-8">
+    <div class="text-right flex-auto p-5 lg:p-8">
       <button
-    (click)="enviarDatos()"
-      class="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-      type="submit"
-      *ngIf="!nombre"
-    >Modificar</button>
-    <button
     (click)="cancelar()"
       id="cancelar"
       class="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
       type="button"
     >
-      Cancelar
+      Volver
     </button>
+      <button
+    (click)="enviarDatos()"
+      class="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+      type="submit"
+      *ngIf="!nombre"
+    >Enviar</button>
+
     </div>
   </div>
 </div>
