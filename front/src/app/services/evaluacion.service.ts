@@ -28,9 +28,13 @@ export class EvaluacionService {
       });
   }
 
-  getEvaluationByStudent( uid: any ) {
-    if (uid === undefined) { uid=''}
-    return this.http.get(`${environment.base_url}/evaluaciones/alumno/${uid}` , this.cabeceras);
+  getEvaluationByStudent( alumno: string, iteracion?: any ) {
+    if (!alumno) alumno = '';
+    if (iteracion){
+      return this.http.get(`${environment.base_url}/evaluaciones/alumno/?id=${alumno}&iteracion=${iteracion}` , this.cabeceras);
+    }else{
+      return this.http.get(`${environment.base_url}/evaluaciones/alumno/?id=${alumno}` , this.cabeceras);
+    }
   }
 
   // Funcion de actualizarGrupo: lo que hace es guardar el array de guardarVacio que contiene

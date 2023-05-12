@@ -12,7 +12,8 @@ import Swal from "sweetalert2";
   templateUrl: "./iteracion.component.html",
 })
 export class IteracionAluComponent implements OnInit {
-  evaluaciones: Evaluacion[] = [];
+  evaluaciones: any;
+  valores: Evaluacion[] = [];
   escalaId: any;
   submited: boolean = false;
   arrayCriterios: any;
@@ -63,18 +64,17 @@ export class IteracionAluComponent implements OnInit {
         return;
       };
 
-      this.iteracion = res['iteracion'];
       this.numIteracion = res['iteracion'].iteracion;
     })
   }
 
   cargarEvaluacion() {
-    console.log('Cargar Evaluacion: ');
-    this.evaluacionService.getEvaluationByStudent(this.uidAlumno)
+    console.log('cosas', this.uidAlumno, this.id);
+    this.evaluacionService.getEvaluationByStudent(this.uidAlumno, this.id)
       .subscribe(res => {
-        console.log(res['evaluaciones']);
-        this.evaluaciones = res['evaluaciones'][0].valores;
-        console.log('Evaluaciones (valores): ', this.evaluaciones);
+        this.evaluaciones = res['evaluaciones'];
+        this.valores = res['evaluaciones'][0].valores;
+        console.log('Evaluaciones (valores): ', this.valores);
 
         this.arrayCriterios = res['evaluaciones'][0].valores.map((_) => ({
           id: `${_.criterio._id}`,

@@ -9,7 +9,10 @@ const Escala = require("../models/escalas.model");
 const evaluationCtrl = {};
 
 evaluationCtrl.getEvaluationsByStudent = async (req, res = response) => {
-  const id = req.params.id;
+  console.log('Entra')
+  // const id = req.params.id;
+  const id = req.query.id || '';
+  const iteracion = req.query.iteracion || '';
   console.log("ID: ", id);
 
   try {
@@ -25,12 +28,22 @@ evaluationCtrl.getEvaluationsByStudent = async (req, res = response) => {
       });
     }
 
-    let evaluaciones, total;
+    let evaluaciones, total, query = {};
     const existeAlumno = await Usuario.findById(id);
 
-    if (id && existeAlumno) {
+    if (id && existeAlumno !== '') {
+      console.log('Entra x1')
+      query = { $or: [{ alumno: id }] };
+
+      if(iteracion !== ''){
+        console.log('Entra')
+        query = { alumno: id, $or: [{iteracion: iteracion}] };
+      }
+
+      console.log(query);
+
       [evaluaciones, total] = await Promise.all([
-        Evaluacion.find({ $or: [{ alumno: id }] })
+        Evaluacion.find(query)
         .populate({
           path: "valores.votaciones",
           populate: { path: "alumno_votado", model: Usuario },
@@ -57,7 +70,7 @@ evaluationCtrl.getEvaluationsByStudent = async (req, res = response) => {
     console.log(error);
     return res.status(404).json({
       ok: false,
-      msg: "Error al obtener evaluaciones por id del alumno",
+      msg: "Error al obtener evaluaciones por id del alumno.",
     });
   }
 }
