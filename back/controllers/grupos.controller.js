@@ -16,6 +16,7 @@ groupCtrl.getGroup = async(req, res = repsonse) => {
     const id = req.query.id;
     const textos = req.query.texto || '';
     const curso = req.query.curso || '';
+    const alu = req.query.alumno || '';
 
     try {
         let grupos, total;
@@ -24,9 +25,11 @@ groupCtrl.getGroup = async(req, res = repsonse) => {
                 Grupo.findById(id).populate('curso', '-__v'),
                 Grupo.countDocuments()
             ]);
+            
         } else {
             // {curso:'', {$or: {nombre : '', nombrecorto:''}}
             let query = {};
+            
             if (textos !== '') {
                 texto = new RegExp(textos, 'i');
                 if (curso !== '') {
@@ -37,15 +40,25 @@ groupCtrl.getGroup = async(req, res = repsonse) => {
             } else {
                 if (curso !== '') {
                     query = { curso: curso };
-                } else {
+                } else if(alu) {
+                    console.log('Entraaaaaaaaaaaaaaaa')
+                    query = { $or: [{ 'alumnos.usuario': alu }] };
+                }
+                else {
                     query = {};
                 }
             };
 
             [grupos, total] = await Promise.all([
-                Grupo.find(query).skip(desde).limit(registropp).populate('curso', '-__v'),
+                Grupo.find(query).skip(desde).limit(registropp)
+                .populate('curso', '-__v')
+                .populate({
+                    path: "alumnos.usuario", model: Usuario
+                }),
                 Grupo.countDocuments(query)
             ]);
+
+            console.log(grupos);
         }
 
         res.json({

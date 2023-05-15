@@ -16,6 +16,11 @@ export class IteracionService {
     return this.http.get(`${environment.base_url}/iteraciones/${uid}` , this.cabeceras);
   }
 
+  cargarListadoIteraciones(curso: string) {
+    if (!curso) { curso = '';}
+    return this.http.get(`${environment.base_url}/iteraciones/lista/?curso=${curso}` , this.cabeceras);
+  }
+
   cargarIteraciones( desde: number, textoBusqueda?: string, hasta?:string ): Observable<object> {
     if (!desde) { desde = 0; }
     if (!textoBusqueda) { textoBusqueda = ''; }

@@ -72,7 +72,7 @@ export class UsuarioService {
     return this.usuario.rol;
   }
 
-  cargarUsuario( uid: string) {
+  cargarUsuario(uid: string) {
     if (!uid) { uid = '';}
     return this.http.get(`${environment.base_url}/usuarios/?id=${uid}` , this.cabeceras);
   }
