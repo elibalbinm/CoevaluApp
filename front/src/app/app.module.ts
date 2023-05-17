@@ -82,6 +82,7 @@ import { EvaluacionesComponent } from './views/evaluaciones/evaluaciones.compone
 import { EvaluacionComponent } from './views/evaluacion/evaluacion.component';
 import { AlumnoRoutingModule } from "./views/alumno/alumno.routing";
 import { SharedModule } from "./components/shared.module";
+
 @NgModule({
   declarations: [
     AppComponent,

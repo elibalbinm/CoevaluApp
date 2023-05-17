@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from "@angular/core";
-import { Iteracion } from "src/app/models/iteracion.model";
 import { IteracionService } from "src/app/services/iteracion.service";
 import Swal from "sweetalert2";
 

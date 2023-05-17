@@ -1,0 +1,102 @@
+<div
+  class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded"
+  [ngClass]="color === 'light' ? 'bg-white' : 'bg-red-900 text-white'"
+>
+  <div class="overflow-x-auto">
+    <!-- Projects table -->
+    <table class="items-center w-full bg-transparent border-collapse">
+      <thead>
+        <tr>
+          <th
+            class="px-6 w-48 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+            [ngClass]="
+              color === 'light'
+                ? ' text-blueGray-500 border-blueGray-100'
+                : 'bg-red-800 text-red-300 border-red-700'
+            "
+          >
+            Asignaturas
+          </th>
+          <th
+            class="px-6 w-96 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+            [ngClass]="
+              color === 'light'
+                ? 'text-blueGray-500 border-blueGray-100'
+                : 'bg-red-800 text-red-300 border-red-700'
+            "
+          >
+            Nota Asignatura
+          </th>
+          <th
+            class="px-6 align-middle border border-solid py-3 w-10 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+            [ngClass]="
+              color === 'light'
+                ? ' text-blueGray-500 border-blueGray-100'
+                : 'bg-red-800 text-red-300 border-red-700'
+            "
+          >
+            Nota Proyecto
+          </th>
+          <th
+            class="px-6 align-middle border border-solid py-3 w-10 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+            [ngClass]="
+              color === 'light'
+                ? ' text-blueGray-500 border-blueGray-100'
+                : 'bg-red-800 text-red-300 border-red-700'
+            "
+          >
+            Nota Final
+          </th>
+          <th
+            class="px-6 align-middle border border-solid py-3 w-12 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap
+            font-semibold text-left"
+            [ngClass]="
+              color === 'light'
+                ? ' text-blueGray-500 border-blueGray-100'
+                : 'bg-red-800 text-red-300 border-red-700'
+            "
+          >
+            Acción
+          </th>
+
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let asignatura of asignaturas">
+          <th
+            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center"
+          >
+            {{asignatura.nombrecorto}}
+          </th>
+          <td
+            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-lg font-bold whitespace-nowrap p-4"
+          >
+            10
+          </td>
+          <td
+            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-lg font-bold whitespace-nowrap p-4"
+          >
+            8
+          </td>
+          <td
+            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-lg font-bold whitespace-nowrap p-4"
+          >
+            7
+          </td>
+          <td
+            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
+          >
+            <button
+              [routerLink]="['/alumno/coevaluacion/iteracion']"
+              class="bg-header text-white active:bg-indigo-600 text-sm font-bold uppercase p-3
+              outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+              type="button"
+            >
+            Ver resultados
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

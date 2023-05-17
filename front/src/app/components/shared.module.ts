@@ -7,6 +7,7 @@ import { HeaderStatsComponent } from "./headers/header-stats/header-stats.compon
 import { FooterAdminComponent } from "./footers/footer-admin/footer-admin.component";
 import { AppRoutingModule } from "../app-routing.module";
 import { UserDropdownComponent } from "./dropdowns/user-dropdown/user-dropdown.component";
+import { CardNotasComponent } from "./cards/card-notas/card-notas.component";
 
 @NgModule({
   imports: [CommonModule, AppRoutingModule],
@@ -16,6 +17,7 @@ import { UserDropdownComponent } from "./dropdowns/user-dropdown/user-dropdown.c
     HeaderStatsComponent,
     FooterAdminComponent,
     UserDropdownComponent,
+    CardNotasComponent
   ],
   exports: [
     AdminNavbarComponent,
@@ -23,6 +25,7 @@ import { UserDropdownComponent } from "./dropdowns/user-dropdown/user-dropdown.c
     HeaderStatsComponent,
     FooterAdminComponent,
     UserDropdownComponent,
+    CardNotasComponent,
     CommonModule,
     FormsModule,
   ],
