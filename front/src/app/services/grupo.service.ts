@@ -22,7 +22,7 @@ export class GrupoService {
     return this.http.put(`${environment.base_url}/grupos/${uid}`, data, this.cabeceras);
   }
 
-  cargarGrupo( uid: string) {
+  cargarGrupo(uid: string) {
     if (uid === undefined) { uid=''}
     return this.http.get(`${environment.base_url}/grupos/?id=${uid}` , this.cabeceras);
   }
@@ -43,6 +43,10 @@ export class GrupoService {
 
   eliminarGrupo(uid: string) {
     return this.http.delete(`${environment.base_url}/grupos/${uid}`, this.cabeceras);
+  }
+
+  getGrupoPorAlumno(uid: string){
+    return this.http.get(`${environment.base_url}/grupos/?alumno=${uid}` , this.cabeceras);
   }
 
   get cabeceras(): object {

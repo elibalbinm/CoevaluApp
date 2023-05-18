@@ -37,7 +37,7 @@ evaluationCtrl.getEvaluationsByStudent = async (req, res = response) => {
 
       if(iteracion !== ''){
         console.log('Entra')
-        query = { alumno: id, $or: [{iteracion: iteracion}] };
+        query = { alumno: id, iteracion: iteracion };
       }
 
       console.log(query);
@@ -58,6 +58,25 @@ evaluationCtrl.getEvaluationsByStudent = async (req, res = response) => {
         .populate("criterio"),
         Evaluacion.countDocuments(),
       ]);
+
+      // if(!evaluaciones.length){
+      //   [evaluaciones, total] = await Promise.all([
+      //     Evaluacion.find({ $or: [{ alumno: id }] })
+      //     .populate({
+      //       path: "valores.votaciones",
+      //       populate: { path: "alumno_votado", model: Usuario },
+      //     })
+      //     .populate({
+      //       path: "valores.votaciones",
+      //       populate: { path: "escala", model: Escala },
+      //     })
+      //     .populate({ path: "valores.criterio", model: Criterio })
+      //     .populate("alumno")
+      //     .populate("iteracion")
+      //     .populate("criterio"),
+      //     Evaluacion.countDocuments(),
+      //   ]);
+      // }
     }
 
     res.status(200).json({
@@ -369,9 +388,9 @@ evaluationCtrl.updateEvaluation = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-    return res.status(400).json({
+    return res.status(404).json({
       ok: false,
-      msg: "Error creando evaluacion",
+      msg: "Error actualizando evaluación.",
     });
   }
 };

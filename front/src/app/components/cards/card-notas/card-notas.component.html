@@ -8,7 +8,7 @@
       <thead>
         <tr>
           <th
-            class="px-6 w-48 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+          class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-sm uppercase border-l-0 border-r-0 whitespace-nowrap font-extrabold text-left"
             [ngClass]="
               color === 'light'
                 ? ' text-blueGray-500 border-blueGray-100'
@@ -18,7 +18,7 @@
             Asignaturas
           </th>
           <th
-            class="px-6 w-96 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+            class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-sm uppercase border-l-0 border-r-0 whitespace-nowrap font-extrabold text-left"
             [ngClass]="
               color === 'light'
                 ? 'text-blueGray-500 border-blueGray-100'
@@ -28,7 +28,7 @@
             Nota Asignatura
           </th>
           <th
-            class="px-6 align-middle border border-solid py-3 w-10 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+            class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-sm uppercase border-l-0 border-r-0 whitespace-nowrap font-extrabold text-left"
             [ngClass]="
               color === 'light'
                 ? ' text-blueGray-500 border-blueGray-100'
@@ -38,7 +38,7 @@
             Nota Proyecto
           </th>
           <th
-            class="px-6 align-middle border border-solid py-3 w-10 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+            class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-sm uppercase border-l-0 border-r-0 whitespace-nowrap font-extrabold text-left"
             [ngClass]="
               color === 'light'
                 ? ' text-blueGray-500 border-blueGray-100'
@@ -48,8 +48,7 @@
             Nota Final
           </th>
           <th
-            class="px-6 align-middle border border-solid py-3 w-12 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap
-            font-semibold text-left"
+            class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-sm uppercase border-l-0 border-r-0 whitespace-nowrap font-extrabold text-left"
             [ngClass]="
               color === 'light'
                 ? ' text-blueGray-500 border-blueGray-100'
@@ -64,7 +63,7 @@
       <tbody>
         <tr *ngFor="let asignatura of asignaturas">
           <th
-            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center"
+            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-lg whitespace-nowrap p-4 text-left items-center"
           >
             {{asignatura.nombrecorto}}
           </th>

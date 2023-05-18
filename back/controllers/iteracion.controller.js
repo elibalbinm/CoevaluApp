@@ -6,6 +6,38 @@ const Rubrica      = require('../models/rubricas.model');
 
 const iterationCtrl = {};
 
+// Listado de iteraciones para mostrar la tabla en el Dashboard de Alumno
+// Filtro por curso académico
+iterationCtrl.listaIteraciones = async(req, res) => {
+    const curso = req.query.curso;
+
+    if(!(await Curso.findById(curso))){
+        return res.status(404).json({
+            ok: false,
+            msg: 'No existe el curso académico asociado a la iteración'
+        });
+    }
+    
+    try {
+        [iteraciones, total] = await Promise.all([
+            Iteracion.find({ curso: curso }),
+            Iteracion.countDocuments({})
+        ]);
+
+        res.json({
+            ok: true,
+            msg: 'Lista de iteraciones',
+            iteraciones
+        });
+    } catch (error) {
+        return res.status(400).json({
+            ok: false,
+            msg: 'Error al listar iteraciones'
+        });
+    }
+
+}
+
 iterationCtrl.getIterations = async(req, res = response) => {
 
     // Paginación

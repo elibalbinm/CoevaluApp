@@ -57,9 +57,10 @@ subjectCtrl.obtenerAsignaturas = async(req, res = repsonse) => {
 
     // Paginación
     const desde = Number(req.query.desde) || 0;
-    const registropp = Number(process.env.DOCSPERPAGE);
+    let registropp = Number(process.env.DOCSPERPAGE);
     const id = req.query.id;
     const idprof = req.query.idprof || '';
+    const idalu = req.query.idalu || '';
     const textos = req.query.texto || '';
     const curso = req.query.curso || '';
 
@@ -108,7 +109,10 @@ subjectCtrl.obtenerAsignaturas = async(req, res = repsonse) => {
                 } else {
                     if (idprof !== '') {
                         query = { 'profesores.usuario': idprof };
-                    } else {
+                    } else if(idalu !== '') {
+                        query = { 'alumnos.usuario': idalu };
+                        registropp = '';
+                    }else{
                         query = {};
                     }
                 }

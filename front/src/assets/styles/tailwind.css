@@ -2876,6 +2876,16 @@ select {
   padding-right: 3rem;
 }
 
+.px-14{
+  padding-left: 3.5rem; /* 56px */
+  padding-right: 3.5rem; /* 56px */
+}
+
+.px-16 {
+  padding-left: 4rem; /* 64px */
+  padding-right: 4rem; /* 64px */
+}
+
 .py-16 {
   padding-top: 4rem;
   padding-bottom: 4rem;
@@ -4191,6 +4201,16 @@ select {
   .lg\:px-10 {
     padding-left: 2.5rem;
     padding-right: 2.5rem;
+  }
+
+  .lg\:px-12 {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+
+  .lg\:px-14 {
+    padding-left: 3.5rem; /* 56px */
+    padding-right: 3.5rem; /* 56px */
   }
 
   .lg\:pt-0 {

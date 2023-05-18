@@ -54,7 +54,7 @@ export class CardIteracionComponent implements OnInit {
     .subscribe(res => {
       this.iteraciones = res['iteraciones'];
       console.log(res['iteraciones']);
-    }, (err)=> {
+    }, (err) => {
       Swal.fire({icon: 'error', title: 'Oops...', text: 'No se pudo completar la acción, vuelva a intentarlo', });
     });
   }

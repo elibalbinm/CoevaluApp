@@ -31,6 +31,10 @@ export class AsignaturaService {
     return this.http.get(`${environment.base_url}/asignaturas/?desde=${desde}${texto}${hasta}` , this.cabeceras);
   }
 
+  listaAsignaturasAlu(uid: string): Observable<object>{
+    return this.http.get(`${environment.base_url}/asignaturas/?idalu=${uid}`, this.cabeceras);
+  }
+
   cargarAsignatura(uid: string) {
     return this.http.get(`${environment.base_url}/asignaturas/?id=${uid}`, this.cabeceras);
   }
