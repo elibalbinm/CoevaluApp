@@ -9,11 +9,11 @@ const RubricaSchema = Schema({
     //     type: String,
     //     require: true
     // },
-    curso: {
-        type: Schema.Types.ObjectId,
-        ref: 'Curso',
-        require: true
-    },
+    // curso: {
+    //     type: Schema.Types.ObjectId,
+    //     ref: 'Curso',
+    //     require: true
+    // },
     // alumnos: [{
     //     usuario: {
     //         type: Schema.Types.ObjectId,
@@ -25,7 +25,8 @@ const RubricaSchema = Schema({
         default: true,
         require: true
     },
-    criterios: [{
+    criterios: 
+    [{
         criterio: {
             type: Schema.Types.ObjectId,
             ref: 'Criterio'

@@ -1,16 +1,11 @@
-import { newArray } from "@angular/compiler/src/util";
 import { Component, OnInit, Input } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { from, of } from "rxjs";
-import { map } from "rxjs/operators";
+import { from } from "rxjs";
 import { Evaluacion } from "src/app/models/evaluacion.model";
-import { Iteracion } from "src/app/models/iteracion.model";
 import { CriterioService } from "src/app/services/criterio.service";
 import { EvaluacionService } from "src/app/services/evaluacion.service";
 import { GrupoService } from "src/app/services/grupo.service";
 import { IteracionService } from "src/app/services/iteracion.service";
-import Swal from "sweetalert2";
-
 @Component({
   selector: "app-iteracion-alu",
   templateUrl: "./iteracion.component.html",

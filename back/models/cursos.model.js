@@ -11,11 +11,11 @@ const CursoSchema = Schema({
         require: true,
         unique: true
     },
-    // fecha: {
-    //     type: Array,
-    //     require: true
-    //     // default: Date.now
-    // },
+    rubrica: {
+        type: Schema.Types.ObjectId,
+        ref: 'Rubrica',
+        require: true
+    },
     fecha_ini: {
         type: Date,
         require: true,

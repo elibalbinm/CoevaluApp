@@ -137,7 +137,7 @@ rubricCtrl.getRubrics = async(req, res = repsonse) => {
 
 rubricCtrl.createRubric = async(req, res = response) => {
 
-    const { texto, criterios, curso } = req.body;
+    const { texto, criterios } = req.body;
     console.log(curso);
     console.log(criterios);
 
@@ -145,17 +145,17 @@ rubricCtrl.createRubric = async(req, res = response) => {
         // Solo el administrador puede hacer esta acción
         const token = req.header('x-token');
         if (!(infoToken(token).rol === 'ROL_ADMIN')) {
-            return res.status(400).json({
+            return res.status(404).json({
                 ok: false,
                 msg: 'No tiene permisos para crear rubricas',
             });
         }
 
-        const existeCurso = await Curso.findById(curso);
-        if (!existeCurso) {
+        if(typeof texto !== 'string'){
             return res.status(400).json({
                 ok: false,
-                msg: 'El curso asignado a la rúbrica no existe'
+                texto,
+                msg: 'El campo texto no es string',
             });
         }
 
@@ -174,19 +174,11 @@ rubricCtrl.createRubric = async(req, res = response) => {
                     insertCriteria.push(value);
                 }
             });
-            // Comprobamos que los alumnos que nos pasan existen, buscamos todos los alumnos de la lista
-            const existenCriterios = await Criterio.find().where('_id').in(searchCriteria);
-            if (existenCriterios.length != searchCriteria.length) {
-                return res.status(400).json({
-                    ok: false,
-                    msg: 'Alguno de los alumnos indicados en el grupo no existe o están repetidos'
-                });
-            }
+            
         }
 
-
         const rubrica = new Rubrica(req.body);
-        rubrica.criterios = insertCriteria;
+        // rubrica.criterios = insertCriteria;
 
         // Almacenar en BD
         await rubrica.save();
