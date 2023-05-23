@@ -36,6 +36,11 @@ export class CriterioService {
     return this.http.get(`${environment.base_url}/criterios/?desde=${desde}&texto=${textoBusqueda}&hasta=${hasta}` , this.cabeceras);
   }
 
+  async cargarValoresPorIteracion(uid: string) {
+    if (!uid) uid = '';
+    return this.http.get<[]>(`${environment.base_url}/criterios/iteracion/${uid}` , this.cabeceras).toPromise();
+  }
+
   cargarEscalasPorCriterio( uid: string ): Observable<Escala[]> {
     if (!uid) uid = '';
     console.log('ID: ',uid);

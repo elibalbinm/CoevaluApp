@@ -86,45 +86,8 @@ criterioCtrl.getValores = async(req, res = response) => {
             )
         }
 
-        // valores = criterios.map(async value => {
-        //     console.log(value);
-        //     escalas = await Escala.find({criterio: value.criterio});
-        //     console.log('Criterio Map: ', value.criterio);
-        //     console.log('Escalaaaaaaaaaaas ',escalas);
-        //     // valores.push({
-        //     //     criterio: value.criterio,
-        //     //     escala: escalas
-        //     // })
-
-        //     let x = {
-        //         criterio: value.criterio,
-        //         escalas: escalas
-        //     };
-
-        //     return x;
-        // });
-
         console.log('Valoresssssssssss :',valores);
 
-        // let criterios, total;
-        // if (id) {
-        //     [criterios, total] = await Promise.all([
-        //         Criterio.findById(id),
-        //         Criterio.countDocuments()
-        //     ]);
-        // } else {
-        //     if (texto) {
-        //         [criterios, total] = await Promise.all([
-        //             Criterio.find({ $or: [{ nombre: textoBusqueda }, { descripcion: textoBusqueda }] }).skip(desde).limit(registropp),
-        //             Criterio.countDocuments({ $or: [{ nombre: textoBusqueda }, { descripcion: textoBusqueda }] })
-        //         ]);
-        //     } else {
-        //         [criterios, total] = await Promise.all([
-        //             Criterio.find({}).skip(desde).limit(registropp),
-        //             Criterio.countDocuments()
-        //         ]);
-        //     }
-        // }
         res.json({
             ok: true,
             msg: 'Request getCriterio successful',

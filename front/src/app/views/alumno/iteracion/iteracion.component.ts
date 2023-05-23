@@ -1,14 +1,14 @@
-import { Component, OnInit, Input } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
-import { from } from "rxjs";
-import { Evaluacion } from "src/app/models/evaluacion.model";
-import { CriterioService } from "src/app/services/criterio.service";
-import { EvaluacionService } from "src/app/services/evaluacion.service";
-import { GrupoService } from "src/app/services/grupo.service";
-import { IteracionService } from "src/app/services/iteracion.service";
+import { Component, OnInit, Input } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { from } from 'rxjs';
+import { Evaluacion } from 'src/app/models/evaluacion.model';
+import { CriterioService } from 'src/app/services/criterio.service';
+import { EvaluacionService } from 'src/app/services/evaluacion.service';
+import { GrupoService } from 'src/app/services/grupo.service';
+import { IteracionService } from 'src/app/services/iteracion.service';
 @Component({
-  selector: "app-iteracion-alu",
-  templateUrl: "./iteracion.component.html",
+  selector: 'app-iteracion-alu',
+  templateUrl: './iteracion.component.html',
 })
 export class IteracionAluComponent implements OnInit {
   evaluaciones: any;
@@ -38,9 +38,9 @@ export class IteracionAluComponent implements OnInit {
     return this._color;
   }
   set color(color: string) {
-    this._color = color !== "light" && color !== "dark" ? "light" : color;
+    this._color = color !== 'light' && color !== 'dark' ? 'light' : color;
   }
-  private _color = "light";
+  private _color = 'light';
 
   constructor (private iteracionService: IteracionService,
                private evaluacionService: EvaluacionService,
@@ -54,6 +54,7 @@ export class IteracionAluComponent implements OnInit {
     console.log(this.route.snapshot.params['uid']);
     this.id = this.route.snapshot.params['uid'];
     this.cargarIteracion();
+    this.cargarCriterios();
 
     this.uidAlumno = localStorage.getItem('uid');
     this.cargarEvaluacion();
@@ -87,7 +88,7 @@ export class IteracionAluComponent implements OnInit {
 
         }else{
           this.valores = res['evaluaciones'][0].valores;
-        console.log("🚀 ~ file: iteracion.component.ts:98 ~ cargarEvaluacion ~ valores:", this.valores)
+        console.log('🚀 ~ file: iteracion.component.ts:98 ~ cargarEvaluacion ~ valores:', this.valores)
         // this.cargarCriterios();
         if(this.evaluaciones.length > 1){
           console.log('hola')
@@ -156,32 +157,8 @@ export class IteracionAluComponent implements OnInit {
     }
   }
 
-  cargarCriterios() {
-    // this.arrayCriterios = [];
-    console.log('cargarCriterios');
-
-    this.criterioService.cargarCriterios(0)
-    .subscribe((res) => {
-      if(!res['criterios']) return;
-      console.log('SUBSCRIBE: ',res['criterios']);
-      this.arrayCriterios = res['criterios'].map(element =>
-        {
-           if (element.uid)
-           {
-              const x = {
-                id: `${element.uid}`
-              }
-              this.arrayCriterios.push(x);
-           }
-        }).filter(notUndefined => notUndefined !== undefined);
-
-        const result = from(this.arrayCriterios);
-        result.subscribe((x) => console.log(x));
-
-      console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> result: ', result);
-    });
-    console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> arrayCriterios: ', this.arrayCriterios);
-
+  async cargarCriterios() {
+    await this.criterioService.cargarValoresPorIteracion(this.id).then(data => this.arrayCriterios = data['valores']);
   }
 
   cargarEscalas() {
@@ -232,14 +209,14 @@ export class IteracionAluComponent implements OnInit {
     this.guardarVacio[posDimension].votaciones[posAlumno].escala =
       escala.target.value;
     console.log(
-      "Alumno: ",
+      'Alumno: ',
       alumno,
-      "Dimension: ",
+      'Dimension: ',
       dimension,
-      "Escala: ",
+      'Escala: ',
       escala.target.value
     );
-    console.log("GuardarVacio:", this.guardarVacio);
+    console.log('GuardarVacio:', this.guardarVacio);
   }
 }
 
