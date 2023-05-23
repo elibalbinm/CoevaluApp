@@ -13,6 +13,9 @@ const router = Router();
 router.post('/lista', [
     validarJWT,
 ], criterioCtrl.listaCriterios);
+router.get('/iteracion/:id', [
+    check('id', 'El id de la iteración debe ser válido').isMongoId()
+], criterioCtrl.getValores);
 router.get('/', [
     validarJWT,
     // Campos opcionales que si vienen los validamos desde e id

@@ -2,6 +2,9 @@ const { response } = require('express');
 const { infoToken } = require('../helpers/infotoken');
 const Criterio = require('../models/criterios.model');
 const Curso = require('../models/cursos.model');
+const Iteracion = require('../models/iteraciones.model');
+const Rubrica = require('../models/rubricas.model');
+const Escala = require('../models/escalas.model');
 const criterioCtrl = {};
 
 const sleep = (ms) => {
@@ -44,6 +47,97 @@ criterioCtrl.listaCriterios = async(req, res) => {
         });
     }
 
+}
+
+criterioCtrl.getValores = async(req, res = response) => {
+    console.log('Entra')
+
+    const id = req.params.id;
+    
+    try {
+        console.log('Hola')
+        const iteracion = await Iteracion.findById(id);
+        console.log('Iteracion: ',iteracion);
+        if(!iteracion) 
+            return res.json(400, {
+                error: 1,
+                msg: "La iteración no existe en la BBDD"
+            });
+        
+        const cursoId = iteracion.curso;
+        console.log('Curso: ', cursoId);
+        const curso = await Curso.findById(cursoId);
+        const rubrica = await Rubrica.findById(curso.rubrica);
+        const criterios = rubrica.criterios;
+
+        console.log('Criterios de Rubrica', criterios);
+
+        let valores = [];
+
+        for(let i=0; i<criterios.length; i++){
+            let c = criterios[i].criterio;
+            let e = await Escala.find({criterio: c});
+
+            valores.push(
+                {
+                    criterio: c,
+                    escala: e
+                }
+            )
+        }
+
+        // valores = criterios.map(async value => {
+        //     console.log(value);
+        //     escalas = await Escala.find({criterio: value.criterio});
+        //     console.log('Criterio Map: ', value.criterio);
+        //     console.log('Escalaaaaaaaaaaas ',escalas);
+        //     // valores.push({
+        //     //     criterio: value.criterio,
+        //     //     escala: escalas
+        //     // })
+
+        //     let x = {
+        //         criterio: value.criterio,
+        //         escalas: escalas
+        //     };
+
+        //     return x;
+        // });
+
+        console.log('Valoresssssssssss :',valores);
+
+        // let criterios, total;
+        // if (id) {
+        //     [criterios, total] = await Promise.all([
+        //         Criterio.findById(id),
+        //         Criterio.countDocuments()
+        //     ]);
+        // } else {
+        //     if (texto) {
+        //         [criterios, total] = await Promise.all([
+        //             Criterio.find({ $or: [{ nombre: textoBusqueda }, { descripcion: textoBusqueda }] }).skip(desde).limit(registropp),
+        //             Criterio.countDocuments({ $or: [{ nombre: textoBusqueda }, { descripcion: textoBusqueda }] })
+        //         ]);
+        //     } else {
+        //         [criterios, total] = await Promise.all([
+        //             Criterio.find({}).skip(desde).limit(registropp),
+        //             Criterio.countDocuments()
+        //         ]);
+        //     }
+        // }
+        res.json({
+            ok: true,
+            msg: 'Request getCriterio successful',
+            valores
+        });
+
+    } catch (error) {
+        console.log(error);
+        return res.status(400).json({
+            ok: false,
+            msg: 'Error al obtener criterios'
+        });
+    }
 }
 
 criterioCtrl.getCriterio = async(req, res = repsonse) => {
