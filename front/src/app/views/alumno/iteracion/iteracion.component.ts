@@ -1,4 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, ChangeDetectionStrategy,
+          ChangeDetectorRef, OnInit, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { from } from 'rxjs';
 import { Evaluacion } from 'src/app/models/evaluacion.model';
@@ -25,12 +26,12 @@ export class IteracionAluComponent implements OnInit {
 
   iteracion: [];
   criterios: [];
-  alumnos: [];
+  alumnos: any;
 
   evaluacion: any;
 
   id: string = '';
-  uidAlumno: any;
+  uidAlumno: string = '';
   numIteracion: string = '';
 
   @Input()
@@ -42,21 +43,22 @@ export class IteracionAluComponent implements OnInit {
   }
   private _color = 'light';
 
-  constructor (private iteracionService: IteracionService,
+  constructor (private cd: ChangeDetectorRef,
+               private iteracionService: IteracionService,
                private evaluacionService: EvaluacionService,
                private criterioService: CriterioService,
                private grupoService: GrupoService,
                private route: ActivatedRoute,
                private router: Router ) {}
 
-  ngOnInit(): void {
-    this.arrayCriterios = [];
-    console.log(this.route.snapshot.params['uid']);
+  async ngOnInit() {
+    // Inicializamos valores
     this.id = this.route.snapshot.params['uid'];
-    this.cargarIteracion();
-    this.cargarCriterios();
-
     this.uidAlumno = localStorage.getItem('uid');
+    this.cargarIteracion();
+    this.arrayCriterios = await this.cargarCriterios();
+    this.alumnos = await this.cargarAlumnos();
+    console.log('(2): ', this.alumnos);
     this.cargarEvaluacion();
   }
 
@@ -85,44 +87,46 @@ export class IteracionAluComponent implements OnInit {
 
         // this.cargarCriterios(res['evaluaciones'][0].valores);
         if(res['evaluaciones'].length === 0){
+          console.log('(1) Array criterios sin evaluaciones: ',this.arrayCriterios)
+          console.log('(1) Array alumnos sin evaluaciones: ',this.alumnos)
+          // this.valores = {
 
+          // };
         }else{
           this.valores = res['evaluaciones'][0].valores;
-        console.log('🚀 ~ file: iteracion.component.ts:98 ~ cargarEvaluacion ~ valores:', this.valores)
-        // this.cargarCriterios();
-        if(this.evaluaciones.length > 1){
-          console.log('hola')
-          // this.valores.map((_) => ({
-          //   id: `${_.criterio._id}`,
-          // }));
-        }
-        this.arrayCriterios = res['evaluaciones'][0].valores.map((_) => ({
-          id: `${_.criterio._id}`,
-        }));
+          console.log('🚀 ~ file: iteracion.component.ts:98 ~ cargarEvaluacion ~ valores:', this.valores)
+          // this.cargarCriterios();
+          if(this.evaluaciones.length > 1){
+            console.log('hola')
+            // this.valores.map((_) => ({
+            //   id: `${_.criterio._id}`,
+            // }));
+          }
+          this.arrayCriterios = res['evaluaciones'][0].valores.map((_) => ({
+            id: `${_.criterio._id}`,
+          }));
 
-        console.log('ARRAY CRITERIOS ',this.arrayCriterios);
+          console.log('ARRAY CRITERIOS ',this.arrayCriterios);
 
-        this.cargarEscalas();
+          this.cargarEscalas();
 
-        res['evaluaciones'][0].valores
-          .map((item) => {
-            this.arrayAlumnos = [];
+          res['evaluaciones'][0].valores
+            .map((item) => {
+              this.arrayAlumnos = [];
 
-            item.votaciones.map((_) => {
+              item.votaciones.map((_) => {
 
-              const x = {
-                id: _.alumno_votado._id,
-                nombre:
-                  _.alumno_votado.nombre + ' ' + _.alumno_votado.apellidos,
-              };
+                const x = {
+                  id: _.alumno_votado._id,
+                  nombre:
+                    _.alumno_votado.nombre + ' ' + _.alumno_votado.apellidos,
+                };
 
-              this.arrayAlumnos.push(x);
-            });
-        });
+                this.arrayAlumnos.push(x);
+              });
+          });
 
-
-        this.inicializarArrays();
-        this.cargarAlumnos();
+          this.inicializarArrays();
         }
       },
       (err) => {
@@ -157,8 +161,12 @@ export class IteracionAluComponent implements OnInit {
     }
   }
 
-  async cargarCriterios() {
-    await this.criterioService.cargarValoresPorIteracion(this.id).then(data => this.arrayCriterios = data['valores']);
+  cargarCriterios() {
+    return this.criterioService.cargarValoresPorIteracion(this.id).then(data => data['valores']);
+  }
+
+  cargarAlumnos() {
+    return this.grupoService.getGrupoPorAlumno(this.uidAlumno);
   }
 
   cargarEscalas() {
@@ -185,19 +193,9 @@ export class IteracionAluComponent implements OnInit {
             }
         );
       });
+
+      console.log('Escalas por criterio: ',this.escalasPorCriterio)
   }
-
-  cargarAlumnos() {
-    this.grupoService.getGrupoPorAlumno(this.uidAlumno)
-    .subscribe(
-      res => {
-        this.alumnos = res['grupos'][0].alumnos;
-        console.log('Grupossssssssssssssssssssssssssssss ',this.alumnos);
-      }
-    )
-  }
-
-
 
   seleccionar(
     dimension: any,
