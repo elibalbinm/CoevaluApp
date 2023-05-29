@@ -75,7 +75,7 @@ criterioCtrl.getValores = async(req, res = response) => {
         let valores = [];
 
         for(let i=0; i<criterios.length; i++){
-            let c = criterios[i].criterio;
+            let c = await Criterio.findById(criterios[i].criterio);
             let e = await Escala.find({criterio: c});
 
             valores.push(
@@ -98,7 +98,7 @@ criterioCtrl.getValores = async(req, res = response) => {
         console.log(error);
         return res.status(400).json({
             ok: false,
-            msg: 'Error al obtener criterios'
+            msg: 'Error al obtener los valores'
         });
     }
 }

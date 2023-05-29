@@ -1,12 +1,13 @@
 import { Component, ChangeDetectionStrategy,
           ChangeDetectorRef, OnInit, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { from } from 'rxjs';
+import { of } from 'rxjs';
 import { Evaluacion } from 'src/app/models/evaluacion.model';
 import { CriterioService } from 'src/app/services/criterio.service';
 import { EvaluacionService } from 'src/app/services/evaluacion.service';
 import { GrupoService } from 'src/app/services/grupo.service';
 import { IteracionService } from 'src/app/services/iteracion.service';
+import { filter, map } from "rxjs/operators";
 @Component({
   selector: 'app-iteracion-alu',
   templateUrl: './iteracion.component.html',
@@ -14,7 +15,7 @@ import { IteracionService } from 'src/app/services/iteracion.service';
 export class IteracionAluComponent implements OnInit {
   evaluaciones: any;
 
-  valores: Evaluacion[] = [];
+  valores: any;
   escalaId: any;
   submited: boolean = false;
   arrayCriterios: any;
@@ -57,8 +58,8 @@ export class IteracionAluComponent implements OnInit {
     this.uidAlumno = localStorage.getItem('uid');
     this.cargarIteracion();
     this.arrayCriterios = await this.cargarCriterios();
+    console.log('ArrayCriterios: ', this.arrayCriterios);
     this.alumnos = await this.cargarAlumnos();
-    console.log('(2): ', this.alumnos);
     this.cargarEvaluacion();
   }
 
@@ -89,26 +90,44 @@ export class IteracionAluComponent implements OnInit {
         if(res['evaluaciones'].length === 0){
           console.log('(1) Array criterios sin evaluaciones: ',this.arrayCriterios)
           console.log('(1) Array alumnos sin evaluaciones: ',this.alumnos)
-          // this.valores = {
+          this.alumnos.forEach( (item, index) => {
+            if(item.usuario._id === this.uidAlumno) this.alumnos.splice(index,1);
+          });
+          console.log('(2): ', this.alumnos);
+          let criterios = this.arrayCriterios
+            .map((item, index) => ({
+                criterio: item.criterio
+            }));
+          console.log('Valoresssssssssssssssss ',this.valores);
+          console.log('ALumnos: ',this.alumnos);
+          // @ts-ignore
+          const votaciones = this.alumnos
+            .map(_ => {
+                const obj = {
+                  alumno_votado: _.usuario,
+                  escala: '',
+                  valor: '-1',
+                };
+                return obj;
+            });
 
-          // };
+          console.log('Votacionessssssssss', votaciones);
+
+          console.log('(3) VALORES: ', {...criterios, ...votaciones});
+          this.valores = criterios.map((obj, idx) => {
+            return {...obj, votaciones: [...votaciones]};
+          })
+          console.log(this.valores);
         }else{
           this.valores = res['evaluaciones'][0].valores;
           console.log('🚀 ~ file: iteracion.component.ts:98 ~ cargarEvaluacion ~ valores:', this.valores)
           // this.cargarCriterios();
-          if(this.evaluaciones.length > 1){
-            console.log('hola')
-            // this.valores.map((_) => ({
-            //   id: `${_.criterio._id}`,
-            // }));
-          }
-          this.arrayCriterios = res['evaluaciones'][0].valores.map((_) => ({
-            id: `${_.criterio._id}`,
-          }));
+
+          // this.arrayCriterios = res['evaluaciones'][0].valores.map((_) => ({
+          //   id: `${_.criterio._id}`,
+          // }));
 
           console.log('ARRAY CRITERIOS ',this.arrayCriterios);
-
-          this.cargarEscalas();
 
           res['evaluaciones'][0].valores
             .map((item) => {
@@ -137,16 +156,16 @@ export class IteracionAluComponent implements OnInit {
   inicializarArrays() {
     if(this.arrayAlumnos){
       this.arrayVotaciones = [...new Array(this.arrayAlumnos.length)]
-    .map(
-      (_, i) => {
-        const obj = {
-          alumno_votado: this.arrayAlumnos[i].id,
-          escala: '',
-          valor: '-1',
-        };
-        return obj;
-      }
-    );
+      .map(
+        (_, i) => {
+          const obj = {
+            alumno_votado: this.arrayAlumnos[i].id,
+            escala: '',
+            valor: '-1',
+          };
+          return obj;
+        }
+      );
     }
 
     if(this.arrayCriterios){

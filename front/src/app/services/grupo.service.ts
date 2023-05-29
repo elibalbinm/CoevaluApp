@@ -45,8 +45,8 @@ export class GrupoService {
     return this.http.delete(`${environment.base_url}/grupos/${uid}`, this.cabeceras);
   }
 
-  async getGrupoPorAlumno(uid: string){
-    return this.http.get(`${environment.base_url}/grupos/?alumno=${uid}` , this.cabeceras).toPromise();
+  getGrupoPorAlumno(uid: string){
+    return this.http.get(`${environment.base_url}/grupos/?alumno=${uid}` , this.cabeceras).toPromise().then(data => data['grupos'][0].alumnos);
   }
 
   get cabeceras(): object {
