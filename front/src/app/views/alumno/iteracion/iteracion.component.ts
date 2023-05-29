@@ -1,13 +1,9 @@
-import { Component, ChangeDetectionStrategy,
-          ChangeDetectorRef, OnInit, Input } from '@angular/core';
+import { Component, ChangeDetectorRef, OnInit, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { of } from 'rxjs';
-import { Evaluacion } from 'src/app/models/evaluacion.model';
 import { CriterioService } from 'src/app/services/criterio.service';
 import { EvaluacionService } from 'src/app/services/evaluacion.service';
 import { GrupoService } from 'src/app/services/grupo.service';
 import { IteracionService } from 'src/app/services/iteracion.service';
-import { filter, map } from "rxjs/operators";
 @Component({
   selector: 'app-iteracion-alu',
   templateUrl: './iteracion.component.html',
@@ -100,7 +96,7 @@ export class IteracionAluComponent implements OnInit {
             }));
           console.log('Valoresssssssssssssssss ',this.valores);
           console.log('ALumnos: ',this.alumnos);
-          // @ts-ignore
+
           const votaciones = this.alumnos
             .map(_ => {
                 const obj = {
