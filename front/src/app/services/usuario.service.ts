@@ -24,10 +24,17 @@ export class UsuarioService {
     return this.http.post(`${environment.base_url}/login`, formData)
       .pipe(
         tap( (res : any) => {
-          localStorage.setItem('token', res['token']);
           const {uid, rol} = res;
+          localStorage.setItem('token', res['token']);
           localStorage.setItem('uid', uid);
+
           this.usuario = new Usuario(uid, rol);
+
+          const curso = this.cargarUsuario(uid).subscribe(res => {
+            // console.log('Datos del usuario: ', res['usuarios'].curso._id);
+            this.usuario.curso = res['usuarios'].curso._id;
+            localStorage.setItem('cursoUid', res['usuarios'].curso._id);
+          })
         })
       );
   }
@@ -70,6 +77,10 @@ export class UsuarioService {
 
   get rol(): string {
     return this.usuario.rol;
+  }
+
+  get curso(): string {
+    return this.usuario.curso;
   }
 
   cargarUsuario(uid: string) {

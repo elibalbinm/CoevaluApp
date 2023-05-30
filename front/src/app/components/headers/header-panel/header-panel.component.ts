@@ -3,6 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { Curso } from 'src/app/models/curso.model';
 import { CursoService } from 'src/app/services/curso.service';
 import Swal from 'sweetalert2';
+import {UsuarioService} from "../../../services/usuario.service";
 
 @Component({
   selector: 'app-header-panel',
@@ -10,6 +11,7 @@ import Swal from 'sweetalert2';
 })
 export class HeaderPanelComponent implements OnInit {
   public cursos: Curso[] = [];
+  public cursoActual: string = '';
 
   public datosForm = this.fb.group({
     uid: [{value: 'nuevo', disabled: true}, Validators.required],
@@ -23,6 +25,8 @@ export class HeaderPanelComponent implements OnInit {
 
   ngOnInit(): void {
     this.cargarCursos();
+    this.cursoActual = localStorage.getItem('cursoUid');
+    console.log('Curso actual :',localStorage.getItem('cursoUid'));
   }
 
   cargarCursos() {

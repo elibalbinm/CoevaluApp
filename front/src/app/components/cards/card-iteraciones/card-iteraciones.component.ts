@@ -35,6 +35,7 @@ export class CardIteracionComponent implements OnInit {
 
     this.usuarioService.cargarUsuario(this.uidAlumno)
     .subscribe(res => {
+      console.log(res);
       this.curso = res['usuarios']['curso']._id;
       this.cargarIteraciones(res['usuarios']['curso']._id);
     })
@@ -48,7 +49,7 @@ export class CardIteracionComponent implements OnInit {
   }
 
   cargarIteraciones(curso: any){
-    console.log("🚀 ~ file: card-iteraciones.component.ts:39 ~ CardIteracionComponent ~ ngOnInit ~ curso:", this.curso)
+    // console.log("🚀 ~ file: card-iteraciones.component.ts:39 ~ CardIteracionComponent ~ ngOnInit ~ curso:", this.curso)
 
     this.iteracionService.cargarListadoIteraciones(curso)
     .subscribe(res => {

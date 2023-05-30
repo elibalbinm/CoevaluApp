@@ -11,7 +11,8 @@ export class Usuario {
                  public email?: string,
                  public alta?: Date,
                  public activo?: boolean,
-                 public imagen?: string) {}
+                 public imagen?: string,
+                 public curso?: string ) {}
 
     get imagenUrl(): string {
         // Devolvemos la imagen en forma de peticilon a la API

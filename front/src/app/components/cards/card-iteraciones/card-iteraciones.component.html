@@ -4,47 +4,85 @@
 >
   <div class="overflow-x-auto">
     <!-- Projects table -->
+<!--    <table class="items-center w-full bg-transparent border-collapse">-->
+<!--      <thead class="block float-left">-->
+<!--        <tr>-->
+<!--          <th-->
+<!--            class="px-6 w-42 align-middle border border-solid block-->
+<!--            py-3.5 text-xs uppercase border-l-0 whitespace-nowrap font-bold text-left"-->
+<!--            [ngClass]="-->
+<!--              color === 'light'-->
+<!--                ? ' text-blueGray-500 border-blueGray-100'-->
+<!--                : 'bg-red-800 text-red-300 border-red-700'-->
+<!--            "-->
+<!--          >-->
+<!--            Dimensiones-->
+<!--          </th>-->
+<!--          <th *ngFor="let criterio of criterios; let i = index"-->
+<!--            class="px-6 w-42 align-middle border border-solid block-->
+<!--            py-3 text-xs uppercase border-l-0 whitespace-nowrap font-semibold text-left"-->
+<!--            [ngClass]="-->
+<!--              color === 'light'-->
+<!--                ? 'text-blueGray-500 border-blueGray-100'-->
+<!--                : 'bg-red-800 text-red-300 border-red-700'-->
+<!--            "-->
+<!--          >-->
+<!--            {{ criterio.nombre }}-->
+<!--          </th>-->
+<!--        </tr>-->
+<!--      </thead>-->
+<!--      <tbody class="flex">-->
+<!--        <tr *ngFor="let iteracion of iteraciones">-->
+<!--          <td-->
+<!--            class="border-t px-6 align-middle border-l block border-r border-b text-lg font-bold whitespace-nowrap py-2"-->
+<!--            [ngClass]="-->
+<!--              color === 'light'-->
+<!--                ? 'text-blueGray-500 border-blueGray-100'-->
+<!--                : 'bg-red-800 text-red-300 border-red-700'-->
+<!--            "-->
+<!--          >-->
+<!--            {{iteracion.iteracion}}-->
+<!--          </td>-->
+<!--        </tr>-->
+<!--      </tbody>-->
+<!--    </table>-->
     <table class="items-center w-full bg-transparent border-collapse">
       <thead class="block float-left">
         <tr>
-          <th
-            class="px-6 w-42 align-middle border border-solid block
-            py-3.5 text-xs uppercase border-l-0 whitespace-nowrap font-bold text-left"
-            [ngClass]="
-              color === 'light'
-                ? ' text-blueGray-500 border-blueGray-100'
-                : 'bg-red-800 text-red-300 border-red-700'
-            "
-          >
-            Dimensiones
-          </th>
+          <th  class="px-6 w-42 align-middle border border-solid block
+            py-3.5 text-xs uppercase border-l-0 whitespace-nowrap font-bold text-left">Dimensiones</th>
           <th *ngFor="let criterio of criterios; let i = index"
-            class="px-6 w-42 align-middle border border-solid block
-            py-3 text-xs uppercase border-l-0 whitespace-nowrap font-semibold text-left"
-            [ngClass]="
-              color === 'light'
-                ? 'text-blueGray-500 border-blueGray-100'
-                : 'bg-red-800 text-red-300 border-red-700'
-            "
-          >
-            {{ criterio.nombre }}
-          </th>
+              class="px-6 w-42 align-middle border border-solid block
+            py-3 text-xs uppercase border-l-0 whitespace-nowrap font-semibold text-left">
+            {{ criterio.nombre }}</th>
+
+          <!--        <th scope="col">header2</th>-->
+          <!--        <th scope="col">header3</th>-->
         </tr>
       </thead>
       <tbody class="flex">
-        <tr *ngFor="let iteracion of iteraciones">
-          <td
-            class="border-t px-6 align-middle border-l block border-r border-b text-lg font-bold whitespace-nowrap py-2"
-            [ngClass]="
-              color === 'light'
-                ? 'text-blueGray-500 border-blueGray-100'
-                : 'bg-red-800 text-red-300 border-red-700'
-            "
-          >
-            {{iteracion.iteracion}}
-          </td>
+        <tr *ngFor="let iteracion of iteraciones; let i = index">
+          <th class="border-t px-6 align-middle border-l block border-r border-b text-lg font-bold whitespace-nowrap py-2">{{iteracion.iteracion}}</th>
+          <td class="border-t px-6 align-middle border-l block border-r border-b text-lg font-bold whitespace-nowrap py-2">{{ i }}</td>
+          <td class="border-t px-6 align-middle border-l block border-r border-b text-lg font-bold whitespace-nowrap py-2">{{ i }}</td>
+          <td class="border-t px-6 align-middle border-l block border-r border-b text-lg font-bold whitespace-nowrap py-2">{{ i }}</td>
+          <td class="border-t px-6 align-middle border-l block border-r border-b text-lg font-bold whitespace-nowrap py-2">{{ i }}</td>
+          <td class="border-t px-6 align-middle border-l block border-r border-b text-lg font-bold whitespace-nowrap py-2">{{ i }}</td>
         </tr>
       </tbody>
+
+<!--      <tr>-->
+<!--        <th scope="row">header 2</th>-->
+<!--        <td>2</td>-->
+<!--        <td>2</td>-->
+<!--        <td>2</td>-->
+<!--      </tr>-->
+<!--      <tr>-->
+<!--        <th scope="row">header 3</th>-->
+<!--        <td>3</td>-->
+<!--        <td>3</td>-->
+<!--        <td>3</td>-->
+<!--      </tr>-->
     </table>
   </div>
 </div>
