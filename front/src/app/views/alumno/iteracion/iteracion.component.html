@@ -17,7 +17,6 @@
       <div class="flex flex-wrap gap-8">
         <div class="mr-auto" *ngFor="let dimension of valores; let i = index">
           <h5 class="pt-2 px-4 pb-4"><b>{{ dimension.criterio.nombre }}</b></h5>
-
           <div class="flex mb-3 xl:w-96 gap-px space-x-4 items-center"
             *ngFor="let alumno of dimension.votaciones; let j = index">
 <!--            <pre>{{ dimension.votaciones | json }}</pre>-->
@@ -31,7 +30,7 @@
             data-te-select-init
               (change)="
                 seleccionar(
-                  dimension._id,
+                  dimension.criterio._id,
                   i,
                   alumno.alumno_votado._id,
                   j,

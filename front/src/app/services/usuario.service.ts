@@ -24,17 +24,20 @@ export class UsuarioService {
     return this.http.post(`${environment.base_url}/login`, formData)
       .pipe(
         tap( (res : any) => {
+
           const {uid, rol} = res;
           localStorage.setItem('token', res['token']);
           localStorage.setItem('uid', uid);
 
           this.usuario = new Usuario(uid, rol);
 
-          const curso = this.cargarUsuario(uid).subscribe(res => {
-            // console.log('Datos del usuario: ', res['usuarios'].curso._id);
-            this.usuario.curso = res['usuarios'].curso._id;
-            localStorage.setItem('cursoUid', res['usuarios'].curso._id);
-          })
+          if(rol === 'ROL_ALUMNO') {
+            const curso = this.cargarUsuario(uid).subscribe(res => {
+              // console.log('Datos del usuario: ', res['usuarios'].curso._id);
+              this.usuario.curso = res['usuarios'].curso._id;
+              localStorage.setItem('cursoUid', res['usuarios'].curso._id);
+            })
+          }
         })
       );
   }

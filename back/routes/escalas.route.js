@@ -10,7 +10,7 @@ const { validarJWT } = require('../middleware/validar-jwt');
 
 const router = Router();
 
-router.get('/:id', [
+router.get('/criterio/:id', [
     // Campos opcionales que si vienen los validamos desde e id
     validarJWT,
     check('id', 'El id del escala debe ser válido').optional().isMongoId(),

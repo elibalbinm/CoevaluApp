@@ -219,6 +219,13 @@ export class IteracionAluComponent implements OnInit {
     posAlumno: number,
     escala: any
   ) {
+    console.log('Entro a seleccionar');
+    console.log('dimension', dimension);
+    console.log('posDimension', posDimension);
+    console.log('alumno', alumno);
+    console.log('posAlumno', posAlumno);
+    console.log('escala', escala);
+    this.guardarVacio[posDimension].criterio = dimension;
     this.guardarVacio[posDimension].votaciones[posAlumno].escala =
       escala.target.value;
     console.log(
