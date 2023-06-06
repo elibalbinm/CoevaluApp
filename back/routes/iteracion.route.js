@@ -10,6 +10,8 @@ const { validarJWT }    = require('../middleware/validar-jwt');
 
 const router = Router();
 
+router.get('/total', iterationCtrl.totalIteraciones);
+
 router.get('/lista', [
     validarJWT,
     // Campos opcionales que si vienen los validamos desde e id

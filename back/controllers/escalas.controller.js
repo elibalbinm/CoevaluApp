@@ -7,11 +7,30 @@ const scaleCtrl = {};
 
 const { infoToken } = require("../helpers/infotoken");
 
-const sleep = (ms) => {
-  return new Promise((resolve) => {
-    setTimeout(resolve, ms);
-  });
-};
+scaleCtrl.totalEscalas = async(req, res) => {
+    
+  try {
+      const total = await Escala.estimatedDocumentCount((err, numOfDocs) => {
+          if(err) throw(err);
+  
+          console.log(`Total escalas: ${numOfDocs}.`);
+
+          res.json({
+              ok: true,
+              msg: 'Número de escalas registradas en la BBDD',
+              numOfDocs
+          });
+      });
+      
+  } catch (error) {
+      return res.status(400).json({
+          ok: false,
+          msg: 'Error al contabilizar el número de escalas.',
+          error
+      });
+  }
+
+}
 
 scaleCtrl.getScales = async (req, res = response) => {
   // Paginación

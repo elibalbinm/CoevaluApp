@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment  } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -47,6 +48,10 @@ export class GrupoService {
 
   getGrupoPorAlumno(uid: string){
     return this.http.get(`${environment.base_url}/grupos/?alumno=${uid}` , this.cabeceras).toPromise().then(data => data['grupos'][0].alumnos);
+  }
+
+  totalGrupos (): Observable<object>{
+    return this.http.get(`${environment.base_url}/grupos/total`, this.cabeceras);
   }
 
   get cabeceras(): object {

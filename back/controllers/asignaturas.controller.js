@@ -39,18 +39,22 @@ subjectCtrl.totalCursos = async(req, res) => {
             if(err) throw(err);
     
             console.log(`Total cursos: ${numOfDocs}.`);
+
+            res.json({
+                ok: true,
+                msg: 'Número de cursos registradas en la BBDD',
+                numOfDocs
+            });
         });
-        res.json({
-            ok: true,
-            msg: 'Número de cursos registrados en la BBDD',
-            total
-        });
+        
     } catch (error) {
         return res.status(400).json({
             ok: false,
-            msg: 'Error al contabilizar el número de Cursos.',
+            msg: 'Error al contabilizar el número de cursos.',
+            error
         });
     }
+
 }
 
 subjectCtrl.obtenerAsignaturas = async(req, res = repsonse) => {

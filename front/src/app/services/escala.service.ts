@@ -61,6 +61,10 @@ export class EscalaService {
     return this.http.delete(`${environment.base_url}/escalas/${uid}`, this.cabeceras);
   }
 
+  totalEscalas (): Observable<object>{
+    return this.http.get(`${environment.base_url}/escalas/total`, this.cabeceras);
+  }
+
   get cabeceras(): object {
     return {
       headers: {

@@ -3,6 +3,9 @@ import { AsignaturaService } from 'src/app/services/asignatura.service';
 import { RubricaService } from 'src/app/services/rubrica.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { CriterioService } from '../../services/criterio.service';
+import { GrupoService } from 'src/app/services/grupo.service';
+import { EscalaService } from 'src/app/services/escala.service';
+import { IteracionService } from 'src/app/services/iteracion.service';
 
 @Component({
   selector: 'app-panel',
@@ -30,6 +33,9 @@ export class PanelComponent implements OnInit {
   private _coleccion = "Colección";
 
   constructor(private asignaturaService: AsignaturaService,
+              private escalaService: EscalaService,
+              private iteracionService: IteracionService,
+              private grupoService: GrupoService,
               private usuarioService: UsuarioService,
               private rubricaService: RubricaService,
               private criterioService: CriterioService) { }
@@ -41,9 +47,6 @@ export class PanelComponent implements OnInit {
   totalRegistros(){
     switch(this._coleccion) {
       case 'Asignaturas': {
-        // this._numeroTotal = this.asignaturaService.totalAsignaturas();
-        // console.log('Numero total: '+this._numeroTotal)
-
         this.asignaturaService.totalAsignaturas().subscribe( res => {
           this._numeroTotal = res['numOfDocs'];
           console.log(res['numOfDocs']);
@@ -57,8 +60,18 @@ export class PanelComponent implements OnInit {
         });
         break;
       }
+      case 'Cursos': {
+        this.asignaturaService.totalCursos().subscribe( res => {
+          this._numeroTotal = res['numOfDocs'];
+          console.log('aaaaaaaaaaaaaaaaaa',res['numOfDocs']);
+        });
+        break;
+      }
       case 'Grupos': {
-
+        this.grupoService.totalGrupos().subscribe( res => {
+          this._numeroTotal = res['numOfDocs'];
+          console.log(res['numOfDocs']);
+        });
         break;
       }
       case 'Rúbricas': {
@@ -70,6 +83,20 @@ export class PanelComponent implements OnInit {
       }
       case 'Usuarios': {
         this.usuarioService.totalRegistros().subscribe( res => {
+          this._numeroTotal = res['numOfDocs'];
+          console.log(res['numOfDocs']);
+        });
+        break;
+      }
+      case 'Escalas': {
+        this.escalaService.totalEscalas().subscribe( res => {
+          this._numeroTotal = res['numOfDocs'];
+          console.log(res['numOfDocs']);
+        });
+        break;
+      }
+      case 'Iteraciones': {
+        this.iteracionService.totalIteraciones().subscribe( res => {
           this._numeroTotal = res['numOfDocs'];
           console.log(res['numOfDocs']);
         });

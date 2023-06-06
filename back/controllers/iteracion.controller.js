@@ -6,6 +6,31 @@ const Rubrica      = require('../models/rubricas.model');
 
 const iterationCtrl = {};
 
+iterationCtrl.totalIteraciones = async(req, res) => {
+    
+    try {
+        const total = await Iteracion.estimatedDocumentCount((err, numOfDocs) => {
+            if(err) throw(err);
+    
+            console.log(`Total iteraciones: ${numOfDocs}.`);
+
+            res.json({
+                ok: true,
+                msg: 'Número de iteraciones registradas en la BBDD',
+                numOfDocs
+            });
+        });
+        
+    } catch (error) {
+        return res.status(400).json({
+            ok: false,
+            msg: 'Error al contabilizar el número de iteraciones.',
+            error
+        });
+    }
+
+}
+
 // Listado de iteraciones para mostrar la tabla en el Dashboard de Alumno
 // Filtro por curso académico
 iterationCtrl.listaIteraciones = async(req, res) => {

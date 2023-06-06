@@ -40,6 +40,10 @@ export class IteracionService {
     return this.http.delete(`${environment.base_url}/iteraciones/${uid}`, this.cabeceras);
   }
 
+  totalIteraciones (): Observable<object>{
+    return this.http.get(`${environment.base_url}/iteraciones/total`, this.cabeceras);
+  }
+
   get cabeceras() {
     return {
       headers: {

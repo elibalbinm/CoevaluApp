@@ -8,6 +8,30 @@ const { infoToken } = require('../helpers/infotoken');
 
 const groupCtrl = {};
 
+groupCtrl.totalGrupos = async(req, res) => {
+    
+    try {
+        const total = await Grupo.estimatedDocumentCount((err, numOfDocs) => {
+            if(err) throw(err);
+    
+            console.log(`Total grupos: ${numOfDocs}.`);
+
+            res.json({
+                ok: true,
+                msg: 'Número de grupos registradas en la BBDD',
+                numOfDocs
+            });
+        });
+        
+    } catch (error) {
+        return res.status(400).json({
+            ok: false,
+            msg: 'Error al contabilizar el número de grupos.',
+            error
+        });
+    }
+}
+
 groupCtrl.getGroup = async(req, res = repsonse) => {
 
     // Paginación

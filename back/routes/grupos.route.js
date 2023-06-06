@@ -10,6 +10,8 @@ const { validarJWT } = require('../middleware/validar-jwt');
 
 const router = Router();
 
+router.get('/total', groupCtrl.totalGrupos);
+
 router.get('/', [
     validarJWT,
     // Campos opcionales que si vienen los validamos desde e id
@@ -19,6 +21,7 @@ router.get('/', [
     check('curso', 'El curso debe ser un identificador de curso válido').optional().isMongoId(),
     validarCampos,
 ], groupCtrl.getGroup);
+
 router.post('/', [
     validarJWT,
     check('nombre', 'El argumento nombre es obligatorio').not().isEmpty().trim(),
@@ -29,11 +32,13 @@ router.post('/', [
     // check('proyectodes').optional().trim(),
     validarCampos,
 ], groupCtrl.createGroup);
+
 router.put('/lista/:id', [
     validarJWT,
     check('id', 'El identificador no es válido').isMongoId(),
     validarCampos,
 ], groupCtrl.updateList);
+
 router.put('/:id', [
     validarJWT,
     check('nombre', 'El argumento nombre es obligatorio').optional().trim(),
@@ -45,6 +50,7 @@ router.put('/:id', [
     // check('proyectodes').optional().trim(),
     validarCampos,
 ], groupCtrl.updateGroup);
+
 router.delete('/:id', [
     validarJWT,
     check('id', 'El identificador no es válido').isMongoId(),
