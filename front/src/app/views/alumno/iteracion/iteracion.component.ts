@@ -117,11 +117,6 @@ export class IteracionAluComponent implements OnInit {
         }else{
           this.valores = res['evaluaciones'][0].valores;
           console.log('🚀 ~ file: iteracion.component.ts:98 ~ cargarEvaluacion ~ valores:', this.valores)
-          // this.cargarCriterios();
-
-          // this.arrayCriterios = res['evaluaciones'][0].valores.map((_) => ({
-          //   id: `${_.criterio._id}`,
-          // }));
 
           console.log('ARRAY CRITERIOS ',this.arrayCriterios);
 

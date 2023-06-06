@@ -147,8 +147,6 @@
           </a>
         </li>
 
-
-
         <li class="items-center">
           <a
             [routerLink]="['/admin/grupos']"
@@ -297,7 +295,7 @@
       <ul *ngIf="logueado == 'profe'" class="md:flex-col md:min-w-full flex flex-col list-none">
         <li class="items-center">
           <a
-            [routerLink]="['/prof/asignaturas']"
+            [routerLink]="['/profesor/asignaturas']"
             class="text-xs uppercase py-3 font-bold block"
             routerLinkActive
             #adminSettings="routerLinkActive"
@@ -319,7 +317,7 @@
 
         <li class="items-center">
           <a
-            [routerLink]="['/prof/criterios']"
+            [routerLink]="['/profesor/criterios']"
             class="text-xs uppercase py-3 font-bold block"
             routerLinkActive
             #adminSettings="routerLinkActive"
@@ -341,7 +339,7 @@
 
         <li class="items-center">
           <a
-          [routerLink]="['/prof/grupos']"
+          [routerLink]="['/profesor/grupos']"
             class="text-xs uppercase py-3 font-bold block"
             routerLinkActive
             #adminDashboard="routerLinkActive"
@@ -363,7 +361,7 @@
 
         <li class="items-center">
           <a
-          [routerLink]="['/prof/rubricas']"
+          [routerLink]="['/profesor/rubricas']"
             class="text-xs uppercase py-3 font-bold block"
             routerLinkActive
             #adminMaps="routerLinkActive"

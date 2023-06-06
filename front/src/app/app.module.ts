@@ -41,8 +41,6 @@ import { LandingComponent } from "./views/landing/landing.component";
 import { ProfileComponent } from "./views/profile/profile.component";
 
 // components for views and layouts
-
-import { AdminNavbarComponent } from "./components/navbars/admin-navbar/admin-navbar.component";
 import { AuthNavbarComponent } from "./components/navbars/auth-navbar/auth-navbar.component";
 
 import { CardBarChartComponent } from "./components/cards/card-bar-chart/card-bar-chart.component";
@@ -69,12 +67,14 @@ import { CriteriosComponent } from './views/criterios/criterios.component';
 import { CriterioComponent } from './views/criterio/criterio.component';
 import { EscalasComponent } from './views/escalas/escalas.component';
 import { EscalaComponent } from './views/escala/escala.component';
-import { ProfesorComponent } from './layouts/profesor/profesor.component';
+import { ProfesorComponent } from './views/profesor/profesor.component';
 import { PanelComponent } from './components/panel/panel.component';
 import { EvaluacionesComponent } from './views/evaluaciones/evaluaciones.component';
 import { EvaluacionComponent } from './views/evaluacion/evaluacion.component';
 import { AlumnoRoutingModule } from "./views/alumno/alumno.routing";
 import { SharedModule } from "./components/shared.module";
+import { ProfesorModule } from "./views/profesor/profesor.module";
+import { ProfesorRoutingModule } from "./views/profesor/profesor.routing";
 
 @NgModule({
   declarations: [
@@ -133,8 +133,10 @@ import { SharedModule } from "./components/shared.module";
   imports: [
     BrowserModule,
     AppRoutingModule,
-    AlumnoRoutingModule,
+
+    ProfesorModule,
     AluModule,
+
     SharedModule,
     FormsModule,
     ReactiveFormsModule,
