@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { AsignaturaService } from 'src/app/services/asignatura.service';
 import { RubricaService } from 'src/app/services/rubrica.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
+import { CriterioService } from '../../services/criterio.service';
 
 @Component({
   selector: 'app-panel',
@@ -30,7 +31,8 @@ export class PanelComponent implements OnInit {
 
   constructor(private asignaturaService: AsignaturaService,
               private usuarioService: UsuarioService,
-              private rubricaService: RubricaService) { }
+              private rubricaService: RubricaService,
+              private criterioService: CriterioService) { }
 
   ngOnInit(): void {
     this.totalRegistros();
@@ -49,7 +51,10 @@ export class PanelComponent implements OnInit {
         break;
       }
       case 'Criterios': {
-
+        this.criterioService.totalCriterios().subscribe( res => {
+          this._numeroTotal = res['numOfDocs'];
+          console.log(res['numOfDocs']);
+        });
         break;
       }
       case 'Grupos': {

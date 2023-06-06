@@ -7,10 +7,28 @@ const Rubrica = require('../models/rubricas.model');
 const Escala = require('../models/escalas.model');
 const criterioCtrl = {};
 
-const sleep = (ms) => {
-    return new Promise((resolve) => {
-        setTimeout(resolve, ms);
-    });
+criterioCtrl.totalCriterios = async(req, res) => {
+    
+    try {
+        const total = await Criterio.estimatedDocumentCount((err, numOfDocs) => {
+            if(err) throw(err);
+    
+            console.log(`Total criterios: ${numOfDocs}.`);
+
+            res.json({
+                ok: true,
+                msg: 'Número de criterios registrados en la BBDD',
+                numOfDocs
+            });
+        });
+        
+    } catch (error) {
+        return res.status(400).json({
+            ok: false,
+            msg: 'Error al contabilizar el número de criterios.',
+            error
+        });
+    }
 }
 
 criterioCtrl.listaCriterios = async(req, res) => {

@@ -10,12 +10,17 @@ const { validarJWT } = require('../middleware/validar-jwt');
 
 const router = Router();
 
+router.get('/total', criterioCtrl.totalCriterios);
+
 router.post('/lista', [
     validarJWT,
 ], criterioCtrl.listaCriterios);
+
 router.get('/iteracion/:id', [
     check('id', 'El id de la iteración debe ser válido').isMongoId()
 ], criterioCtrl.getValores);
+
+
 router.get('/', [
     validarJWT,
     // Campos opcionales que si vienen los validamos desde e id

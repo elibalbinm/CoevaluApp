@@ -73,6 +73,10 @@ export class CriterioService {
     return this.http.delete(`${environment.base_url}/criterios/${uid}`, this.cabeceras);
   }
 
+  totalCriterios (): Observable<object>{
+    return this.http.get(`${environment.base_url}/criterios/total`, this.cabeceras);
+  }
+
   get cabeceras(): object {
     return {
       headers: {
