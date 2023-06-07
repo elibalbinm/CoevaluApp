@@ -19,6 +19,8 @@ const router = Router();
    *    DELETE: 
    */
 
+router.get('/total', evaluationCtrl.totalEvaluaciones);
+
 router.get('/', [
     validarJWT,
     // Campos opcionales que si vienen los validamos desde e id

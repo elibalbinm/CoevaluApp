@@ -11,12 +11,14 @@ export class AdminNavbarComponent implements OnInit {
   constructor(private usuarioService: UsuarioService) {}
 
   ngOnInit(): void {
-    if (this.usuarioService.uid) {
-      console.log(this.usuarioService.uid);
+    const roles: { [key: string]: string } = {
+      "ROL_ALUMNO": "alumno",
+      "ROL_PROFESOR": "profesor",
+      "ROL_ADMIN": "admin",
+    };
 
-      if (this.usuarioService.rol === "ROL_ALUMNO") {
-        this.logueado = "alumno";
-      }
+    if (this.usuarioService.uid) {
+        this.logueado = roles[this.usuarioService.rol];
     }
   }
 }

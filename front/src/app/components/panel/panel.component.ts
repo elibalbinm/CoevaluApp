@@ -6,6 +6,7 @@ import { CriterioService } from '../../services/criterio.service';
 import { GrupoService } from 'src/app/services/grupo.service';
 import { EscalaService } from 'src/app/services/escala.service';
 import { IteracionService } from 'src/app/services/iteracion.service';
+import { EvaluacionService } from 'src/app/services/evaluacion.service';
 
 @Component({
   selector: 'app-panel',
@@ -34,6 +35,7 @@ export class PanelComponent implements OnInit {
 
   constructor(private asignaturaService: AsignaturaService,
               private escalaService: EscalaService,
+              private evaluacionService: EvaluacionService,
               private iteracionService: IteracionService,
               private grupoService: GrupoService,
               private usuarioService: UsuarioService,
@@ -97,6 +99,13 @@ export class PanelComponent implements OnInit {
       }
       case 'Iteraciones': {
         this.iteracionService.totalIteraciones().subscribe( res => {
+          this._numeroTotal = res['numOfDocs'];
+          console.log(res['numOfDocs']);
+        });
+        break;
+      }
+      case 'Evaluaciones': {
+        this.evaluacionService.totalEvaluaciones().subscribe( res => {
           this._numeroTotal = res['numOfDocs'];
           console.log(res['numOfDocs']);
         });

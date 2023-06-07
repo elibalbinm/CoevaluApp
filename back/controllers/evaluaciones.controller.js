@@ -8,6 +8,31 @@ const Escala = require("../models/escalas.model");
 
 const evaluationCtrl = {};
 
+evaluationCtrl.totalEvaluaciones = async(req, res) => {
+    
+    try {
+        const total = await Evaluacion.estimatedDocumentCount((err, numOfDocs) => {
+            if(err) throw(err);
+    
+            console.log(`Total evaluaciones: ${numOfDocs}.`);
+
+            res.json({
+                ok: true,
+                msg: 'Número de evaluaciones registradas en la BBDD',
+                numOfDocs
+            });
+        });
+        
+    } catch (error) {
+        return res.status(400).json({
+            ok: false,
+            msg: 'Error al contabilizar el número de evaluaciones.',
+            error
+        });
+    }
+
+}
+
 evaluationCtrl.getEvaluationsByStudent = async (req, res = response) => {
   console.log('Entra')
   // const id = req.params.id;

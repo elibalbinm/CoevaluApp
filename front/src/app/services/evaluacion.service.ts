@@ -65,6 +65,10 @@ export class EvaluacionService {
     return this.http.put(`${environment.base_url}/grupos/lista/${uid}`, data, this.cabeceras);
   }
 
+  totalEvaluaciones (): Observable<object>{
+    return this.http.get(`${environment.base_url}/evaluaciones/total`, this.cabeceras);
+  }
+
   get cabeceras(): object {
     return {
       headers: {
