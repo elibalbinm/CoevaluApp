@@ -7,9 +7,7 @@
       <app-panel coleccion="Usuarios"></app-panel>
     </div>
     <div class="w-full lg:w-6/12 xl:w-3/12 px-4">
-      <app-panel
-        coleccion="Asignaturas"
-      ></app-panel>
+      <app-panel coleccion="Asignaturas"></app-panel>
     </div>
     <div class="w-full lg:w-6/12 xl:w-3/12 px-4">
       <app-panel coleccion="Criterios"></app-panel>
@@ -17,14 +15,10 @@
   </div>
   <div class="flex flex-wrap justify-center items-center">
     <div class="w-full lg:w-6/12 xl:w-3/12 px-4">
-      <app-panel
-        coleccion="Grupos"
-      ></app-panel>
+      <app-panel coleccion="Grupos"></app-panel>
     </div>
     <div class="w-full lg:w-6/12 xl:w-3/12 px-4">
-      <app-panel
-        coleccion="Rúbricas"
-      ></app-panel>
+      <app-panel coleccion="Rúbricas"></app-panel>
     </div>
     <div class="w-full lg:w-6/12 xl:w-3/12 px-4">
       <app-panel coleccion="Criterios"></app-panel>
@@ -35,66 +29,65 @@
       <app-panel coleccion="Escalas"></app-panel>
     </div>
     <div class="w-full lg:w-6/12 xl:w-3/12 px-4">
-      <app-panel
-        coleccion="Iteraciones"
-
-      ></app-panel>
+      <app-panel coleccion="Iteraciones"></app-panel>
     </div>
     <div class="w-full lg:w-6/12 xl:w-3/12 px-4">
-      <app-panel
-        coleccion="Evaluaciones"
-
-      ></app-panel>
+      <app-panel coleccion="Evaluaciones"></app-panel>
     </div>
   </div>
 </div>
 
 <div class="justify-center text-center p-14 mb-24" *ngIf="logueado == 'profe'">
-    <div class="flex flex-wrap justify-center items-center">
-      <div class="w-full lg:w-6/12 xl:w-4/12 px-4">
-        <app-panel coleccion="Asignaturas"
-          ><div
-            class="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg"
-          >
-            <div class="px-4 py-20 flex-auto">
-              <h1 class="text-4xl font-semibold">29</h1>
-              <p class="mt-2 mb-4 text-2xl text-blueGray-500">Asignaturas</p>
-            </div>
-          </div></app-panel>
-        </div>
-      <div class="w-full lg:w-6/12 xl:w-4/12 px-4">
-        <app-panel coleccion="Criterios"
-          ><div
-            class="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg"
-          >
-            <div class="px-4 py-20 flex-auto">
-              <h1 class="text-4xl font-semibold">5</h1>
-              <p class="mt-2 mb-4 text-2xl text-blueGray-500">Criterios</p>
-            </div>
-          </div></app-panel>
-        </div>
+  <div class="flex flex-wrap justify-center items-center">
+    <div class="w-full lg:w-6/12 xl:w-4/12 px-4">
+      <app-panel coleccion="Asignaturas"
+        ><div
+          class="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg"
+        >
+          <div class="px-4 py-20 flex-auto">
+            <h1 class="text-4xl font-semibold">29</h1>
+            <p class="mt-2 mb-4 text-2xl text-blueGray-500">Asignaturas</p>
+          </div>
+        </div></app-panel
+      >
     </div>
-    <div class="flex flex-wrap justify-center items-center">
-      <div class="w-full lg:w-6/12 xl:w-4/12 px-4">
-        <app-panel coleccion="Grupos"
-          ><div
-            class="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg"
-          >
-            <div class="px-4 py-20 flex-auto">
-              <h1 class="text-4xl font-semibold">12</h1>
-              <p class="mt-2 mb-4 text-2xl text-blueGray-500">Grupos</p>
-            </div>
-          </div></app-panel>
-        </div>
-      <div class="w-full lg:w-6/12 xl:w-4/12 px-4">
-        <app-panel coleccion="Rúbricas"
-          ><div
-            class="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg"
-          >
-            <div class="px-4 py-20 flex-auto">
-              <h1 class="text-4xl font-semibold">1</h1>
-              <p class="mt-2 mb-4 text-2xl text-blueGray-500">Rúbricas</p>
-            </div>
-          </div></app-panel></div>
+    <div class="w-full lg:w-6/12 xl:w-4/12 px-4">
+      <app-panel coleccion="Criterios"
+        ><div
+          class="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg"
+        >
+          <div class="px-4 py-20 flex-auto">
+            <h1 class="text-4xl font-semibold">5</h1>
+            <p class="mt-2 mb-4 text-2xl text-blueGray-500">Criterios</p>
+          </div>
+        </div></app-panel
+      >
     </div>
   </div>
+  <div class="flex flex-wrap justify-center items-center">
+    <div class="w-full lg:w-6/12 xl:w-4/12 px-4">
+      <app-panel coleccion="Grupos"
+        ><div
+          class="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg"
+        >
+          <div class="px-4 py-20 flex-auto">
+            <h1 class="text-4xl font-semibold">12</h1>
+            <p class="mt-2 mb-4 text-2xl text-blueGray-500">Grupos</p>
+          </div>
+        </div></app-panel
+      >
+    </div>
+    <div class="w-full lg:w-6/12 xl:w-4/12 px-4">
+      <app-panel coleccion="Rúbricas"
+        ><div
+          class="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg"
+        >
+          <div class="px-4 py-20 flex-auto">
+            <h1 class="text-4xl font-semibold">1</h1>
+            <p class="mt-2 mb-4 text-2xl text-blueGray-500">Rúbricas</p>
+          </div>
+        </div></app-panel
+      >
+    </div>
+  </div>
+</div>
