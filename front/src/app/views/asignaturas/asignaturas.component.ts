@@ -26,7 +26,7 @@ export class AsignaturasComponent implements OnInit, OnDestroy {
   public listaRegistros: Asignatura[] = [];
   // Ultima búsqueda
   public ultimaBusqueda = '';
-
+  public rol: string = '';
   public buscarForm = this.fb.group({
     texto: [''],
     curso: ['']
@@ -41,6 +41,7 @@ export class AsignaturasComponent implements OnInit, OnDestroy {
                private usuarioService: UsuarioService) { }
 
   ngOnInit(): void {
+    this.rol = this.usuarioService.rol;
     this.cargarCursos();
     this.cargarAsignaturas(this.ultimaBusqueda);
   }
@@ -53,12 +54,19 @@ export class AsignaturasComponent implements OnInit, OnDestroy {
   cargarAsignaturas(texto: string) {
     this.loading = true;
     this.ultimaBusqueda = texto;
-    this.loading = true;
-    this.asigaturaService.listaAsignaturas(this.registroactual, texto)
+    if(this.usuarioService.rol === "ROL_PROFESOR"){
+      this.asigaturaService.listaMisAsignaturas(this.registroactual, texto)
+      .subscribe(res => {
+        this.listaRegistros = res['asignaturas'];
+        this.totalregistros = res['page'].total;
+      });
+    }else{
+      this.asigaturaService.listaAsignaturas(this.registroactual, texto)
       .subscribe( res => {
         this.listaRegistros = res['asignaturas'];
         this.totalregistros = res['page'].total;
       });
+    }
 
     this.loading = false;
   }

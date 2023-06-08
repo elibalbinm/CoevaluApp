@@ -39,8 +39,9 @@ export class AsignaturaService {
     return this.http.get(`${environment.base_url}/asignaturas/?id=${uid}`, this.cabeceras);
   }
 
-  listaMisAsignaturas(desde: number, texto: string, curso: string) {
+  listaMisAsignaturas(desde: number, texto?: string, curso?: string) {
     const uid = this.usuarioService.uid;
+    console.log('ID Profe: ',uid);
     if (!texto) {
       texto = '';
     } else {

@@ -49,11 +49,11 @@
     <table class="items-center w-full bg-transparent border-collapse">
       <thead class="block float-left">
         <tr>
-          <th  class="px-6 w-42 align-middle border border-solid block
-            py-3.5 text-xs uppercase border-l-0 whitespace-nowrap font-bold text-left">Dimensiones</th>
+          <th class="px-6 w-42 align-middle border border-solid block
+            py-6 text-lg uppercase border-l-0 whitespace-nowrap font-bold text-left">Dimensiones</th>
           <th *ngFor="let criterio of criterios; let i = index"
               class="px-6 w-42 align-middle border border-solid block
-            py-3 text-xs uppercase border-l-0 whitespace-nowrap font-semibold text-left">
+            py-4 text-xs uppercase border-l-0 whitespace-nowrap font-semibold text-left">
             {{ criterio.nombre }}</th>
 
           <!--        <th scope="col">header2</th>-->
@@ -62,12 +62,12 @@
       </thead>
       <tbody class="flex">
         <tr *ngFor="let iteracion of iteraciones; let i = index">
-          <th class="border-t px-6 align-middle border-l block border-r border-b text-lg font-bold whitespace-nowrap py-2">{{iteracion.iteracion}}</th>
-          <td class="border-t px-6 align-middle border-l block border-r border-b text-lg font-bold whitespace-nowrap py-2">{{ i }}</td>
-          <td class="border-t px-6 align-middle border-l block border-r border-b text-lg font-bold whitespace-nowrap py-2">{{ i }}</td>
-          <td class="border-t px-6 align-middle border-l block border-r border-b text-lg font-bold whitespace-nowrap py-2">{{ i }}</td>
-          <td class="border-t px-6 align-middle border-l block border-r border-b text-lg font-bold whitespace-nowrap py-2">{{ i }}</td>
-          <td class="border-t px-6 align-middle border-l block border-r border-b text-lg font-bold whitespace-nowrap py-2">{{ i }}</td>
+          <th class="border-t px-6 align-middle border-l block border-r border-b text-lg font-bold whitespace-nowrap py-6">{{iteracion.iteracion}}</th>
+          <td class="border-t px-6 align-middle border-l block border-r border-b text-lg font-bold whitespace-nowrap py-3">{{ i }}</td>
+          <td class="border-t px-6 align-middle border-l block border-r border-b text-lg font-bold whitespace-nowrap py-3">{{ i }}</td>
+          <td class="border-t px-6 align-middle border-l block border-r border-b text-lg font-bold whitespace-nowrap py-3">{{ i }}</td>
+          <td class="border-t px-6 align-middle border-l block border-r border-b text-lg font-bold whitespace-nowrap py-3">{{ i }}</td>
+          <td class="border-t px-6 align-middle border-l block border-r border-b text-lg font-bold whitespace-nowrap py-3">{{ i }}</td>
         </tr>
       </tbody>
 
