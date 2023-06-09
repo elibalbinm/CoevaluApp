@@ -15,16 +15,16 @@
               type="search"
               name="search"
               placeholder="Buscar"
-              class="block w-96 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500
-              focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            /><button type="submit" class="absolute right-0 top-0 mt-6 mr-4"
-            (click)="txtBuscar.value =''; cargarGrupos(txtBuscar.value)">
+              class="block w-96 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            /><button
+              type="submit"
+              class="absolute right-0 top-0 mt-6 mr-4"
+              (click)="txtBuscar.value = ''; cargarGrupos(txtBuscar.value)"
+            >
               <i class="fas fa-search"></i>
             </button>
           </div>
-          <div
-            class="align-middle flex-auto relative px-2 py-4 text-right"
-          >
+          <div class="align-middle flex-auto relative px-2 py-4 text-right">
             <button
               [routerLink]="['/admin/grupos/grupo/nuevo']"
               class="bg-elements text-white active:bg-indigo-600 text-sm font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
@@ -70,25 +70,41 @@
           <tbody>
             <tr *ngFor="let grupo of listaRegistros">
               <th
-                [routerLink]="['/admin/grupos/grupo', grupo.uid]"
+                [routerLink]="
+                  rol === 'ROL_ADMIN'
+                    ? ['/admin/grupos/grupo', grupo.uid]
+                    : ['/profesor/grupos/grupo', grupo.uid]
+                "
                 class="border-t-0 px-6 cursor-pointer align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4 text-left"
               >
                 {{ grupo.nombre }}
               </th>
               <td
-                [routerLink]="['/admin/grupos/grupo', grupo.uid]"
+                [routerLink]="
+                  rol === 'ROL_ADMIN'
+                    ? ['/admin/grupos/grupo', grupo.uid]
+                    : ['/profesor/grupos/grupo', grupo.uid]
+                "
                 class="border-t-0 px-6 cursor-pointer align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4"
               >
                 {{ grupo.proyecto }}
               </td>
               <td
-                [routerLink]="['/admin/grupos/grupo', grupo.uid]"
+                [routerLink]="
+                  rol === 'ROL_ADMIN'
+                    ? ['/admin/grupos/grupo', grupo.uid]
+                    : ['/profesor/grupos/grupo', grupo.uid]
+                "
                 class="border-t-0 px-6 cursor-pointer align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4"
               >
                 {{ grupo.curso.nombre }}
               </td>
               <td
-                [routerLink]="['/admin/grupos/grupo', grupo.uid]"
+                [routerLink]="
+                  rol === 'ROL_ADMIN'
+                    ? ['/admin/grupos/grupo', grupo.uid]
+                    : ['/profesor/grupos/grupo', grupo.uid]
+                "
                 class="border-t-0 px-6 cursor-pointer align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4"
               >
                 <i class="fa fa-user-graduate mx-2 text-lg leading-lg"></i>
@@ -104,7 +120,11 @@
                   target="_blank"
                 >
                   <i
-                    [routerLink]="['/admin/grupos/grupo', grupo.uid]"
+                    [routerLink]="
+                      rol === 'ROL_ADMIN'
+                        ? ['/admin/grupos/grupo', grupo.uid]
+                        : ['/profesor/grupos/grupo', grupo.uid]
+                    "
                     class="lg:text-blueGray-400 text-blueGray-300 fas fa-edit text-lg leading-lg"
                   ></i>
                 </button>

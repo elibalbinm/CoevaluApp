@@ -27,6 +27,7 @@ export class RubricasComponent implements OnInit {
   public criterios: Criterio [] = [];
   public listaCriterios: Criterio[] = [];
   public cursos: Curso[] = [];
+  public rol: string = '';
 
   public buscarForm = this.fb.group({
     texto: [''],
@@ -41,8 +42,7 @@ export class RubricasComponent implements OnInit {
                private usuarioService: UsuarioService) { }
 
   ngOnInit(): void {
-    // this.cargarCriterios();
-    // this.cargarCursos();
+    this.rol = this.usuarioService.rol;
     this.cargarRubricas();
     this.subs$ = this.buscarForm.valueChanges
       .subscribe( event => {

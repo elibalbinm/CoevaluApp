@@ -23,7 +23,7 @@ export class GruposComponent implements OnInit, OnDestroy {
   // Ultima búsqueda
   public ultimaBusqueda = '';
   public listaRegistros: Grupo[] = [];
-
+  public rol: string = '';
   public cursos: Curso[] = [];
 
   public buscarForm = this.fb.group({
@@ -38,6 +38,7 @@ export class GruposComponent implements OnInit, OnDestroy {
                private usuarioService: UsuarioService) { }
 
   ngOnInit(): void {
+    this.rol = this.usuarioService.rol;
     this.cargarCursos();
     this.cargarGrupos(this.ultimaBusqueda);
     this.subs$ = this.buscarForm.valueChanges

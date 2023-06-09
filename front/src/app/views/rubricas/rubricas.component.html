@@ -18,9 +18,7 @@
               <i class="fas fa-search"></i>
             </button>
           </div>
-          <div
-            class="align-middle flex-auto relative px-2 py-4 text-right"
-          >
+          <div class="align-middle flex-auto relative px-2 py-4 text-right">
             <button
               [routerLink]="['/admin/rubricas/rubrica/nuevo']"
               class="bg-elements text-white active:bg-indigo-600 text-sm font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
@@ -61,23 +59,35 @@
           <tbody>
             <tr *ngFor="let rubrica of listaRegistros">
               <th
-                [routerLink]="['/admin/rubricas/rubrica', rubrica.uid]"
+                [routerLink]="
+                  rol === 'ROL_ADMIN'
+                    ? ['/admin/rubricas/rubrica', rubrica.uid]
+                    : ['/profesor/rubricas/rubrica', rubrica.uid]
+                "
                 class="border-t-0 px-6 cursor-pointer align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4 text-left"
               >
                 {{ rubrica.texto }}
               </th>
               <td
-                [routerLink]="['/admin/rubricas/rubrica', rubrica.uid]"
+                [routerLink]="
+                  rol === 'ROL_ADMIN'
+                    ? ['/admin/rubricas/rubrica', rubrica.uid]
+                    : ['/profesor/rubricas/rubrica', rubrica.uid]
+                "
                 class="border-t-0 px-6 cursor-pointer align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4"
               >
                 <span *ngFor="let criterio of rubrica.criterios; let i = index">
                   {{ criterio.criterio.nombre }}
                   <!-- <span *ngIf="i < rubrica.criterios.length - 1">, </span> -->
-                  <br>
+                  <br />
                 </span>
               </td>
               <td
-                [routerLink]="['/admin/rubricas/rubrica', rubrica.uid]"
+                [routerLink]="
+                  rol === 'ROL_ADMIN'
+                    ? ['/admin/rubricas/rubrica', rubrica.uid]
+                    : ['/profesor/rubricas/rubrica', rubrica.uid]
+                "
                 class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4"
                 *ngIf="rubrica.activo"
               >
@@ -91,7 +101,11 @@
                   target="_blank"
                 >
                   <i
-                    [routerLink]="['/admin/rubricas/rubrica', rubrica.uid]"
+                    [routerLink]="
+                      rol === 'ROL_ADMIN'
+                        ? ['/admin/rubricas/rubrica', rubrica.uid]
+                        : ['/profesor/rubricas/rubrica', rubrica.uid]
+                    "
                     class="lg:text-blueGray-400 text-blueGray-300 fas fa-edit text-lg leading-lg"
                   ></i>
                 </button>
