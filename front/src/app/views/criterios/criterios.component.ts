@@ -22,7 +22,7 @@ export class CriteriosComponent implements OnInit {
   public loading = false;
 
   public listaRegistros: Criterio[] = [];
-
+  public rol: string = '';
   public cursos: Curso[] = [];
 
   public buscarForm = this.fb.group({
@@ -37,6 +37,7 @@ export class CriteriosComponent implements OnInit {
                private usuarioService: UsuarioService) { }
 
   ngOnInit(): void {
+    this.rol = this.usuarioService.rol;
     this.cargarCriterios();
     this.subs$ = this.buscarForm.valueChanges
       .subscribe( event => {

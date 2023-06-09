@@ -3,8 +3,23 @@
   <div class="relative md:ml-64 bg-blueGray-100">
     <app-admin-navbar></app-admin-navbar>
     <app-header-stats></app-header-stats>
-    <div class="px-4 py-28 md:px-10 mx-auto w-full -m-12">
+    <!-- <div class="px-4 py-28 md:px-10 mx-auto w-full -m-12">
       <router-outlet></router-outlet>
+      <app-footer-admin></app-footer-admin>
+    </div> -->
+    <div class="px-4 py-28 md:px-10 mx-auto w-full -m-12">
+      <div class="flex flex-wrap mt-4">
+        <div class="w-full xl:w-12/12 mb-12 xl:mb-0 px-4">
+          <div
+            class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-100 border-0"
+          >
+            <div class="rounded-t bg-section mb-0 px-4 py-3 bg-white border-0">
+              <app-header-panel></app-header-panel>
+            </div>
+            <router-outlet></router-outlet>
+          </div>
+        </div>
+      </div>
       <app-footer-admin></app-footer-admin>
     </div>
   </div>

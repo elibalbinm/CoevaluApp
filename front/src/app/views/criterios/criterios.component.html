@@ -6,7 +6,8 @@
   <div class="rounded-t mb-0 px-4 py-3 border-0">
     <div class="flex flex-wrap items-center">
       <div class="relative w-full px-2 py-4 max-w-full flex-grow">
-        <h3 class="font-bold text-lg text-blueGray-700">Criterios</h3>
+        <h3 *ngIf="rol === 'ROL_ADMIN'" class="font-bold text-lg text-blueGray-700">Criterios</h3>
+        <h3 *ngIf="rol === 'ROL_PROFESOR'" class="font-bold text-center uppercase text-xl text-blueGray-700">Criterios</h3>
       </div>
       <div class="align-middle px-2 py-4 relative text-gray-600">
         <input
@@ -61,19 +62,19 @@
       <tbody>
         <tr *ngFor="let criterio of listaRegistros">
           <th
-            [routerLink]="['/admin/criterios/criterio', criterio.uid]"
+            [routerLink]="rol === 'ROL_ADMIN' ? ['/admin/criterios/criterio', criterio.uid] : ['/profesor/criterios/criterio', criterio.uid]"
             class="border-t-0 px-6 cursor-pointer align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4 text-left"
           >
           {{criterio.nombre}}
           </th>
           <td
-            [routerLink]="['/admin/criterios/criterio', criterio.uid]"
+            [routerLink]="rol === 'ROL_ADMIN' ? ['/admin/criterios/criterio', criterio.uid] : ['/profesor/criterios/criterio', criterio.uid]"
             class="border-t-0 px-6 cursor-pointer align-middle border-l-0 border-r-0 text-sm text-ellipsis p-4"
           >
           {{criterio.descripcion}}
           </td>
           <td
-            [routerLink]="['/admin/criterios/criterio', criterio.uid]"
+            [routerLink]="rol === 'ROL_ADMIN' ? ['/admin/criterios/criterio', criterio.uid] : ['/profesor/criterios/criterio', criterio.uid]"
             class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4"
             *ngIf="criterio.activo"
           >
@@ -87,7 +88,7 @@
               target="_blank"
             >
               <i
-                [routerLink]="['/admin/criterios/criterio', criterio.uid]"
+                [routerLink]="rol === 'ROL_ADMIN' ? ['/admin/criterios/criterio', criterio.uid] : ['/profesor/criterios/criterio', criterio.uid]"
                 class="lg:text-blueGray-400 text-blueGray-300 fas fa-edit text-lg leading-lg"
               ></i>
             </button>

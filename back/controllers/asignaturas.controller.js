@@ -69,7 +69,6 @@ subjectCtrl.obtenerAsignaturas = async(req, res = repsonse) => {
     const curso = req.query.curso || '';
 
     try {
-        console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAA',idprof);
         let asignaturas, total;
         if (id) {
             
@@ -77,7 +76,6 @@ subjectCtrl.obtenerAsignaturas = async(req, res = repsonse) => {
                 Asignatura.findById(id).populate('curso'), //.populate('profesores.usuario', '-password -alta -__v'),                
                 Asignatura.countDocuments()
             ]);
-
 
         } else {
             {curso:'', {$or: {nombre : '', nombrecorto:''}, 'profesores.usuario':idprof}}

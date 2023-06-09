@@ -33,7 +33,6 @@ export class UsuarioService {
 
           if(rol === 'ROL_ALUMNO') {
             const curso = this.cargarUsuario(uid).subscribe(res => {
-              // console.log('Datos del usuario: ', res['usuarios'].curso._id);
               this.usuario.curso = res['usuarios'].curso._id;
               localStorage.setItem('cursoUid', res['usuarios'].curso._id);
             })

@@ -51,7 +51,7 @@ const routes: Routes = [
         data: {
           rol: '*',
           titulo: 'Asignatura',
-          breadcrums: [{ titulo: 'Asignaturas', url: '/admin/asignaturas' }]
+          breadcrums: [{ titulo: 'Asignaturas', url: '/profesor/asignaturas' }]
         }
       },
       {
@@ -71,7 +71,7 @@ const routes: Routes = [
         data: {
           rol: '*',
           titulo: 'Criterio',
-          breadcrums: [{ titulo: 'Criterios', url: '/prof/criterios' }]
+          breadcrums: [{ titulo: 'Criterios', url: '/profesor/criterios' }]
         }
       },
       {
@@ -91,7 +91,7 @@ const routes: Routes = [
         data: {
           rol: '*',
           titulo: 'Grupo',
-          breadcrums: [{ titulo: 'Grupos', url: '/prof/grupos' }]
+          breadcrums: [{ titulo: 'Grupos', url: '/profesor/grupos' }]
         }
       },
       {
@@ -111,7 +111,7 @@ const routes: Routes = [
         data: {
           rol: 'ROL_PROFESOR',
           titulo: 'Rubrica',
-          breadcrums: [{ titulo: 'Rubricas', url: '/prof/rubricas' }]
+          breadcrums: [{ titulo: 'Rubricas', url: '/profesor/rubricas' }]
         }
       }
     ]

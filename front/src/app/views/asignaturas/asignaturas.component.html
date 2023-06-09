@@ -7,7 +7,7 @@
         <div class="flex flex-wrap items-center">
           <div class="relative w-full px-2 py-4 max-w-full flex-grow">
             <h3 *ngIf="rol === 'ROL_ADMIN'" class="font-bold text-lg text-blueGray-700">Asignaturas</h3>
-            <h3 *ngIf="rol === 'ROL_PROFESOR'" class="font-bold text-center uppercase text-lg text-blueGray-700">Mis asignaturas</h3>
+            <h3 *ngIf="rol === 'ROL_PROFESOR'" class="font-bold text-center uppercase text-xl text-blueGray-700">Mis asignaturas</h3>
           </div>
           <div class="align-middle px-2 py-4 relative text-gray-600">
             <input
@@ -27,7 +27,7 @@
             class="relative w-full px-4 max-w-full flex-grow flex-1 text-right"
           >
             <button
-              [routerLink]="['/admin/asignaturas/asignatura/nuevo']"
+              [routerLink]="rol === 'ROL_ADMIN' ? ['/admin/asignaturas/asignatura/nuevo'] : ['/profesor/asignaturas/asignatura/nuevo']"
               class="bg-elements text-white active:bg-indigo-600 text-sm font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
               type="button"
             >
@@ -75,32 +75,31 @@
           </thead>
           <tbody>
             <tr *ngFor="let asignatura of listaRegistros">
-              <th
-                [routerLink]="['/admin/asignaturas/asignatura', asignatura.uid]"
+              <th [routerLink]="rol === 'ROL_ADMIN' ? ['/admin/asignaturas/asignatura', asignatura.uid] : ['/profesor/asignaturas/asignatura', asignatura.uid]"
                 class="border-t-0 px-6 cursor-pointer align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4 text-left"
               >
                 {{ asignatura.nombre }}
               </th>
               <td
-                [routerLink]="['/admin/asignaturas/asignatura', asignatura.uid]"
+                [routerLink]="rol === 'ROL_ADMIN' ? ['/admin/asignaturas/asignatura', asignatura.uid] : ['/profesor/asignaturas/asignatura', asignatura.uid]"
                 class="border-t-0 px-6 cursor-pointer align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4"
               >
                 {{ asignatura.nombrecorto }}
               </td>
               <td
-                [routerLink]="['/admin/asignaturas/asignatura', asignatura.uid]"
+                [routerLink]="rol === 'ROL_ADMIN' ? ['/admin/asignaturas/asignatura', asignatura.uid] : ['/profesor/asignaturas/asignatura', asignatura.uid]"
                 class="border-t-0 px-6 cursor-pointer align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4"
               >
                 {{ asignatura.porcentaje }}
               </td>
               <td
-                [routerLink]="['/admin/asignaturas/asignatura', asignatura.uid]"
+                [routerLink]="rol === 'ROL_ADMIN' ? ['/admin/asignaturas/asignatura', asignatura.uid] : ['/profesor/asignaturas/asignatura', asignatura.uid]"
                 class="border-t-0 px-6 cursor-pointer align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4"
               >
                 {{ asignatura.curso.nombrecorto }}
               </td>
               <td
-                [routerLink]="['/admin/asignaturas/asignatura', asignatura.uid]"
+                [routerLink]="rol === 'ROL_ADMIN' ? ['/admin/asignaturas/asignatura', asignatura.uid] : ['/profesor/asignaturas/asignatura', asignatura.uid]"
                 class="border-t-0 px-6 cursor-pointer align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4"
               >
                 <i
